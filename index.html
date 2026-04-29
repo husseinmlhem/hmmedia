@@ -2132,8 +2132,7 @@ async function loadPortfolioVideos() {
     const text = await res.text();
 
     portfolioUrls = text
-      .split('
-')
+      .split('\n')
       .map(line => line.trim())
       .filter(line => line && !line.startsWith('#') && extractYouTubeId(line));
 
@@ -2329,12 +2328,6 @@ function setLang(lang) {
   const submitBtn = document.querySelector('.btn-submit');
   if (submitBtn && submitBtn.textContent !== (lang === 'ar' ? 'تم الإرسال ✓' : 'Message Sent ✓')) {
     submitBtn.textContent = lang === 'ar' ? 'إرسال الرسالة' : 'Send Message';
-  }
-
-  // Update portfolio button
-  const portfolioBtn = document.getElementById('portfolio-load-more');
-  if (portfolioBtn && portfolioBtn.style.display !== 'none') {
-    portfolioBtn.textContent = lang === 'ar' ? 'عرض المزيد' : 'Load More';
   }
 
   // Update portfolio/gallery buttons
