@@ -245,53 +245,6 @@ nav.scrolled {
   background: linear-gradient(to bottom, var(--green), transparent);
   animation: scrollPulse 2s infinite;
 }
-// FRAME SCRUBBER
-const scrubberCanvas = document.getElementById('scrubber-canvas');
-const scrubberCtx = scrubberCanvas ? scrubberCanvas.getContext('2d') : null;
-const FRAME_COUNT = 100;
-const FRAME_BASE = 'https://husseinmlhem.github.io/hmmedia/frames/frame_';
-  const scrubFrames = [];
-let scrubLoaded = 0;
-
-function padNum(n) { return String(n).padStart(5, '0'); }
-
-for (let i = 0; i < FRAME_COUNT; i++) {
-  const img = new Image();
-  img.src = FRAME_BASE + padNum(i) + '.webp';
-  img.onload = () => {
-    scrubLoaded++;
-    if (scrubLoaded === 1) drawScrubFrame(0);
-    updateScrubLoader();
-  };
-  scrubFrames.push(img);
-}
-
-function updateScrubLoader() {
-  const loader = document.getElementById('scrub-loader');
-  if (!loader) return;
-  const pct = Math.round((scrubLoaded / FRAME_COUNT) * 100);
-  loader.textContent = pct < 100 ? pct + '%' : '';
-  if (pct >= 100) loader.style.opacity = '0';
-}
-
-function drawScrubFrame(index) {
-  if (!scrubberCtx || !scrubFrames[index]?.complete) return;
-  scrubberCanvas.width = scrubberCanvas.offsetWidth;
-  scrubberCanvas.height = scrubberCanvas.offsetHeight;
-  scrubberCtx.drawImage(scrubFrames[index], 0, 0,
-    scrubberCanvas.width, scrubberCanvas.height);
-}
-
-window.addEventListener('scroll', () => {
-  const section = document.getElementById('scrubber-section');
-  if (!section) return;
-  const rect = section.getBoundingClientRect();
-  const total = section.offsetHeight - window.innerHeight;
-  const scrolled = -rect.top;
-  const progress = Math.max(0, Math.min(1, scrolled / total));
-  const index = Math.min(Math.floor(progress * FRAME_COUNT), FRAME_COUNT - 1);
-  drawScrubFrame(index);
-});
 /* PROGRESS BAR */
 #progress-bar {
   position: fixed;
@@ -1131,6 +1084,121 @@ body.rtl .process-steps::before {
 </a>
 
 <script>
+
+// FRAME SCRUBBER — fixed version
+const scrubberCanvas = document.getElementById('scrubber-canvas');
+const scrubberCtx = scrubberCanvas ? scrubberCanvas.getContext('2d') : null;
+
+// Change this number to match your real frame count
+const FRAME_COUNT = 100;
+
+// Your files must be named like: frame_00001.webp, frame_00002.webp ...
+const FRAME_BASE = 'https://husseinmlhem.github.io/hmmedia/frames/frame_';
+const scrubFrames = [];
+let scrubLoaded = 0;
+let currentScrubIndex = 1;
+let scrubRAF = null;
+
+function padNum(n) {
+  return String(n).padStart(5, '0');
+}
+
+function sizeScrubberCanvas() {
+  if (!scrubberCanvas || !scrubberCtx) return;
+
+  const dpr = window.devicePixelRatio || 1;
+  const width = scrubberCanvas.offsetWidth;
+  const height = scrubberCanvas.offsetHeight;
+
+  scrubberCanvas.width = Math.floor(width * dpr);
+  scrubberCanvas.height = Math.floor(height * dpr);
+  scrubberCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function drawImageCover(ctx, img, canvas) {
+  const canvasW = canvas.offsetWidth;
+  const canvasH = canvas.offsetHeight;
+  const imgW = img.naturalWidth || img.width;
+  const imgH = img.naturalHeight || img.height;
+
+  const scale = Math.max(canvasW / imgW, canvasH / imgH);
+  const drawW = imgW * scale;
+  const drawH = imgH * scale;
+  const drawX = (canvasW - drawW) / 2;
+  const drawY = (canvasH - drawH) / 2;
+
+  ctx.clearRect(0, 0, canvasW, canvasH);
+  ctx.drawImage(img, drawX, drawY, drawW, drawH);
+}
+
+function drawScrubFrame(index) {
+  if (!scrubberCanvas || !scrubberCtx) return;
+
+  const img = scrubFrames[index];
+  if (!img || !img.complete) return;
+
+  sizeScrubberCanvas();
+  drawImageCover(scrubberCtx, img, scrubberCanvas);
+}
+
+function updateScrubLoader() {
+  const loader = document.getElementById('scrub-loader');
+  if (!loader) return;
+
+  const pct = Math.round((scrubLoaded / FRAME_COUNT) * 100);
+  loader.textContent = pct < 100 ? pct + '%' : '';
+  if (pct >= 100) loader.style.opacity = '0';
+}
+
+for (let i = 1; i <= FRAME_COUNT; i++) {
+  const img = new Image();
+  img.src = FRAME_BASE + padNum(i) + '.webp';
+
+  img.onload = () => {
+    scrubLoaded++;
+    updateScrubLoader();
+    if (i === 1) drawScrubFrame(1);
+  };
+
+  img.onerror = () => {
+    console.warn('Frame not found:', img.src);
+    scrubLoaded++;
+    updateScrubLoader();
+  };
+
+  scrubFrames[i] = img;
+}
+
+function updateScrubberOnScroll() {
+  const section = document.getElementById('scrubber-section');
+  if (!section) return;
+
+  const rect = section.getBoundingClientRect();
+  const total = section.offsetHeight - window.innerHeight;
+  const scrolled = -rect.top;
+  const progress = Math.max(0, Math.min(1, scrolled / total));
+
+  const index = Math.min(
+    FRAME_COUNT,
+    Math.max(1, Math.ceil(progress * FRAME_COUNT))
+  );
+
+  if (index !== currentScrubIndex) {
+    currentScrubIndex = index;
+    drawScrubFrame(currentScrubIndex);
+  }
+}
+
+window.addEventListener('scroll', () => {
+  if (scrubRAF) cancelAnimationFrame(scrubRAF);
+  scrubRAF = requestAnimationFrame(updateScrubberOnScroll);
+}, { passive: true });
+
+window.addEventListener('resize', () => {
+  drawScrubFrame(currentScrubIndex);
+});
+
+updateScrubLoader();
 // CURSOR
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
