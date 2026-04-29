@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
+
 :root {
   --green: #3DBE72;
   --green-dim: rgba(61,190,114,0.15);
@@ -897,7 +898,20 @@ body.rtl .portfolio-header {
 body.rtl .portfolio-card-meta {
   flex-direction: row-reverse;
 }
+@font-face {
+  font-family: 'Reey';
+  src: url('https://fonts.cdnfonts.com/s/13060/Reey-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
+.reey {
+  font-family: 'Reey', cursive;
+  color: var(--green);
+  font-weight: normal;
+  letter-spacing: 0;
+  line-height: 1;
+}
 @media (max-width: 768px) {
   nav { padding: 20px 24px; }
   nav.scrolled { padding: 14px 24px; }
@@ -987,8 +1001,7 @@ body.rtl .portfolio-card-meta {
         font-weight:800;color:#fff;
         letter-spacing:-0.02em;line-height:1;">
         One Signal.<br>
-        <span style="color:var(--green)">Every Market.</span>
-      </div>
+<span class="reey">Every Market.</span>      </div>
       <div style="
         margin-top:16px;font-size:14px;
         color:var(--muted);letter-spacing:0.15em;
@@ -1021,8 +1034,8 @@ body.rtl .portfolio-card-meta {
     <div>
       <div class="section-label reveal" data-en="Selected Work" data-ar="مختارات من أعمالنا">Selected Work</div>
       <h2 class="section-title reveal reveal-delay-1">
-        <span data-en="Our Portfolio." data-ar="معرض أعمالنا.">Our Portfolio.</span><br>
-        <span data-en="Built to Perform." data-ar="مصمم ليؤثر.">Built to Perform.</span>
+<span data-en="Our Portfolio." data-ar="معرض أعمالنا.">Our Portfolio.</span><br>
+<span>Built to <span class="reey">Perform</span>.</span>
       </h2>
     </div>
     <p class="portfolio-intro reveal reveal-delay-2" data-en="A curated video showcase of campaigns, edits, motion graphics, and creative productions by H.M Media." data-ar="مجموعة مختارة من الفيديوهات والحملات والمونتاج والموشن جرافيك والإنتاجات الإبداعية من H.M Media.">
