@@ -6,7 +6,7 @@
 <title>H.M Media — Where Creativity Meets Technology</title>
 <meta name="description" content="H.M Media is a forward-thinking creative agency based in Dubai. Advanced media production, video, motion design, and content systems for UAE & GCC brands.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"> <style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"> <style>
 
 :root {
   --green: #3DBE72;
@@ -75,7 +75,7 @@ nav.scrolled {
   border-bottom: 1px solid var(--border);
 }
 .logo {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 800;
   font-size: 22px;
   letter-spacing: -0.5px;
@@ -157,7 +157,7 @@ nav.scrolled {
   animation: fadeUp 1s 0.5s forwards;
 }
 .hero-h1 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 800;
   font-size: clamp(52px, 8vw, 110px);
   line-height: 0.95;
@@ -274,7 +274,7 @@ nav.scrolled {
 }
 .stat-item:last-child { border-right: none; }
 .stat-num {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 52px;
   font-weight: 800;
   color: var(--green);
@@ -303,7 +303,7 @@ section {
 }
 
 .section-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 800;
   font-size: clamp(36px, 5vw, 64px);
   line-height: 1.0;
@@ -320,7 +320,7 @@ section {
   align-items: center;
 }
 .about-quote {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(24px, 3vw, 38px);
   font-weight: 700;
   line-height: 1.25;
@@ -375,7 +375,7 @@ section {
 .service-card:hover::before { width: 100%; }
 .service-card:hover { background: var(--surface); }
 .service-num {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 11px;
   letter-spacing: 0.2em;
   color: var(--muted);
@@ -387,7 +387,7 @@ section {
   color: var(--green);
 }
 .service-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: var(--text);
@@ -432,7 +432,7 @@ section {
   position: relative;
 }
 .step-num {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 56px;
   font-weight: 800;
   color: var(--green);
@@ -440,7 +440,7 @@ section {
   margin-bottom: 24px;
 }
 .step-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 18px;
   font-weight: 700;
   color: var(--text);
@@ -473,7 +473,7 @@ section {
   margin-bottom: 20px;
 }
 .why-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: var(--text);
@@ -484,6 +484,14 @@ section {
   color: var(--muted);
   line-height: 1.7;
   font-weight: 300;
+}
+
+
+.why-svg {
+  width: 34px;
+  height: 34px;
+  color: var(--green);
+  filter: drop-shadow(0 0 12px rgba(61,190,114,0.22));
 }
 
 /* FAQ */
@@ -598,7 +606,7 @@ section {
   padding: 18px;
   background: var(--green);
   color: var(--black);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -726,6 +734,97 @@ footer {
   font-weight: 600;
 }
 
+
+
+/* PREMIUM CURSOR GLOW */
+.cursor {
+  width: 7px;
+  height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 0 18px rgba(61,190,114,0.85), 0 0 42px rgba(61,190,114,0.28);
+  mix-blend-mode: screen;
+  transition: transform 0.12s ease, opacity 0.2s ease;
+}
+
+.cursor-ring {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(61,190,114,0.48);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  box-shadow: inset 0 0 18px rgba(61,190,114,0.10), 0 0 24px rgba(61,190,114,0.12);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(61,190,114,0.48);
+  pointer-events: none;
+  z-index: 9997;
+  filter: blur(0.3px);
+  transform: translate(-50%, -50%);
+  animation: trailFade 0.7s ease forwards;
+}
+
+body.cursor-hover .cursor {
+  transform: scale(1.7);
+  opacity: 0.88;
+}
+
+body.cursor-hover .cursor-ring {
+  width: 64px;
+  height: 64px;
+  border-color: rgba(61,190,114,0.74);
+  background: rgba(61,190,114,0.045);
+}
+
+@keyframes trailFade {
+  0% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.15); }
+}
+
+/* PREMIUM TYPOGRAPHY REFINEMENT */
+.logo,
+.hero-h1,
+.stat-num,
+.section-title,
+.about-quote,
+.service-title,
+.step-num,
+.step-title,
+.why-title,
+.btn-submit {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.section-title {
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+
+.logo {
+  font-weight: 800;
+}
+
+.scrubber-title {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+
 /* RTL SUPPORT */
 body.rtl {
   direction: rtl;
@@ -759,9 +858,12 @@ body.rtl .process-steps::before {
 
 
 
-/* PORTFOLIO */
+
+/* PORTFOLIO — CINEMATIC VIDEO WALL */
 .portfolio-section {
-  background: var(--black);
+  background:
+    radial-gradient(circle at 80% 0%, rgba(61,190,114,0.10), transparent 36%),
+    linear-gradient(180deg, #000 0%, #050706 100%);
   position: relative;
   overflow: hidden;
 }
@@ -769,11 +871,12 @@ body.rtl .process-steps::before {
 .portfolio-section::before {
   content: '';
   position: absolute;
-  top: -260px;
-  right: -260px;
-  width: 620px;
-  height: 620px;
-  background: radial-gradient(circle, rgba(61,190,114,0.10) 0%, transparent 68%);
+  inset: 0;
+  background:
+    linear-gradient(rgba(61,190,114,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,190,114,0.035) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(circle at center, black, transparent 70%);
   pointer-events: none;
 }
 
@@ -797,62 +900,133 @@ body.rtl .process-steps::before {
 .portfolio-grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px;
 }
 
 .portfolio-card {
-  background: linear-gradient(180deg, rgba(61,190,114,0.045), rgba(255,255,255,0.018));
-  border: 1px solid var(--border);
+  grid-column: span 4;
+  position: relative;
+  min-height: 280px;
+  border: 1px solid rgba(61,190,114,0.16);
+  background: #030504;
   overflow: hidden;
-  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  cursor: none;
+  isolation: isolate;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.portfolio-card:nth-child(1),
+.portfolio-card:nth-child(8n) {
+  grid-column: span 8;
+  min-height: 430px;
+}
+
+.portfolio-card:nth-child(5n) {
+  grid-column: span 5;
+}
+
+.portfolio-card:nth-child(6n) {
+  grid-column: span 7;
 }
 
 .portfolio-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(61,190,114,0.38);
-  box-shadow: 0 22px 70px rgba(0,0,0,0.42), 0 0 28px rgba(61,190,114,0.08);
+  transform: translateY(-8px);
+  border-color: rgba(61,190,114,0.55);
+  box-shadow: 0 26px 90px rgba(0,0,0,0.55), 0 0 42px rgba(61,190,114,0.10);
 }
 
-.portfolio-video {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #020302;
-}
-
-.portfolio-video iframe {
+.portfolio-thumb {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.02);
+  filter: grayscale(0.12) saturate(0.95) contrast(1.1) brightness(0.78);
+  transition: transform 0.65s ease, filter 0.65s ease;
+}
+
+.portfolio-card:hover .portfolio-thumb {
+  transform: scale(1.08);
+  filter: grayscale(0) saturate(1.08) contrast(1.12) brightness(0.9);
+}
+
+.portfolio-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.22) 54%, rgba(0,0,0,0.08) 100%),
+    radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.28) 100%);
+  z-index: 1;
+}
+
+.portfolio-play {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  border: 1px solid rgba(61,190,114,0.62);
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(14px);
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  color: var(--green);
+  box-shadow: 0 0 24px rgba(61,190,114,0.12);
+  transition: transform 0.35s ease, background 0.35s ease;
+}
+
+.portfolio-play svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  transform: translateX(2px);
+}
+
+.portfolio-card:hover .portfolio-play {
+  transform: scale(1.08);
+  background: rgba(61,190,114,0.12);
 }
 
 .portfolio-card-meta {
-  padding: 18px 18px 20px;
+  position: absolute;
+  z-index: 3;
+  left: 24px;
+  right: 24px;
+  bottom: 22px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 14px;
-  border-top: 1px solid var(--border);
+  gap: 18px;
 }
 
 .portfolio-card-meta span {
-  color: var(--muted);
+  color: var(--green);
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
+.portfolio-card-meta strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--text);
+  font-size: clamp(18px, 2vw, 28px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
 .portfolio-card-meta a {
   color: var(--green);
   text-decoration: none;
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
+  opacity: 0.86;
 }
 
 .portfolio-actions {
@@ -890,13 +1064,55 @@ body.rtl .process-steps::before {
   text-align: center;
 }
 
-body.rtl .portfolio-header {
-  flex-direction: row-reverse;
+.video-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 10001;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
 }
 
+.video-modal.open {
+  display: flex;
+}
+
+.video-modal-inner {
+  width: min(1180px, 94vw);
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(61,190,114,0.35);
+  background: #000;
+  box-shadow: 0 0 90px rgba(0,0,0,0.82), 0 0 38px rgba(61,190,114,0.13);
+}
+
+.video-modal iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.video-modal-close {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--green);
+  background: rgba(0,0,0,0.35);
+  color: var(--green);
+  font-size: 28px;
+  line-height: 1;
+  cursor: none;
+}
+
+body.rtl .portfolio-header,
 body.rtl .portfolio-card-meta {
   flex-direction: row-reverse;
 }
+
 @font-face {
   font-family: 'Reey';
   src: url('https://fonts.cdnfonts.com/s/13060/Reey-Regular.woff') format('woff');
@@ -909,8 +1125,190 @@ body.rtl .portfolio-card-meta {
   color: var(--green);
   font-weight: normal;
   letter-spacing: 0;
-  line-height: 1;
+  line-height: 0.9;
+  display: inline-block;
+  transform: rotate(-2deg);
+  text-shadow: 0 0 22px rgba(61,190,114,0.24);
 }
+
+/* DESIGNS GALLERY — AUTO LOADS FROM /designs */
+.gallery-section {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(61,190,114,0.10), transparent 34%),
+    var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 56px;
+}
+
+.gallery-intro {
+  max-width: 430px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.gallery-grid {
+  position: relative;
+  columns: 3 280px;
+  column-gap: 22px;
+}
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
+  background: #020302;
+  border: 1px solid rgba(61,190,114,0.16);
+  cursor: none;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+  border-color: rgba(61,190,114,0.50);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.50), 0 0 34px rgba(61,190,114,0.10);
+}
+
+.gallery-item img {
+  width: 100%;
+  display: block;
+  height: auto;
+  filter: saturate(0.94) contrast(1.05) brightness(0.92);
+  transition: transform 0.55s ease, filter 0.55s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.035);
+  filter: saturate(1.06) contrast(1.08) brightness(1);
+}
+
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.70), transparent 48%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.gallery-item:hover::after {
+  opacity: 1;
+}
+
+.gallery-meta {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.gallery-item:hover .gallery-meta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gallery-meta span {
+  color: var(--green);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.gallery-actions {
+  position: relative;
+  margin-top: 42px;
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-load-more {
+  padding: 14px 30px;
+  background: transparent;
+  color: var(--green);
+  border: 1px solid var(--green);
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s ease;
+}
+
+.gallery-load-more:hover {
+  background: var(--green);
+  color: var(--black);
+}
+
+.gallery-empty,
+.gallery-error {
+  color: var(--muted);
+  padding: 32px;
+  border: 1px solid var(--border);
+  background: var(--dark);
+  text-align: center;
+  display: block;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 34px;
+}
+
+.lightbox.open {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: min(96vw, 1500px);
+  max-height: 90vh;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 80px rgba(0,0,0,0.7);
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--green);
+  background: rgba(0,0,0,0.35);
+  color: var(--green);
+  font-size: 28px;
+  line-height: 1;
+  cursor: none;
+}
+
+body.rtl .gallery-header {
+  flex-direction: row-reverse;
+}
+
+body.rtl .gallery-meta {
+  text-align: right;
+}
+
 @media (max-width: 768px) {
   nav { padding: 20px 24px; }
   nav.scrolled { padding: 14px 24px; }
@@ -928,6 +1326,15 @@ body.rtl .portfolio-card-meta {
   .footer-links { flex-wrap: wrap; justify-content: center; }
   .services-header { flex-direction: column; gap: 24px; align-items: flex-start; }
   .contact-alt { flex-direction: column; }
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .portfolio-card,
+  .portfolio-card:nth-child(1),
+  .portfolio-card:nth-child(8n),
+  .portfolio-card:nth-child(5n),
+  .portfolio-card:nth-child(6n) { grid-column: span 1; min-height: 300px; }
+  .portfolio-header { flex-direction: column; align-items: flex-start; }
+  .gallery-header { flex-direction: column; align-items: flex-start; }
+  .gallery-grid { columns: 1; }
   .portfolio-header { flex-direction: column; align-items: flex-start; }
   .portfolio-grid { grid-template-columns: 1fr; }
   body.rtl .portfolio-header { flex-direction: column; align-items: flex-start; }
@@ -949,6 +1356,7 @@ body.rtl .portfolio-card-meta {
   <ul class="nav-links">
     <li><a href="#services" data-en="Services" data-ar="الخدمات">Services</a></li>
     <li><a href="#portfolio" data-en="Portfolio" data-ar="أعمالنا">Portfolio</a></li>
+    <li><a href="#gallery" data-en="Gallery" data-ar="المعرض">Gallery</a></li>
     <li><a href="#process" data-en="Process" data-ar="طريقة العمل">Process</a></li>
     <li><a href="#about" data-en="About" data-ar="من نحن">About</a></li>
     <li><a href="#faq" data-en="FAQ" data-ar="الأسئلة الشائعة">FAQ</a></li>
@@ -988,14 +1396,14 @@ body.rtl .portfolio-card-meta {
     <div id="scrub-loader" style="
       position:absolute;top:50%;left:50%;
       transform:translate(-50%,-50%);
-      font-family:'Syne',sans-serif;
+      font-family:'Poppins',sans-serif;
       font-size:13px;letter-spacing:0.3em;
       color:var(--green);transition:opacity 1s;">0%</div>
     <div style="
       position:absolute;bottom:60px;width:100%;
       text-align:center;pointer-events:none;">
       <div style="
-        font-family:'Syne',sans-serif;
+        font-family:'Poppins',sans-serif;
         font-size:clamp(32px,5vw,72px);
         font-weight:800;color:#fff;
         letter-spacing:-0.02em;line-height:1;">
@@ -1031,14 +1439,15 @@ body.rtl .portfolio-card-meta {
 <section class="portfolio-section" id="portfolio">
   <div class="portfolio-header">
     <div>
-      <div class="section-label reveal" data-en="Selected Work" data-ar="مختارات من أعمالنا">Selected Work</div>
+      <div class="section-label reveal" data-en="Video Portfolio" data-ar="معرض الفيديو">Video Portfolio</div>
       <h2 class="section-title reveal reveal-delay-1">
-<span data-en="Our Portfolio." data-ar="معرض أعمالنا.">Our Portfolio.</span><br>
-<span>Built to <span class="reey">Perform</span>.</span>
+        <span data-en="Stories that" data-ar="قصص">Stories that</span>
+        <span class="reey" data-en="Move" data-ar="تتحرك">Move</span><br>
+        <span data-en="Brands Forward." data-ar="وتدفع العلامات للأمام.">Brands Forward.</span>
       </h2>
     </div>
-    <p class="portfolio-intro reveal reveal-delay-2" data-en="A curated video showcase of campaigns, edits, motion graphics, and creative productions by H.M Media." data-ar="مجموعة مختارة من الفيديوهات والحملات والمونتاج والموشن جرافيك والإنتاجات الإبداعية من H.M Media.">
-      A curated video showcase of campaigns, edits, motion graphics, and creative productions by H.M Media.
+    <p class="portfolio-intro reveal reveal-delay-2" data-en="A cinematic wall of campaigns, edits, motion graphics, and social-first video work. Click any card to watch without leaving the site." data-ar="جدار سينمائي للحملات والمونتاج والموشن جرافيك وأعمال الفيديو للسوشيال. اضغط على أي بطاقة للمشاهدة داخل الموقع.">
+      A cinematic wall of campaigns, edits, motion graphics, and social-first video work. Click any card to watch without leaving the site.
     </p>
   </div>
 
@@ -1050,6 +1459,42 @@ body.rtl .portfolio-card-meta {
     <button class="portfolio-load-more" id="portfolio-load-more" type="button">Load More</button>
   </div>
 </section>
+
+<div class="video-modal" id="video-modal" aria-hidden="true">
+  <button class="video-modal-close" id="video-modal-close" type="button">×</button>
+  <div class="video-modal-inner" id="video-modal-inner"></div>
+</div>
+
+<!-- DESIGNS GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-header">
+    <div>
+      <div class="section-label reveal" data-en="Design Gallery" data-ar="معرض التصاميم">Design Gallery</div>
+      <h2 class="section-title reveal reveal-delay-1">
+        <span data-en="Visuals with" data-ar="تصاميم">Visuals with</span>
+        <span class="reey" data-en="Presence" data-ar="بحضور">Presence</span><br>
+        <span data-en="and Precision." data-ar="ودقة.">and Precision.</span>
+      </h2>
+    </div>
+    <p class="gallery-intro reveal reveal-delay-2" data-en="This section loads images automatically from the designs folder in your GitHub repository." data-ar="هذا القسم يعرض الصور تلقائياً من مجلد designs داخل GitHub.">
+      This section loads images automatically from the designs folder in your GitHub repository.
+    </p>
+  </div>
+
+  <div class="gallery-grid" id="gallery-grid">
+    <p class="gallery-empty">Loading designs...</p>
+  </div>
+
+  <div class="gallery-actions">
+    <button class="gallery-load-more" id="gallery-load-more" type="button">Load More</button>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightbox-close" type="button">×</button>
+  <img id="lightbox-img" src="" alt="Gallery preview">
+</div>
+
 
 <!-- ABOUT -->
 <section class="about-section" id="about">
@@ -1155,17 +1600,17 @@ body.rtl .portfolio-card-meta {
   <h2 class="section-title reveal reveal-delay-1"><span data-en="Built Different." data-ar="مختلفون بالبناء.">Built Different.</span><br><span data-en="By Design." data-ar="بالتصميم.">By Design.</span></h2>
   <div class="why-grid">
     <div class="why-card reveal">
-      <div class="why-icon">⚡</div>
+      <div class="why-icon"><svg class="why-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2L4 14h7l-1 8 10-13h-7l1-7z"/></svg></div>
       <div class="why-title" data-en="Speed Without Compromise" data-ar="السرعة بلا تنازلات">Speed Without Compromise</div>
       <div class="why-desc" data-en="Rapid delivery without cutting corners. First drafts in 24–72 hours. Final files within one week." data-ar="تسليم سريع دون التنازل عن الجودة. المسودة الأولى خلال 24–72 ساعة. الملفات النهائية خلال أسبوع.">Rapid delivery without cutting corners. First drafts in 24–72 hours. Final files within one week.</div>
     </div>
     <div class="why-card reveal reveal-delay-2">
-      <div class="why-icon">🎯</div>
+      <div class="why-icon"><svg class="why-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
       <div class="why-title" data-en="Senior-Level Output" data-ar="مخرجات بمستوى الكبار">Senior-Level Output</div>
       <div class="why-desc" data-en="Direct, strategic creative work — no junior handoffs, no diluted briefs, no wasted revision rounds." data-ar="عمل إبداعي استراتيجي مباشر — لا تسليم للمبتدئين، لا إحاطات مخففة، لا جولات تعديل مهدرة.">Direct, strategic creative work — no junior handoffs, no diluted briefs, no wasted revision rounds.</div>
     </div>
     <div class="why-card reveal reveal-delay-3">
-      <div class="why-icon">🔄</div>
+      <div class="why-icon"><svg class="why-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 16"/><path d="M4 20v-4h4"/></svg></div>
       <div class="why-title" data-en="Scalable & Flexible" data-ar="قابل للتوسع والمرونة">Scalable & Flexible</div>
       <div class="why-desc" data-en="From a single campaign to a full monthly content system — we scale to exactly what your brand needs." data-ar="من حملة واحدة إلى منظومة محتوى شهرية كاملة — نتكيّف مع ما تحتاجه علامتك بالضبط.">From a single campaign to a full monthly content system — we scale to exactly what your brand needs.</div>
     </div>
@@ -1252,6 +1697,7 @@ body.rtl .portfolio-card-meta {
   <div class="footer-links">
     <a href="#services">Services</a>
     <a href="#portfolio">Portfolio</a>
+    <a href="#gallery">Gallery</a>
     <a href="#process">Process</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
@@ -1385,19 +1831,50 @@ updateScrubLoader();
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 let mx = 0, my = 0, rx = 0, ry = 0;
+let lastTrail = 0;
+
 document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx - 4 + 'px';
-  cursor.style.top = my - 4 + 'px';
+  mx = e.clientX;
+  my = e.clientY;
+
+  if (cursor) {
+    cursor.style.left = mx - 3.5 + 'px';
+    cursor.style.top = my - 3.5 + 'px';
+  }
+
+  const now = performance.now();
+  if (now - lastTrail > 38) {
+    const trail = document.createElement('span');
+    trail.className = 'cursor-trail';
+    trail.style.left = mx + 'px';
+    trail.style.top = my + 'px';
+    document.body.appendChild(trail);
+    setTimeout(() => trail.remove(), 720);
+    lastTrail = now;
+  }
 });
+
 function animateRing() {
-  rx += (mx - rx - 18) * 0.12;
-  ry += (my - ry - 18) * 0.12;
-  ring.style.left = rx + 'px';
-  ring.style.top = ry + 'px';
+  rx += (mx - rx - 21) * 0.14;
+  ry += (my - ry - 21) * 0.14;
+  if (ring) {
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+  }
   requestAnimationFrame(animateRing);
 }
 animateRing();
+
+document.addEventListener('mouseover', (e) => {
+  if (e.target.closest('a, button, .portfolio-card, .gallery-item, .service-card, .why-card, .faq-q, input, textarea, select')) {
+    document.body.classList.add('cursor-hover');
+  }
+});
+document.addEventListener('mouseout', (e) => {
+  if (e.target.closest('a, button, .portfolio-card, .gallery-item, .service-card, .why-card, .faq-q, input, textarea, select')) {
+    document.body.classList.remove('cursor-hover');
+  }
+});
 
 // PROGRESS BAR
 const progressBar = document.getElementById('progress-bar');
@@ -1556,6 +2033,33 @@ function extractYouTubeId(url) {
   }
 }
 
+function openVideoModal(videoId) {
+  const modal = document.getElementById('video-modal');
+  const inner = document.getElementById('video-modal-inner');
+  if (!modal || !inner) return;
+
+  inner.innerHTML = `
+    <iframe
+      src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
+      title="H.M Media Portfolio Video"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  `;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('video-modal');
+  const inner = document.getElementById('video-modal-inner');
+  if (!modal || !inner) return;
+
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  inner.innerHTML = '';
+}
+
 function renderPortfolioVideos() {
   const grid = document.getElementById('portfolio-grid');
   const btn = document.getElementById('portfolio-load-more');
@@ -1577,22 +2081,32 @@ function renderPortfolioVideos() {
 
     const card = document.createElement('article');
     card.className = 'portfolio-card reveal visible';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+
+    const thumb = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
     card.innerHTML = `
-      <div class="portfolio-video">
-        <iframe
-          src="https://www.youtube.com/embed/${videoId}"
-          title="H.M Media Portfolio Video ${index + 1}"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+      <div class="portfolio-thumb" style="background-image:url('${thumb}')"></div>
+      <div class="portfolio-play" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       </div>
       <div class="portfolio-card-meta">
-        <span>Project ${String(index + 1).padStart(2, '0')}</span>
-        <a href="${url}" target="_blank" rel="noopener">YouTube</a>
+        <div>
+          <span>Project ${String(index + 1).padStart(2, '0')}</span>
+          <strong>Watch the work</strong>
+        </div>
+        <a href="${url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">YouTube</a>
       </div>
     `;
+
+    card.addEventListener('click', () => openVideoModal(videoId));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openVideoModal(videoId);
+      }
+    });
 
     grid.appendChild(card);
   });
@@ -1616,7 +2130,8 @@ async function loadPortfolioVideos() {
     const text = await res.text();
 
     portfolioUrls = text
-      .split('\n')
+      .split('
+')
       .map(line => line.trim())
       .filter(line => line && !line.startsWith('#') && extractYouTubeId(line));
 
@@ -1635,6 +2150,139 @@ async function loadPortfolioVideos() {
     console.error(err);
   }
 }
+
+const videoModal = document.getElementById('video-modal');
+const videoModalClose = document.getElementById('video-modal-close');
+if (videoModalClose) videoModalClose.addEventListener('click', closeVideoModal);
+if (videoModal) {
+  videoModal.addEventListener('click', (e) => {
+    if (e.target === videoModal) closeVideoModal();
+  });
+}
+
+
+// DESIGNS GALLERY
+let galleryUrls = [];
+let galleryVisibleCount = 0;
+const galleryStep = 9;
+const GITHUB_OWNER = 'husseinmlhem';
+const GITHUB_REPO = 'hmmedia';
+const DESIGNS_FOLDER = 'designs';
+const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+
+function isImageFile(name) {
+  return IMAGE_EXTENSIONS.some(ext => name.toLowerCase().endsWith(ext));
+}
+
+function renderDesignGallery() {
+  const grid = document.getElementById('gallery-grid');
+  const btn = document.getElementById('gallery-load-more');
+
+  if (!grid) return;
+
+  const visible = galleryUrls.slice(0, galleryVisibleCount);
+  grid.innerHTML = '';
+
+  if (!visible.length) {
+    grid.innerHTML = '<p class="gallery-empty">No images found in the designs folder.</p>';
+    if (btn) btn.style.display = 'none';
+    return;
+  }
+
+  visible.forEach((item, index) => {
+    const article = document.createElement('article');
+    article.className = 'gallery-item reveal visible';
+
+    const img = document.createElement('img');
+    img.src = item.url;
+    img.alt = item.name || `H.M Media Design ${index + 1}`;
+    img.loading = 'lazy';
+
+    const meta = document.createElement('div');
+    meta.className = 'gallery-meta';
+    meta.innerHTML = `<span>Design ${String(index + 1).padStart(2, '0')}</span>`;
+
+    article.appendChild(img);
+    article.appendChild(meta);
+    article.addEventListener('click', () => openLightbox(item.url));
+
+    grid.appendChild(article);
+  });
+
+  if (btn) {
+    btn.style.display = galleryVisibleCount >= galleryUrls.length ? 'none' : 'inline-block';
+    btn.textContent = currentLang === 'ar' ? 'عرض المزيد' : 'Load More';
+  }
+}
+
+async function loadDesignGallery() {
+  const grid = document.getElementById('gallery-grid');
+  const btn = document.getElementById('gallery-load-more');
+
+  if (!grid) return;
+
+  try {
+    const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DESIGNS_FOLDER}`;
+    const res = await fetch(apiUrl, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Could not read designs folder from GitHub.');
+
+    const files = await res.json();
+
+    galleryUrls = files
+      .filter(file => file.type === 'file' && isImageFile(file.name))
+      .map(file => ({
+        name: file.name,
+        url: file.download_url || `./${DESIGNS_FOLDER}/${file.name}`
+      }));
+
+    galleryVisibleCount = Math.min(galleryStep, galleryUrls.length);
+    renderDesignGallery();
+
+    if (btn) {
+      btn.onclick = () => {
+        galleryVisibleCount = Math.min(galleryVisibleCount + galleryStep, galleryUrls.length);
+        renderDesignGallery();
+      };
+    }
+  } catch (err) {
+    grid.innerHTML = '<p class="gallery-error">Gallery could not be loaded. Make sure you created a public folder named designs and uploaded image files inside it.</p>';
+    if (btn) btn.style.display = 'none';
+    console.error(err);
+  }
+}
+
+function openLightbox(src) {
+  const box = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  if (!box || !img) return;
+  img.src = src;
+  box.classList.add('open');
+  box.setAttribute('aria-hidden', 'false');
+}
+
+function closeLightbox() {
+  const box = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  if (!box || !img) return;
+  box.classList.remove('open');
+  box.setAttribute('aria-hidden', 'true');
+  img.src = '';
+}
+
+const lightboxClose = document.getElementById('lightbox-close');
+const lightbox = document.getElementById('lightbox');
+if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+if (lightbox) {
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeLightbox();
+    closeVideoModal();
+  }
+});
 
 // LANGUAGE SWITCHER
 let currentLang = 'en';
@@ -1689,6 +2337,16 @@ function setLang(lang) {
     portfolioBtn.textContent = lang === 'ar' ? 'عرض المزيد' : 'Load More';
   }
 
+  // Update portfolio/gallery buttons
+  const portfolioBtn = document.getElementById('portfolio-load-more');
+  if (portfolioBtn && portfolioBtn.style.display !== 'none') {
+    portfolioBtn.textContent = lang === 'ar' ? 'عرض المزيد' : 'Load More';
+  }
+  const galleryBtn = document.getElementById('gallery-load-more');
+  if (galleryBtn && galleryBtn.style.display !== 'none') {
+    galleryBtn.textContent = lang === 'ar' ? 'عرض المزيد' : 'Load More';
+  }
+
   // Update footer copyright
   const copy = document.querySelector('.footer-copy');
   if (copy) copy.textContent = lang === 'ar' ? '© 2025 H.M Media. جميع الحقوق محفوظة. دبي، الإمارات' : '© 2025 H.M Media. All Rights Reserved. Dubai, UAE';
@@ -1711,6 +2369,7 @@ function setLang(lang) {
 
 
 loadPortfolioVideos();
+loadDesignGallery();
 
 function handleSubmit(e) {
   e.preventDefault();
