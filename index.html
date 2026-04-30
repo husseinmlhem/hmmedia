@@ -1337,6 +1337,94 @@ body.cursor-hover .cursor-ring {
   .portfolio-grid { grid-template-columns: 1fr; }
   body.rtl .portfolio-header { flex-direction: column; align-items: flex-start; }
 }
+
+/* ONE-ROW HOME GALLERIES */
+.portfolio-grid,
+.gallery-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  columns: initial !important;
+  column-gap: initial !important;
+}
+
+.portfolio-card,
+.portfolio-card:nth-child(1),
+.portfolio-card:nth-child(8n),
+.portfolio-card:nth-child(5n),
+.portfolio-card:nth-child(6n),
+.gallery-item {
+  grid-column: span 1 !important;
+  min-height: 260px !important;
+  margin-bottom: 0 !important;
+}
+
+.gallery-item {
+  aspect-ratio: 4 / 3;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portfolio-card:nth-child(n+5),
+.gallery-item:nth-child(n+5) {
+  display: none;
+}
+
+.portfolio-section.expanded .portfolio-card,
+.gallery-section.expanded .gallery-item {
+  display: block;
+}
+
+.portfolio-section.expanded .portfolio-grid,
+.gallery-section.expanded .gallery-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+@media (max-width: 1024px) {
+  .portfolio-grid,
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .portfolio-card:nth-child(n+5),
+  .gallery-item:nth-child(n+5) {
+    display: none;
+  }
+
+  .portfolio-section.expanded .portfolio-grid,
+  .gallery-section.expanded .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-grid,
+  .gallery-grid,
+  .portfolio-section.expanded .portfolio-grid,
+  .gallery-section.expanded .gallery-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .portfolio-card,
+  .gallery-item {
+    min-height: 260px !important;
+  }
+
+  .portfolio-card:nth-child(n+4),
+  .gallery-item:nth-child(n+4) {
+    display: none;
+  }
+
+  .portfolio-section.expanded .portfolio-card,
+  .gallery-section.expanded .gallery-item {
+    display: block;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2015,7 +2103,7 @@ document.querySelectorAll('.faq-q').forEach(btn => {
 // PORTFOLIO VIDEOS
 let portfolioUrls = [];
 let portfolioVisibleCount = 0;
-const portfolioStep = 6;
+const portfolioStep = 4;
 
 function extractYouTubeId(url) {
   try {
@@ -2067,10 +2155,12 @@ function closeVideoModal() {
 function renderPortfolioVideos() {
   const grid = document.getElementById('portfolio-grid');
   const btn = document.getElementById('portfolio-load-more');
+  const portfolioSection = document.getElementById('portfolio');
   if (!grid) return;
 
   const visible = portfolioUrls.slice(0, portfolioVisibleCount);
   grid.innerHTML = '';
+  if (portfolioSection) portfolioSection.classList.toggle('expanded', portfolioVisibleCount > portfolioStep);
 
   if (!visible.length) {
     grid.innerHTML = '<p class="portfolio-empty">No portfolio videos found.</p>';
@@ -2116,13 +2206,14 @@ function renderPortfolioVideos() {
 
   if (btn) {
     btn.style.display = portfolioVisibleCount >= portfolioUrls.length ? 'none' : 'inline-block';
-    btn.textContent = currentLang === 'ar' ? 'عرض المزيد' : 'Load More';
+    btn.textContent = currentLang === 'ar' ? 'عرض المزيد' : 'Show More';
   }
 }
 
 async function loadPortfolioVideos() {
   const grid = document.getElementById('portfolio-grid');
   const btn = document.getElementById('portfolio-load-more');
+  const portfolioSection = document.getElementById('portfolio');
   if (!grid) return;
 
   try {
@@ -2164,7 +2255,7 @@ if (videoModal) {
 // DESIGNS GALLERY
 let galleryUrls = [];
 let galleryVisibleCount = 0;
-const galleryStep = 9;
+const galleryStep = 4;
 const GITHUB_OWNER = 'husseinmlhem';
 const GITHUB_REPO = 'hmmedia';
 const DESIGNS_FOLDER = 'designs';
@@ -2177,10 +2268,12 @@ function isImageFile(name) {
 function renderDesignGallery() {
   const grid = document.getElementById('gallery-grid');
   const btn = document.getElementById('gallery-load-more');
+  const gallerySection = document.getElementById('gallery');
   if (!grid) return;
 
   const visible = galleryUrls.slice(0, galleryVisibleCount);
   grid.innerHTML = '';
+  if (gallerySection) gallerySection.classList.toggle('expanded', galleryVisibleCount > galleryStep);
 
   if (!visible.length) {
     grid.innerHTML = '<p class="gallery-empty">No images found in the designs folder.</p>';
@@ -2210,13 +2303,14 @@ function renderDesignGallery() {
 
   if (btn) {
     btn.style.display = galleryVisibleCount >= galleryUrls.length ? 'none' : 'inline-block';
-    btn.textContent = currentLang === 'ar' ? 'عرض المزيد' : 'Load More';
+    btn.textContent = currentLang === 'ar' ? 'عرض المزيد' : 'Show More';
   }
 }
 
 async function loadDesignGallery() {
   const grid = document.getElementById('gallery-grid');
   const btn = document.getElementById('gallery-load-more');
+  const gallerySection = document.getElementById('gallery');
   if (!grid) return;
 
   try {
