@@ -85,7 +85,7 @@ nav.scrolled {
 .logo span { color: var(--green); }
 .nav-links {
   display: flex;
-  gap: 40px;
+  gap: 30px;
   list-style: none;
 }
 .nav-links a {
@@ -404,6 +404,256 @@ section {
   color: var(--muted);
   line-height: 1.7;
   font-weight: 300;
+}
+
+/* PACKAGES */
+.packages-section {
+  background:
+    radial-gradient(circle at 85% 0%, rgba(61,190,114,0.09), transparent 34%),
+    var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+.packages-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(61,190,114,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,190,114,0.025) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(circle at center, black, transparent 72%);
+  pointer-events: none;
+}
+.packages-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 56px;
+}
+.packages-intro {
+  max-width: 460px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+  font-weight: 300;
+}
+.packages-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.package-card {
+  --package-accent: var(--green);
+  background:
+    radial-gradient(circle at top right, rgba(61,190,114,0.08), transparent 42%),
+    var(--dark);
+  padding: 36px 28px 28px;
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.35s ease, transform 0.35s ease;
+}
+.package-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--package-accent);
+  transition: width 0.4s ease;
+}
+.package-card:hover {
+  background:
+    radial-gradient(circle at top right, rgba(61,190,114,0.13), transparent 42%),
+    var(--surface2);
+  transform: translateY(-4px);
+}
+.package-card:hover::before { width: 100%; }
+.package-card.growth-package { border-top: 2px solid var(--green); }
+.package-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.package-icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  color: var(--package-accent);
+  filter: drop-shadow(0 0 14px rgba(61,190,114,0.18));
+  animation: packageFloat 4s ease-in-out infinite;
+}
+.package-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@keyframes packageFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.package-name {
+  color: var(--package-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.package-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  font-weight: 800;
+}
+.package-desc {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.75;
+  margin-bottom: 24px;
+  font-weight: 300;
+}
+.package-block { margin-bottom: 24px; }
+.package-block-title {
+  color: var(--text);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.package-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.package-tag {
+  color: #c9d5ce;
+  border: 1px solid rgba(61,190,114,0.12);
+  background: rgba(61,190,114,0.035);
+  padding: 6px 9px;
+  font-size: 11px;
+  line-height: 1.2;
+}
+.package-tag.main {
+  color: var(--green);
+  background: rgba(61,190,114,0.09);
+  border-color: rgba(61,190,114,0.24);
+}
+.package-services {
+  list-style: none;
+  display: grid;
+  gap: 9px;
+}
+.package-services li {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 9px;
+  color: #c8d5ce;
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 300;
+}
+.package-services li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  margin-top: 7px;
+  border-radius: 999px;
+  background: var(--package-accent);
+  box-shadow: 0 0 0 4px rgba(61,190,114,0.08);
+}
+.package-price {
+  margin-top: auto;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+.package-price-label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.package-price-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  color: var(--text);
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+.package-price-value span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.package-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--green);
+  color: var(--black);
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: none;
+  transition: background 0.3s, transform 0.3s;
+}
+.package-cta:hover {
+  background: #2fa85e;
+  transform: translateY(-2px);
+}
+.packages-note {
+  position: relative;
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+  font-weight: 300;
+  border-left: 2px solid var(--green);
+  padding-left: 20px;
+}
+.packages-note strong { color: var(--text); }
+body.rtl .packages-header { flex-direction: row-reverse; }
+body.rtl .package-top { flex-direction: row-reverse; }
+body.rtl .package-name,
+body.rtl .package-title,
+body.rtl .package-desc,
+body.rtl .package-block-title,
+body.rtl .package-price-label,
+body.rtl .package-price-value { text-align: right; }
+body.rtl .package-services li { grid-template-columns: 1fr 12px; }
+body.rtl .package-services li::before { grid-column: 2; }
+body.rtl .packages-note {
+  border-left: none;
+  border-right: 2px solid var(--green);
+  padding-left: 0;
+  padding-right: 20px;
 }
 
 /* PROCESS */
@@ -1425,6 +1675,18 @@ body.cursor-hover .cursor-ring {
   }
 }
 
+
+@media (max-width: 1100px) {
+  .packages-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .package-card { min-height: 560px; }
+}
+@media (max-width: 768px) {
+  .packages-header { flex-direction: column; align-items: flex-start; }
+  body.rtl .packages-header { flex-direction: column; align-items: flex-start; }
+  .packages-grid { grid-template-columns: 1fr; }
+  .package-card { min-height: auto; padding: 34px 28px; }
+}
+
 </style>
 </head>
 <body>
@@ -1441,6 +1703,7 @@ body.cursor-hover .cursor-ring {
   <a href="#" class="logo">H<span>.</span>M <span style="color:var(--text);font-weight:400">Media</span></a>
   <ul class="nav-links">
     <li><a href="#services" data-en="Services" data-ar="الخدمات">Services</a></li>
+    <li><a href="#packages" data-en="Packages" data-ar="الباقات">Packages</a></li>
     <li><a href="#portfolio" data-en="Portfolio" data-ar="أعمالنا">Portfolio</a></li>
     <li><a href="#gallery" data-en="Gallery" data-ar="المعرض">Gallery</a></li>
     <li><a href="#process" data-en="Process" data-ar="طريقة العمل">Process</a></li>
@@ -1652,6 +1915,197 @@ body.cursor-hover .cursor-ring {
   </div>
 </section>
 
+<!-- PACKAGES -->
+<section class="packages-section" id="packages">
+  <div class="packages-header">
+    <div>
+      <div class="section-label reveal" data-en="Packages" data-ar="الباقات">Packages</div>
+      <h2 class="section-title reveal reveal-delay-1">
+        <span data-en="Choose the" data-ar="اختر">Choose the</span>
+        <span class="reey" data-en="Right" data-ar="الباقة">Right</span><br>
+        <span data-en="Starting Point." data-ar="الأنسب لمشروعك.">Starting Point.</span>
+      </h2>
+    </div>
+    <p class="packages-intro reveal reveal-delay-2" data-en="Clear packages for real business needs — social media, campaigns, videos, company profiles, and website or landing page work. Each package can be customized after we understand the scope." data-ar="باقات واضحة لاحتياجات عملية — سوشيال ميديا، حملات، فيديوهات، بروفايلات شركات، ومواقع أو صفحات هبوط. كل باقة قابلة للتخصيص بعد فهم نطاق العمل.">
+      Clear packages for real business needs — social media, campaigns, videos, company profiles, and website or landing page work. Each package can be customized after we understand the scope.
+    </p>
+  </div>
+
+  <div class="packages-grid">
+    <article class="package-card reveal">
+      <div class="package-top">
+        <div class="package-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 16c1.5-4.5 4.5-7.5 9-9"/><path d="M14 7l3-3 3 3-3 3z"/><path d="M4 20c3.5-.2 6.2-1.3 8.3-3.3"/><path d="M9 15l-2-2"/></svg>
+        </div>
+        <div>
+          <div class="package-name" data-en="Launch Package" data-ar="باقة الإطلاق">Launch Package</div>
+          <h3 class="package-title" data-en="New Business Launches" data-ar="إطلاق المشاريع الجديدة">New Business Launches</h3>
+        </div>
+      </div>
+      <p class="package-desc" data-en="For a new business that wants to start with a clean look, clear message, and professional online presence." data-ar="للمشروع الجديد الذي يريد بداية مرتبة، رسالة واضحة، وحضور احترافي على الإنترنت.">For a new business that wants to start with a clean look, clear message, and professional online presence.</p>
+      <div class="package-block">
+        <div class="package-block-title" data-en="Projects" data-ar="مشاريع مناسبة">Projects</div>
+        <div class="package-tags">
+          <span class="package-tag" data-en="Café" data-ar="كافيه">Café</span>
+          <span class="package-tag" data-en="Restaurant" data-ar="مطعم">Restaurant</span>
+          <span class="package-tag" data-en="Salon" data-ar="صالون">Salon</span>
+          <span class="package-tag" data-en="Clinic" data-ar="عيادة">Clinic</span>
+          <span class="package-tag" data-en="Gym" data-ar="نادي رياضي">Gym</span>
+          <span class="package-tag" data-en="Startup" data-ar="شركة ناشئة">Startup</span>
+          <span class="package-tag" data-en="Online Store" data-ar="متجر إلكتروني">Online Store</span>
+          <span class="package-tag main" data-en="Website / Landing Page" data-ar="موقع / صفحة هبوط">Website / Landing Page</span>
+        </div>
+      </div>
+      <div class="package-block">
+        <div class="package-block-title" data-en="Services Included" data-ar="الخدمات المتضمنة">Services Included</div>
+        <ul class="package-services">
+          <li data-en="A clean look for your brand before launch" data-ar="مظهر مرتب للعلامة قبل الإطلاق">A clean look for your brand before launch</li>
+          <li data-en="Social media posts to introduce your business" data-ar="منشورات سوشيال ميديا للتعريف بالمشروع">Social media posts to introduce your business</li>
+          <li data-en="Profile picture, cover, highlights, and bio direction" data-ar="توجيه صورة الحساب، الغلاف، الهايلايت، والبايو">Profile picture, cover, highlights, and bio direction</li>
+          <li data-en="Basic captions and launch messages" data-ar="كابشنات ورسائل إطلاق أساسية">Basic captions and launch messages</li>
+          <li data-en="Simple website or landing page direction" data-ar="توجيه بسيط للموقع أو صفحة الهبوط">Simple website or landing page direction</li>
+          <li data-en="Ready-to-use files for Instagram, ads, or website" data-ar="ملفات جاهزة للاستخدام على إنستغرام، الإعلانات، أو الموقع">Ready-to-use files for Instagram, ads, or website</li>
+        </ul>
+      </div>
+      <div class="package-price">
+        <div class="package-price-label" data-en="Starting from" data-ar="يبدأ من">Starting from</div>
+        <div class="package-price-value" data-en="AED 2,500" data-ar="٢,٥٠٠ درهم">AED 2,500</div>
+        <a href="#contact" class="package-cta" data-en="Get Started" data-ar="ابدأ الآن">Get Started</a>
+      </div>
+    </article>
+
+    <article class="package-card growth-package reveal reveal-delay-1">
+      <div class="package-top">
+        <div class="package-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-3 3 2 5-7"/><path d="M16 7h3v3"/></svg>
+        </div>
+        <div>
+          <div class="package-name" data-en="Growth Package" data-ar="باقة النمو">Growth Package</div>
+          <h3 class="package-title" data-en="Monthly Social Media Growth" data-ar="نمو شهري للسوشيال ميديا">Monthly Social Media Growth</h3>
+        </div>
+      </div>
+      <p class="package-desc" data-en="For businesses that already exist and need regular content, better visuals, offers, and more customer messages." data-ar="للأعمال الموجودة فعلاً وتحتاج محتوى منتظم، تصاميم أفضل، عروض، ورسائل أكثر من العملاء.">For businesses that already exist and need regular content, better visuals, offers, and more customer messages.</p>
+      <div class="package-block">
+        <div class="package-block-title" data-en="Projects" data-ar="مشاريع مناسبة">Projects</div>
+        <div class="package-tags">
+          <span class="package-tag" data-en="Restaurant" data-ar="مطعم">Restaurant</span>
+          <span class="package-tag" data-en="Clinic" data-ar="عيادة">Clinic</span>
+          <span class="package-tag" data-en="Real Estate" data-ar="عقارات">Real Estate</span>
+          <span class="package-tag" data-en="Retail Shop" data-ar="متجر">Retail Shop</span>
+          <span class="package-tag" data-en="Beauty Center" data-ar="مركز تجميل">Beauty Center</span>
+          <span class="package-tag" data-en="Service Business" data-ar="شركة خدمات">Service Business</span>
+          <span class="package-tag" data-en="Offers Campaign" data-ar="حملة عروض">Offers Campaign</span>
+          <span class="package-tag main" data-en="Website Traffic" data-ar="زيارات للموقع">Website Traffic</span>
+        </div>
+      </div>
+      <div class="package-block">
+        <div class="package-block-title" data-en="Services Included" data-ar="الخدمات المتضمنة">Services Included</div>
+        <ul class="package-services">
+          <li data-en="Monthly posts and story designs" data-ar="تصاميم منشورات وستوري شهرية">Monthly posts and story designs</li>
+          <li data-en="Captions written in a clear marketing style" data-ar="كابشنات مكتوبة بأسلوب تسويقي واضح">Captions written in a clear marketing style</li>
+          <li data-en="Offer designs for discounts, bundles, and promotions" data-ar="تصاميم عروض للخصومات والباقات والترويج">Offer designs for discounts, bundles, and promotions</li>
+          <li data-en="Content calendar so your page stays active" data-ar="تقويم محتوى ليبقى الحساب نشطاً">Content calendar so your page stays active</li>
+          <li data-en="Visuals that push people to message or visit your website" data-ar="تصاميم تشجع الناس على المراسلة أو زيارة الموقع">Visuals that push people to message or visit your website</li>
+          <li data-en="Basic monthly content direction and improvement ideas" data-ar="توجيه شهري بسيط وأفكار لتحسين المحتوى">Basic monthly content direction and improvement ideas</li>
+        </ul>
+      </div>
+      <div class="package-price">
+        <div class="package-price-label" data-en="Starting from" data-ar="يبدأ من">Starting from</div>
+        <div class="package-price-value" data-en="AED 3,500 / month" data-ar="٣,٥٠٠ درهم / شهرياً">AED 3,500 <span>/ month</span></div>
+        <a href="#contact" class="package-cta" data-en="Request This Package" data-ar="اطلب هذه الباقة">Request This Package</a>
+      </div>
+    </article>
+
+    <article class="package-card reveal reveal-delay-2">
+      <div class="package-top">
+        <div class="package-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 14l4-4 4 4 8-8"/><path d="M14 6h6v6"/><path d="M5 20h14"/><path d="M7 20v-4"/><path d="M12 20v-6"/><path d="M17 20v-9"/></svg>
+        </div>
+        <div>
+          <div class="package-name" data-en="Scale Package" data-ar="باقة التوسع">Scale Package</div>
+          <h3 class="package-title" data-en="Campaigns, Ads & Video" data-ar="حملات، إعلانات وفيديو">Campaigns, Ads & Video</h3>
+        </div>
+      </div>
+      <p class="package-desc" data-en="For businesses that need stronger campaigns, ad creatives, reels, videos, and pages that help collect leads." data-ar="للشركات التي تحتاج حملات أقوى، تصاميم إعلانية، ريلز، فيديوهات، وصفحات تساعد على جمع العملاء المحتملين.">For businesses that need stronger campaigns, ad creatives, reels, videos, and pages that help collect leads.</p>
+      <div class="package-block">
+        <div class="package-block-title" data-en="Projects" data-ar="مشاريع مناسبة">Projects</div>
+        <div class="package-tags">
+          <span class="package-tag" data-en="Product Launch" data-ar="إطلاق منتج">Product Launch</span>
+          <span class="package-tag" data-en="Meta Ads" data-ar="إعلانات ميتا">Meta Ads</span>
+          <span class="package-tag" data-en="TikTok Ads" data-ar="إعلانات تيك توك">TikTok Ads</span>
+          <span class="package-tag" data-en="Reels" data-ar="ريلز">Reels</span>
+          <span class="package-tag" data-en="Promo Video" data-ar="فيديو ترويجي">Promo Video</span>
+          <span class="package-tag" data-en="Event Campaign" data-ar="حملة فعالية">Event Campaign</span>
+          <span class="package-tag" data-en="Exhibition" data-ar="معرض">Exhibition</span>
+          <span class="package-tag main" data-en="Lead Website" data-ar="موقع لجمع العملاء">Lead Website</span>
+        </div>
+      </div>
+      <div class="package-block">
+        <div class="package-block-title" data-en="Services Included" data-ar="الخدمات المتضمنة">Services Included</div>
+        <ul class="package-services">
+          <li data-en="Campaign idea and creative direction" data-ar="فكرة الحملة والتوجيه الإبداعي">Campaign idea and creative direction</li>
+          <li data-en="Ad designs for Instagram, Facebook, and TikTok" data-ar="تصاميم إعلانية لإنستغرام، فيسبوك، وتيك توك">Ad designs for Instagram, Facebook, and TikTok</li>
+          <li data-en="Short videos, reels, and motion graphics" data-ar="فيديوهات قصيرة، ريلز، وموشن جرافيك">Short videos, reels, and motion graphics</li>
+          <li data-en="Messages and visuals made for selling or lead generation" data-ar="رسائل وتصاميم موجهة للبيع أو جمع العملاء المحتملين">Messages and visuals made for selling or lead generation</li>
+          <li data-en="Landing page or website section support" data-ar="دعم صفحة هبوط أو قسم داخل الموقع">Landing page or website section support</li>
+          <li data-en="Different creative versions for testing" data-ar="نسخ إبداعية مختلفة للاختبار">Different creative versions for testing</li>
+        </ul>
+      </div>
+      <div class="package-price">
+        <div class="package-price-label" data-en="Starting from" data-ar="يبدأ من">Starting from</div>
+        <div class="package-price-value" data-en="AED 8,500 / month" data-ar="٨,٥٠٠ درهم / شهرياً">AED 8,500 <span>/ month</span></div>
+        <a href="#contact" class="package-cta" data-en="Let’s Talk" data-ar="لنتحدث">Let’s Talk</a>
+      </div>
+    </article>
+
+    <article class="package-card reveal reveal-delay-3">
+      <div class="package-top">
+        <div class="package-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/><path d="M8 13h4"/><path d="M8 16h8"/><path d="M16 13h1"/></svg>
+        </div>
+        <div>
+          <div class="package-name" data-en="Custom Project" data-ar="مشروع مخصص">Custom Project</div>
+          <h3 class="package-title" data-en="One-Time Creative Projects" data-ar="مشاريع إبداعية لمرة واحدة">One-Time Creative Projects</h3>
+        </div>
+      </div>
+      <p class="package-desc" data-en="For a specific design, video, company profile, presentation, brochure, menu, or website page task." data-ar="لتصميم محدد، فيديو، بروفايل شركة، عرض تقديمي، بروشور، منيو، أو صفحة موقع.">For a specific design, video, company profile, presentation, brochure, menu, or website page task.</p>
+      <div class="package-block">
+        <div class="package-block-title" data-en="Projects" data-ar="مشاريع مناسبة">Projects</div>
+        <div class="package-tags">
+          <span class="package-tag" data-en="Company Profile" data-ar="بروفايل شركة">Company Profile</span>
+          <span class="package-tag" data-en="Presentation" data-ar="عرض تقديمي">Presentation</span>
+          <span class="package-tag" data-en="Brochure" data-ar="بروشور">Brochure</span>
+          <span class="package-tag" data-en="Flyer" data-ar="فلاير">Flyer</span>
+          <span class="package-tag" data-en="Menu" data-ar="منيو">Menu</span>
+          <span class="package-tag" data-en="Event Branding" data-ar="هوية فعالية">Event Branding</span>
+          <span class="package-tag" data-en="Promo Video" data-ar="فيديو ترويجي">Promo Video</span>
+          <span class="package-tag main" data-en="Website Page" data-ar="صفحة موقع">Website Page</span>
+        </div>
+      </div>
+      <div class="package-block">
+        <div class="package-block-title" data-en="Services Included" data-ar="الخدمات المتضمنة">Services Included</div>
+        <ul class="package-services">
+          <li data-en="Clean design for your required material" data-ar="تصميم نظيف للمادة المطلوبة">Clean design for your required material</li>
+          <li data-en="Text arrangement and copy polishing" data-ar="ترتيب النصوص وتحسين الصياغة">Text arrangement and copy polishing</li>
+          <li data-en="Presentation or company profile structure" data-ar="هيكلة العرض أو بروفايل الشركة">Presentation or company profile structure</li>
+          <li data-en="Brochure, flyer, menu, or event layout" data-ar="تصميم بروشور، فلاير، منيو، أو مواد فعالية">Brochure, flyer, menu, or event layout</li>
+          <li data-en="Website page or section design" data-ar="تصميم صفحة أو قسم داخل الموقع">Website page or section design</li>
+          <li data-en="Final files ready for print, web, or social media" data-ar="ملفات نهائية جاهزة للطباعة، الويب، أو السوشيال ميديا">Final files ready for print, web, or social media</li>
+        </ul>
+      </div>
+      <div class="package-price">
+        <div class="package-price-label" data-en="Starting from" data-ar="يبدأ من">Starting from</div>
+        <div class="package-price-value" data-en="AED 950" data-ar="٩٥٠ درهم">AED 950</div>
+        <a href="#contact" class="package-cta" data-en="Discuss Your Project" data-ar="ناقش مشروعك">Discuss Your Project</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="packages-note reveal reveal-delay-4" data-en="All packages are flexible. Final pricing depends on scope, number of designs, video needs, website requirements, timeline, and revisions." data-ar="كل الباقات قابلة للتخصيص. السعر النهائي يعتمد على نطاق العمل، عدد التصاميم، احتياج الفيديو، متطلبات الموقع، الوقت، وعدد التعديلات.">
+    <strong>All packages are flexible.</strong> Final pricing depends on scope, number of designs, video needs, website requirements, timeline, and revisions.
+  </div>
+</section>
+
 <!-- PROCESS -->
 <section class="process-section" id="process">
   <div class="section-label reveal" data-en="How We Work" data-ar="طريقة عملنا">How We Work</div>
@@ -1753,6 +2207,10 @@ body.cursor-hover .cursor-ring {
           <option>Content & Marketing Systems</option>
           <option>Presentations & Pitch Decks</option>
           <option>Social Media Production</option>
+          <option>Launch Package</option>
+          <option>Growth Package</option>
+          <option>Scale Package</option>
+          <option>Custom Project</option>
           <option>Other</option>
         </select>
       </div>
@@ -2412,8 +2870,8 @@ function setLang(lang) {
   const select = document.querySelector('form select');
   if (select) {
     const opts = {
-      en: ['Service Needed', 'Video Production', 'Visual Content & Imagery', 'Motion Design & Animation', 'Content & Marketing Systems', 'Presentations & Pitch Decks', 'Social Media Production', 'Other'],
-      ar: ['الخدمة المطلوبة', 'إنتاج الفيديو', 'المحتوى المرئي والصور', 'موشن جرافيك وأنيميشن', 'أنظمة المحتوى والتسويق', 'العروض التقديمية', 'إنتاج السوشيال ميديا', 'أخرى']
+      en: ['Service Needed', 'Video Production', 'Visual Content & Imagery', 'Motion Design & Animation', 'Content & Marketing Systems', 'Presentations & Pitch Decks', 'Social Media Production', 'Launch Package', 'Growth Package', 'Scale Package', 'Custom Project', 'Other'],
+      ar: ['الخدمة المطلوبة', 'إنتاج الفيديو', 'المحتوى المرئي والصور', 'موشن جرافيك وأنيميشن', 'أنظمة المحتوى والتسويق', 'العروض التقديمية', 'إنتاج السوشيال ميديا', 'باقة الإطلاق', 'باقة النمو', 'باقة التوسع', 'مشروع مخصص', 'أخرى']
     };
     select.querySelectorAll('option').forEach((opt, i) => { opt.textContent = opts[lang][i]; });
   }
