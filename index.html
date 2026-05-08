@@ -75,14 +75,122 @@ nav.scrolled {
   border-bottom: 1px solid var(--border);
 }
 .logo {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 800;
-  font-size: 22px;
-  letter-spacing: -0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text);
   text-decoration: none;
+  line-height: 1;
 }
-.logo span { color: var(--green); }
+.logo-nav { color: var(--text); }
+.logo-nav:hover { color: var(--green); }
+.logo-footer { color: var(--green); }
+.brand-logo-mark {
+  width: 44px;
+  height: auto;
+  display: block;
+  color: currentColor;
+  filter: drop-shadow(0 0 18px rgba(61,190,114,0.16));
+  transition: color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+}
+.logo-nav:hover .brand-logo-mark {
+  transform: translateY(-1px) scale(1.04);
+  filter: drop-shadow(0 0 22px rgba(61,190,114,0.34));
+}
+.logo-footer .brand-logo-mark { width: 46px; }
+
+/* SVG LOGO — OPTION 01 + OPTION 03: DRAW REVEAL + GRADIENT FLOW */
+.brand-logo-mark .hm-logo-shape path,
+.brand-logo-mark .hm-logo-shape circle {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  fill-opacity: 0;
+  animation:
+    hmLogoDraw 2.35s cubic-bezier(.19,1,.22,1) forwards,
+    hmLogoFill 0.95s ease 1.45s forwards;
+}
+.brand-logo-mark .hm-logo-shape circle {
+  stroke-dasharray: 70;
+  stroke-dashoffset: 70;
+  animation-delay: 0.18s, 1.6s;
+}
+.logo-nav .brand-logo-mark,
+.logo-footer .brand-logo-mark {
+  overflow: visible;
+}
+.logo-nav .brand-logo-mark {
+  animation: hmLogoQuietPulse 6s ease-in-out infinite 2.7s;
+}
+.logo-nav:hover .brand-logo-mark .hm-logo-shape path,
+.logo-nav:hover .brand-logo-mark .hm-logo-shape circle {
+  filter: drop-shadow(0 0 14px rgba(61,190,114,0.48));
+}
+@keyframes hmLogoDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes hmLogoFill {
+  to { fill-opacity: 1; }
+}
+@keyframes hmLogoQuietPulse {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(61,190,114,0.12)); }
+  50% { filter: drop-shadow(0 0 26px rgba(61,190,114,0.34)); }
+}
+
+/* GLOBAL SIGNAL BACKGROUND — OPTION 07 */
+.site-signal-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.44;
+  mix-blend-mode: screen;
+}
+.site-signal-bg span,
+.site-signal-bg::before,
+.site-signal-bg::after {
+  content: '';
+  position: absolute;
+  width: clamp(220px, 28vw, 520px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(61,190,114,0.04) 10%, rgba(61,190,114,0.46) 50%, rgba(61,190,114,0.04) 90%, transparent 100%);
+  box-shadow: 0 0 16px rgba(61,190,114,0.16);
+  transform: rotate(var(--angle, -14deg));
+  animation: signalThread var(--duration, 9s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+.site-signal-bg::before { top: 16%; left: -10%; --angle: 14deg; --duration: 10s; --delay: -2s; }
+.site-signal-bg::after { bottom: 18%; right: -8%; --angle: -18deg; --duration: 11s; --delay: -5s; }
+.site-signal-bg span:nth-child(1) { top: 11%; right: 6%; --angle: -12deg; --duration: 9s; --delay: -1s; }
+.site-signal-bg span:nth-child(2) { top: 25%; left: 18%; --angle: 9deg; --duration: 12s; --delay: -4s; }
+.site-signal-bg span:nth-child(3) { top: 42%; right: 16%; --angle: 16deg; --duration: 10s; --delay: -6s; }
+.site-signal-bg span:nth-child(4) { top: 58%; left: 4%; --angle: -10deg; --duration: 13s; --delay: -3s; }
+.site-signal-bg span:nth-child(5) { top: 73%; right: 28%; --angle: 7deg; --duration: 11s; --delay: -7s; }
+.site-signal-bg span:nth-child(6) { top: 88%; left: 22%; --angle: -18deg; --duration: 12s; --delay: -2s; }
+.site-signal-bg span:nth-child(7) { top: 35%; left: -6%; --angle: 18deg; --duration: 14s; --delay: -8s; }
+.site-signal-bg span:nth-child(8) { top: 66%; right: -10%; --angle: -8deg; --duration: 10s; --delay: -5s; }
+@keyframes signalThread {
+  0%, 100% { opacity: 0.08; transform: translate3d(-18px, 0, 0) rotate(var(--angle)); filter: blur(0.2px); }
+  45% { opacity: 0.9; transform: translate3d(28px, -8px, 0) rotate(var(--angle)); filter: blur(0px); }
+  70% { opacity: 0.32; }
+}
+@media (max-width: 768px) {
+  .site-signal-bg { opacity: 0.28; }
+  .site-signal-bg span,
+  .site-signal-bg::before,
+  .site-signal-bg::after { width: 260px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-logo-mark .hm-logo-shape path,
+  .brand-logo-mark .hm-logo-shape circle,
+  .logo-nav .brand-logo-mark,
+  .site-signal-bg span,
+  .site-signal-bg::before,
+  .site-signal-bg::after { animation: none !important; }
+  .brand-logo-mark .hm-logo-shape path,
+  .brand-logo-mark .hm-logo-shape circle { stroke-dashoffset: 0; fill-opacity: 1; }
+}
+
 .nav-links {
   display: flex;
   gap: 30px;
@@ -786,7 +894,7 @@ body.rtl .packages-note {
   font-weight: 300;
 }
 .faq-item.open .faq-a {
-  max-height: 300px;
+  max-height: 520px;
   padding-bottom: 28px;
 }
 
@@ -1004,6 +1112,15 @@ body.rtl .footer-links { flex-direction: row-reverse; }
 body.rtl .stat-num { letter-spacing: 0; }
 body.rtl .service-tagline { font-style: normal; }
 body.rtl .faq-q { flex-direction: row-reverse; }
+
+body.rtl .faq-q {
+  text-align: right;
+}
+
+body.rtl .faq-a {
+  text-align: right;
+}
+
 body.rtl .btn-ghost::after { content: ' ←'; }
 body.rtl .process-steps::before { 
   background: repeating-linear-gradient(to left, var(--green) 0, var(--green) 8px, transparent 8px, transparent 16px);
@@ -1687,9 +1804,88 @@ body.cursor-hover .cursor-ring {
   .package-card { min-height: auto; padding: 34px 28px; }
 }
 
+
+/* FINAL RTL & PACKAGES REFINEMENT */
+body.rtl { text-align: right; }
+body.rtl .section-label,
+body.rtl .section-title,
+body.rtl .portfolio-intro,
+body.rtl .gallery-intro,
+body.rtl .packages-intro,
+body.rtl .about-text,
+body.rtl .step-desc,
+body.rtl .why-desc,
+body.rtl .service-desc { text-align: right; }
+
+body.rtl .portfolio-header,
+body.rtl .gallery-header,
+body.rtl .packages-header,
+body.rtl .services-header {
+  direction: rtl;
+  flex-direction: row;
+}
+
+body.rtl .portfolio-card-meta,
+body.rtl .gallery-meta,
+body.rtl .package-card { direction: rtl; }
+
+body.rtl .package-top {
+  flex-direction: row;
+  direction: rtl;
+}
+
+body.rtl .package-tags {
+  direction: rtl;
+  justify-content: flex-start;
+}
+
+body.rtl .package-services { direction: rtl; }
+body.rtl .package-services li {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 7px;
+  text-align: right;
+}
+body.rtl .package-services li::before {
+  flex: 0 0 5px;
+  margin-top: 7px;
+}
+
+.package-block { margin-bottom: 14px; }
+.package-services { gap: 3px; }
+.package-services li {
+  gap: 6px;
+  font-size: 11px;
+  line-height: 1.24;
+}
+.package-services li::before { margin-top: 5px; }
+.package-desc { margin-bottom: 14px; }
+.package-card { min-height: 560px; }
+
+@media (max-width: 768px) {
+  body.rtl .portfolio-header,
+  body.rtl .gallery-header,
+  body.rtl .packages-header,
+  body.rtl .services-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-logo-mark { width: 38px; }
+  .logo-footer .brand-logo-mark { width: 42px; }
+}
+
 </style>
 </head>
 <body>
+<!-- GLOBAL SVG SIGNAL THREADS BACKGROUND -->
+<div class="site-signal-bg" aria-hidden="true">
+  <span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span>
+</div>
 
 <!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
@@ -1700,7 +1896,21 @@ body.cursor-hover .cursor-ring {
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#" class="logo">H<span>.</span>M <span style="color:var(--text);font-weight:400">Media</span></a>
+  <a href="#" class="logo logo-nav" aria-label="H.M Media"><svg class="brand-logo-mark" viewBox="0 0 209.04 217.29" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="hmLogoGradientNav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8f0eb"/>
+      <stop offset="42%" stop-color="#3DBE72"/>
+      <stop offset="72%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#3DBE72"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="-0.55 0;0.55 0;-0.55 0" dur="5.5s" repeatCount="indefinite"/>
+    </linearGradient>
+  </defs>
+  <g class="hm-logo-shape" fill="url(#hmLogoGradientNav)" stroke="url(#hmLogoGradientNav)" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M177.29,135.54c0,5.47-4.18,9.32-9.18,9.33-4.74,0-9.13-3.95-9.09-9.31l.1-15.53-18.23,1.18.12,14.46c.04,5.29-4.09,9.06-8.84,9.17-4.99.11-9.24-3.7-9.26-9.29l-.04-12.63-18.14,2.11.07,46.64c0,5.34-3.78,9.22-8.82,9.45-5.04.23-9.31-3.92-9.31-9.47v-43.74s-18.07,3.64-18.07,3.64l-.02,77.06c0,5.38-4.98,8.84-9.38,8.68-5.18-.19-8.79-4.25-8.79-9.68v-71.53c-14.69,4.64-28.57,8.92-41.24,17.02-1.67,1.07-4.24,2.17-5.79,1.79-1.43-.35-3.5-3.13-3.38-4.64.54-7.02,36.7-20.28,50.43-23.42V8.65c0-5.06,4.55-8.43,8.79-8.64s9.37,3.37,9.37,8.73v113.52s18.07-3.55,18.07-3.55l.07-74.01c0-5.35,5.15-8.68,9.34-8.46,5.02.26,8.71,3.92,8.71,9.38v70.5s18.12-2.4,18.12-2.4l.02-32.02c0-5.25,3.84-8.81,8.22-9.17,5.56-.46,8.99,3.17,10.01,8.71,1.96,10.67,8.21,22.59,17.88,27.45l.07-27.76c.01-4.6,4.27-8.09,8.01-8.41,4.4-.38,8.71,1.99,9.7,6.77,1.66,8.02,4.66,15.81,9.9,22.11,9.17,11.02,20.39,6.3,22.11,10.93.59,1.6-.17,4.9-1.36,6.37l-30.16.62v16.22ZM147.03,111.86l-6.04-7.01.18,7.34,5.87-.33Z"/>
+    <circle cx="22.82" cy="108.67" r="8.96"/>
+  </g>
+</svg></a>
   <ul class="nav-links">
     <li><a href="#services" data-en="Services" data-ar="الخدمات">Services</a></li>
     <li><a href="#packages" data-en="Packages" data-ar="الباقات">Packages</a></li>
@@ -1715,7 +1925,7 @@ body.cursor-hover .cursor-ring {
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">ع</button>
     </div>
-    <a href="#contact" class="nav-cta" id="nav-cta-text">Start Project</a>
+    <a href="#contact" class="nav-cta" id="nav-cta-text" data-en="Start Project" data-ar="ابدأ مشروعك">Start Project</a>
   </div>
 </nav>
 
@@ -1733,7 +1943,7 @@ body.cursor-hover .cursor-ring {
       </div>
     </div>
     <div class="scroll-indicator">
-      <span>Scroll</span>
+      <span data-en="Scroll" data-ar="مرر">Scroll</span>
       <div class="scroll-line"></div>
     </div>
   </div>
@@ -1756,13 +1966,14 @@ body.cursor-hover .cursor-ring {
         font-size:clamp(32px,5vw,72px);
         font-weight:800;color:#fff;
         letter-spacing:-0.02em;line-height:1;">
-        One Signal.<br>
-<span class="reey">Every Market.</span>      </div>
+        
+<span data-en="Creative Systems." data-ar="أنظمة إبداعية.">Creative Systems.</span><br>
+<span class="reey" data-en="That Move Markets." data-ar="تحرّك الأسواق.">That Move Markets.</span>      </div>
       <div style="
         margin-top:16px;font-size:14px;
         color:var(--muted);letter-spacing:0.15em;
         text-transform:uppercase;">
-        Dubai · UAE & GCC
+        <span data-en="Dubai · UAE & GCC" data-ar="دبي · الإمارات والخليج">Dubai · UAE & GCC</span>
       </div>
     </div>
   </div>
@@ -1790,22 +2001,22 @@ body.cursor-hover .cursor-ring {
     <div>
       <div class="section-label reveal" data-en="Video Portfolio" data-ar="معرض الفيديو">Video Portfolio</div>
       <h2 class="section-title reveal reveal-delay-1">
-        <span data-en="Stories that" data-ar="قصص">Stories that</span>
-        <span class="reey" data-en="Move" data-ar="تتحرك">Move</span><br>
-        <span data-en="Brands Forward." data-ar="وتدفع العلامات للأمام.">Brands Forward.</span>
+        <span data-en="Stories that" data-ar="قصص تُلفت الانتباه">Stories that</span>
+        <span class="reey" data-en="Move" data-ar="وتبقى">Move</span><br>
+        <span data-en="Brands Forward." data-ar="في ذاكرة الجمهور.">Brands Forward.</span>
       </h2>
     </div>
-    <p class="portfolio-intro reveal reveal-delay-2" data-en="A cinematic wall of campaigns, edits, motion graphics, and social-first video work. Click any card to watch without leaving the site." data-ar="جدار سينمائي للحملات والمونتاج والموشن جرافيك وأعمال الفيديو للسوشيال. اضغط على أي بطاقة للمشاهدة داخل الموقع.">
+    <p class="portfolio-intro reveal reveal-delay-2" data-en="A cinematic wall of campaigns, edits, motion graphics, and social-first video work. Click any card to watch without leaving the site." data-ar="مجموعة مختارة من الحملات، المونتاج، الموشن جرافيك، وفيديوهات السوشيال. اضغط على أي عمل للمشاهدة داخل الموقع.">
       A cinematic wall of campaigns, edits, motion graphics, and social-first video work. Click any card to watch without leaving the site.
     </p>
   </div>
 
   <div class="portfolio-grid" id="portfolio-grid">
-    <p class="portfolio-empty">Loading portfolio...</p>
+    <p class="portfolio-empty" data-en="Loading portfolio..." data-ar="جاري تحميل معرض الفيديو...">Loading portfolio...</p>
   </div>
 
   <div class="portfolio-actions">
-    <button class="portfolio-load-more" id="portfolio-load-more" type="button">Load More</button>
+    <button class="portfolio-load-more" id="portfolio-load-more" type="button" data-en="Show More" data-ar="عرض المزيد">Show More</button>
   </div>
 </section>
 
@@ -1820,22 +2031,22 @@ body.cursor-hover .cursor-ring {
     <div>
       <div class="section-label reveal" data-en="Design Gallery" data-ar="معرض التصاميم">Design Gallery</div>
       <h2 class="section-title reveal reveal-delay-1">
-        <span data-en="Visuals with" data-ar="تصاميم">Visuals with</span>
-        <span class="reey" data-en="Presence" data-ar="بحضور">Presence</span><br>
-        <span data-en="and Precision." data-ar="ودقة.">and Precision.</span>
+        <span data-en="Visuals with" data-ar="تصاميم لها">Visuals with</span>
+        <span class="reey" data-en="Presence" data-ar="حضور">Presence</span><br>
+        <span data-en="and Precision." data-ar="وتفاصيل محسوبة.">and Precision.</span>
       </h2>
     </div>
-    <p class="gallery-intro reveal reveal-delay-2" data-en="This section loads images automatically from the designs folder in your GitHub repository." data-ar="هذا القسم يعرض الصور تلقائياً من مجلد designs داخل GitHub.">
+    <p class="gallery-intro reveal reveal-delay-2" data-en="This section loads images automatically from the designs folder in your GitHub repository." data-ar="نماذج من التصاميم البصرية، الحملات، والأعمال الجاهزة للاستخدام على السوشيال أو المطبوعات.">
       This section loads images automatically from the designs folder in your GitHub repository.
     </p>
   </div>
 
   <div class="gallery-grid" id="gallery-grid">
-    <p class="gallery-empty">Loading designs...</p>
+    <p class="gallery-empty" data-en="Loading designs..." data-ar="جاري تحميل التصاميم...">Loading designs...</p>
   </div>
 
   <div class="gallery-actions">
-    <button class="gallery-load-more" id="gallery-load-more" type="button">Load More</button>
+    <button class="gallery-load-more" id="gallery-load-more" type="button" data-en="Show More" data-ar="عرض المزيد">Show More</button>
   </div>
 </section>
 
@@ -1848,14 +2059,13 @@ body.cursor-hover .cursor-ring {
 <!-- ABOUT -->
 <section class="about-section" id="about">
   <div class="reveal">
-    <div class="section-label" data-en="Our Philosophy" data-ar="فلسفتنا">Our Philosophy</div>
-    <blockquote class="about-quote" data-en='"The future of creative work isn't about choosing between human vision and technological power. It's about combining both."' data-ar='"مستقبل العمل الإبداعي لا يعني الاختيار بين الرؤية البشرية والقوة التكنولوجية — بل يعني الجمع بينهما."'>"The future of creative work isn't about choosing between human vision and technological power. It's about combining both."</blockquote>
+    <div class="section-label" data-en="AI, Automation & Creative Systems" data-ar="الذكاء الاصطناعي وأنظمة العمل">AI, Automation & Systems</div>
+    <blockquote class="about-quote" data-en='"We use AI, automation, and sharp creative direction to produce faster, smarter, and more consistent brand content."' data-ar='"نستخدم الذكاء الاصطناعي والأتمتة والتوجيه الإبداعي لإنتاج محتوى أسرع، أذكى، وأكثر اتساقاً للعلامات التجارية."'>"We use AI, automation, and sharp creative direction to produce faster, smarter, and more consistent brand content."</blockquote>
   </div>
   <div class="reveal reveal-delay-2">
     <div class="about-text">
-      <p data-en="H.M Media is a forward-thinking creative agency based in Dubai — where strategic thinking and advanced production technology work together to deliver exceptional results." data-ar="H.M Media وكالة إبداعية متقدمة مقرها دبي — حيث يلتقي التفكير الاستراتيجي بأحدث تقنيات الإنتاج لتحقيق نتائج استثنائية.">H.M Media is a forward-thinking creative agency based in Dubai — where strategic thinking and advanced production technology work together to deliver exceptional results.</p>
-      <p data-en="We cut through the complexity of traditional agency models to give you direct access to senior-level creative work, with faster timelines, sharper output, and zero unnecessary overhead." data-ar="نتجاوز تعقيدات نماذج الوكالات التقليدية لنمنحك وصولاً مباشراً إلى إبداع من أعلى المستويات، بجداول زمنية أسرع ومخرجات أحدّ.">We cut through the complexity of traditional agency models to give you direct access to senior-level creative work, with faster timelines, sharper output, and zero unnecessary overhead.</p>
-      <p data-en="No lengthy processes. No diluted output. Just exceptional work, every time." data-ar="لا إجراءات مطوّلة. لا مخرجات مخففة. فقط عمل استثنائي في كل مرة.">No lengthy processes. No diluted output. Just exceptional work, every time.</p>
+      <p data-en="We follow the latest AI trends and automation workflows, but always keep the final result practical, polished, and aligned with your brand." data-ar="نواكب أحدث اتجاهات الذكاء الاصطناعي وأنظمة الأتمتة، مع الحفاظ على نتيجة عملية، مصقولة، ومناسبة لهوية علامتك.">We follow the latest AI trends and automation workflows, but always keep the final result practical, polished, and aligned with your brand.</p>
+      <p data-en="The goal is simple: better ideas, faster production, and content that is ready to be used across social media, ads, and websites." data-ar="الهدف واضح: أفكار أقوى، تنفيذ أسرع، ومحتوى جاهز للاستخدام على السوشيال ميديا، الإعلانات، والمواقع.">The goal is simple: better ideas, faster production, and content that is ready to be used across social media, ads, and websites.</p>
     </div>
     <div class="about-location" data-en="Dubai, UAE · Serving brands across the UAE & GCC" data-ar="دبي، الإمارات · نخدم العلامات التجارية في الإمارات والخليج">Dubai, UAE · Serving brands across the UAE & GCC</div>
   </div>
@@ -1865,8 +2075,8 @@ body.cursor-hover .cursor-ring {
 <section class="services-section" id="services">
   <div class="services-header">
     <div>
-      <div class="section-label reveal" data-en="What We Do" data-ar="ما نقدمه">What We Do</div>
-      <h2 class="section-title reveal reveal-delay-1"><span data-en="Creative Services." data-ar="خدمات إبداعية.">Creative Services.</span><br><span data-en="Built for the Future." data-ar="مصممة للمستقبل.">Built for the Future.</span></h2>
+      <div class="section-label reveal" data-en="What We Do" data-ar="ماذا نقدم">What We Do</div>
+      <h2 class="section-title reveal reveal-delay-1"><span data-en="Creative Services." data-ar="خدمات تصنع حضورك.">Creative Services.</span><br><span data-en="Built for the Future." data-ar="وتخدم نموّك.">Built for the Future.</span></h2>
     </div>
   </div>
   <div class="services-grid">
@@ -1926,7 +2136,7 @@ body.cursor-hover .cursor-ring {
         <span data-en="Starting Point." data-ar="الأنسب لمشروعك.">Starting Point.</span>
       </h2>
     </div>
-    <p class="packages-intro reveal reveal-delay-2" data-en="Clear packages for real business needs — social media, campaigns, videos, company profiles, and website or landing page work. Each package can be customized after we understand the scope." data-ar="باقات واضحة لاحتياجات عملية — سوشيال ميديا، حملات، فيديوهات، بروفايلات شركات، ومواقع أو صفحات هبوط. كل باقة قابلة للتخصيص بعد فهم نطاق العمل.">
+    <p class="packages-intro reveal reveal-delay-2" data-en="Clear packages for real business needs — social media, campaigns, videos, company profiles, and website or landing page work. Each package can be customized after we understand the scope." data-ar="اختر نقطة البداية الأقرب لك: محتوى سوشيال ميديا، حملة إعلانية، فيديو، بروفايل شركة، أو موقع وصفحة هبوط. بعد فهم التفاصيل نخصص الباقة حسب احتياجك.">
       Clear packages for real business needs — social media, campaigns, videos, company profiles, and website or landing page work. Each package can be customized after we understand the scope.
     </p>
   </div>
@@ -1938,13 +2148,13 @@ body.cursor-hover .cursor-ring {
           <svg viewBox="0 0 24 24"><path d="M5 16c1.5-4.5 4.5-7.5 9-9"/><path d="M14 7l3-3 3 3-3 3z"/><path d="M4 20c3.5-.2 6.2-1.3 8.3-3.3"/><path d="M9 15l-2-2"/></svg>
         </div>
         <div>
-          <div class="package-name" data-en="Launch Package" data-ar="باقة الإطلاق">Launch Package</div>
-          <h3 class="package-title" data-en="New Business Launches" data-ar="إطلاق المشاريع الجديدة">New Business Launches</h3>
+          <div class="package-name" data-en="Launch Package" data-ar="باقة الانطلاق">Launch Package</div>
+          <h3 class="package-title" data-en="New Business Launches" data-ar="إطلاق مشروع جديد">New Business Launches</h3>
         </div>
       </div>
-      <p class="package-desc" data-en="For a new business that wants to start with a clean look, clear message, and professional online presence." data-ar="للمشروع الجديد الذي يريد بداية مرتبة، رسالة واضحة، وحضور احترافي على الإنترنت.">For a new business that wants to start with a clean look, clear message, and professional online presence.</p>
+      <p class="package-desc" data-en="For a new business that wants to start with a clean look, clear message, and professional online presence." data-ar="للمشروع الجديد الذي يحتاج شكلاً مرتباً، رسالة واضحة، وحضوراً احترافياً على الإنترنت.">For a new business that wants to start with a clean look, clear message, and professional online presence.</p>
       <div class="package-block">
-        <div class="package-block-title" data-en="Projects" data-ar="مشاريع مناسبة">Projects</div>
+        <div class="package-block-title" data-en="Projects" data-ar="يناسب هذه المشاريع">Projects</div>
         <div class="package-tags">
           <span class="package-tag" data-en="Café" data-ar="كافيه">Café</span>
           <span class="package-tag" data-en="Restaurant" data-ar="مطعم">Restaurant</span>
@@ -1957,13 +2167,13 @@ body.cursor-hover .cursor-ring {
         </div>
       </div>
       <div class="package-block">
-        <div class="package-block-title" data-en="Services Included" data-ar="الخدمات المتضمنة">Services Included</div>
+        <div class="package-block-title" data-en="Services Included" data-ar="ماذا تشمل الباقة">Services Included</div>
         <ul class="package-services">
           <li data-en="A clean look for your brand before launch" data-ar="مظهر مرتب للعلامة قبل الإطلاق">A clean look for your brand before launch</li>
-          <li data-en="Social media posts to introduce your business" data-ar="منشورات سوشيال ميديا للتعريف بالمشروع">Social media posts to introduce your business</li>
+          <li data-en="Social media posts to introduce your business" data-ar="منشورات تعرّف الناس على المشروع">Social media posts to introduce your business</li>
           <li data-en="Profile picture, cover, highlights, and bio direction" data-ar="توجيه صورة الحساب، الغلاف، الهايلايت، والبايو">Profile picture, cover, highlights, and bio direction</li>
-          <li data-en="Basic captions and launch messages" data-ar="كابشنات ورسائل إطلاق أساسية">Basic captions and launch messages</li>
-          <li data-en="Simple website or landing page direction" data-ar="توجيه بسيط للموقع أو صفحة الهبوط">Simple website or landing page direction</li>
+          <li data-en="Basic captions and launch messages" data-ar="كابشنات ورسائل مناسبة لمرحلة الإطلاق">Basic captions and launch messages</li>
+          <li data-en="Simple website or landing page direction" data-ar="توجيه أولي للموقع أو صفحة الهبوط">Simple website or landing page direction</li>
           <li data-en="Ready-to-use files for Instagram, ads, or website" data-ar="ملفات جاهزة للاستخدام على إنستغرام، الإعلانات، أو الموقع">Ready-to-use files for Instagram, ads, or website</li>
         </ul>
       </div>
@@ -1981,12 +2191,12 @@ body.cursor-hover .cursor-ring {
         </div>
         <div>
           <div class="package-name" data-en="Growth Package" data-ar="باقة النمو">Growth Package</div>
-          <h3 class="package-title" data-en="Monthly Social Media Growth" data-ar="نمو شهري للسوشيال ميديا">Monthly Social Media Growth</h3>
+          <h3 class="package-title" data-en="Monthly Social Media Growth" data-ar="نمو شهري على السوشيال ميديا">Monthly Social Media Growth</h3>
         </div>
       </div>
-      <p class="package-desc" data-en="For businesses that already exist and need regular content, better visuals, offers, and more customer messages." data-ar="للأعمال الموجودة فعلاً وتحتاج محتوى منتظم، تصاميم أفضل، عروض، ورسائل أكثر من العملاء.">For businesses that already exist and need regular content, better visuals, offers, and more customer messages.</p>
+      <p class="package-desc" data-en="For businesses that already exist and need regular content, better visuals, offers, and more customer messages." data-ar="للأعمال القائمة التي تحتاج محتوى منتظم، تصاميم أقوى، عروض واضحة، ورسائل أكثر من العملاء.">For businesses that already exist and need regular content, better visuals, offers, and more customer messages.</p>
       <div class="package-block">
-        <div class="package-block-title" data-en="Projects" data-ar="مشاريع مناسبة">Projects</div>
+        <div class="package-block-title" data-en="Projects" data-ar="يناسب هذه المشاريع">Projects</div>
         <div class="package-tags">
           <span class="package-tag" data-en="Restaurant" data-ar="مطعم">Restaurant</span>
           <span class="package-tag" data-en="Clinic" data-ar="عيادة">Clinic</span>
@@ -1999,14 +2209,14 @@ body.cursor-hover .cursor-ring {
         </div>
       </div>
       <div class="package-block">
-        <div class="package-block-title" data-en="Services Included" data-ar="الخدمات المتضمنة">Services Included</div>
+        <div class="package-block-title" data-en="Services Included" data-ar="ماذا تشمل الباقة">Services Included</div>
         <ul class="package-services">
           <li data-en="Monthly posts and story designs" data-ar="تصاميم منشورات وستوري شهرية">Monthly posts and story designs</li>
           <li data-en="Captions written in a clear marketing style" data-ar="كابشنات مكتوبة بأسلوب تسويقي واضح">Captions written in a clear marketing style</li>
-          <li data-en="Offer designs for discounts, bundles, and promotions" data-ar="تصاميم عروض للخصومات والباقات والترويج">Offer designs for discounts, bundles, and promotions</li>
-          <li data-en="Content calendar so your page stays active" data-ar="تقويم محتوى ليبقى الحساب نشطاً">Content calendar so your page stays active</li>
-          <li data-en="Visuals that push people to message or visit your website" data-ar="تصاميم تشجع الناس على المراسلة أو زيارة الموقع">Visuals that push people to message or visit your website</li>
-          <li data-en="Basic monthly content direction and improvement ideas" data-ar="توجيه شهري بسيط وأفكار لتحسين المحتوى">Basic monthly content direction and improvement ideas</li>
+          <li data-en="Offer designs for discounts, bundles, and promotions" data-ar="تصاميم للعروض، الخصومات، والباقات">Offer designs for discounts, bundles, and promotions</li>
+          <li data-en="Content calendar so your page stays active" data-ar="تقويم محتوى يحافظ على نشاط الحساب">Content calendar so your page stays active</li>
+          <li data-en="Visuals that push people to message or visit your website" data-ar="تصاميم تشجع العميل على التواصل أو زيارة الموقع">Visuals that push people to message or visit your website</li>
+          <li data-en="Basic monthly content direction and improvement ideas" data-ar="أفكار شهرية لتحسين المحتوى والظهور">Basic monthly content direction and improvement ideas</li>
         </ul>
       </div>
       <div class="package-price">
@@ -2026,9 +2236,9 @@ body.cursor-hover .cursor-ring {
           <h3 class="package-title" data-en="Campaigns, Ads & Video" data-ar="حملات، إعلانات وفيديو">Campaigns, Ads & Video</h3>
         </div>
       </div>
-      <p class="package-desc" data-en="For businesses that need stronger campaigns, ad creatives, reels, videos, and pages that help collect leads." data-ar="للشركات التي تحتاج حملات أقوى، تصاميم إعلانية، ريلز، فيديوهات، وصفحات تساعد على جمع العملاء المحتملين.">For businesses that need stronger campaigns, ad creatives, reels, videos, and pages that help collect leads.</p>
+      <p class="package-desc" data-en="For businesses that need stronger campaigns, ad creatives, reels, videos, and pages that help collect leads." data-ar="للشركات التي تحتاج حملات أقوى، إعلانات، ريلز، فيديوهات، وصفحات تساعد على جذب العملاء.">For businesses that need stronger campaigns, ad creatives, reels, videos, and pages that help collect leads.</p>
       <div class="package-block">
-        <div class="package-block-title" data-en="Projects" data-ar="مشاريع مناسبة">Projects</div>
+        <div class="package-block-title" data-en="Projects" data-ar="يناسب هذه المشاريع">Projects</div>
         <div class="package-tags">
           <span class="package-tag" data-en="Product Launch" data-ar="إطلاق منتج">Product Launch</span>
           <span class="package-tag" data-en="Meta Ads" data-ar="إعلانات ميتا">Meta Ads</span>
@@ -2037,17 +2247,17 @@ body.cursor-hover .cursor-ring {
           <span class="package-tag" data-en="Promo Video" data-ar="فيديو ترويجي">Promo Video</span>
           <span class="package-tag" data-en="Event Campaign" data-ar="حملة فعالية">Event Campaign</span>
           <span class="package-tag" data-en="Exhibition" data-ar="معرض">Exhibition</span>
-          <span class="package-tag main" data-en="Lead Website" data-ar="موقع لجمع العملاء">Lead Website</span>
+          <span class="package-tag main" data-en="Lead Website" data-ar="موقع لجذب العملاء">Lead Website</span>
         </div>
       </div>
       <div class="package-block">
-        <div class="package-block-title" data-en="Services Included" data-ar="الخدمات المتضمنة">Services Included</div>
+        <div class="package-block-title" data-en="Services Included" data-ar="ماذا تشمل الباقة">Services Included</div>
         <ul class="package-services">
           <li data-en="Campaign idea and creative direction" data-ar="فكرة الحملة والتوجيه الإبداعي">Campaign idea and creative direction</li>
           <li data-en="Ad designs for Instagram, Facebook, and TikTok" data-ar="تصاميم إعلانية لإنستغرام، فيسبوك، وتيك توك">Ad designs for Instagram, Facebook, and TikTok</li>
           <li data-en="Short videos, reels, and motion graphics" data-ar="فيديوهات قصيرة، ريلز، وموشن جرافيك">Short videos, reels, and motion graphics</li>
-          <li data-en="Messages and visuals made for selling or lead generation" data-ar="رسائل وتصاميم موجهة للبيع أو جمع العملاء المحتملين">Messages and visuals made for selling or lead generation</li>
-          <li data-en="Landing page or website section support" data-ar="دعم صفحة هبوط أو قسم داخل الموقع">Landing page or website section support</li>
+          <li data-en="Messages and visuals made for selling or lead generation" data-ar="رسائل وتصاميم موجهة للبيع وجذب العملاء">Messages and visuals made for selling or lead generation</li>
+          <li data-en="Landing page or website section support" data-ar="دعم صفحة هبوط أو قسم مخصص داخل الموقع">Landing page or website section support</li>
           <li data-en="Different creative versions for testing" data-ar="نسخ إبداعية مختلفة للاختبار">Different creative versions for testing</li>
         </ul>
       </div>
@@ -2065,32 +2275,32 @@ body.cursor-hover .cursor-ring {
         </div>
         <div>
           <div class="package-name" data-en="Custom Project" data-ar="مشروع مخصص">Custom Project</div>
-          <h3 class="package-title" data-en="One-Time Creative Projects" data-ar="مشاريع إبداعية لمرة واحدة">One-Time Creative Projects</h3>
+          <h3 class="package-title" data-en="One-Time Creative Projects" data-ar="مشروع إبداعي لمرة واحدة">One-Time Creative Projects</h3>
         </div>
       </div>
-      <p class="package-desc" data-en="For a specific design, video, company profile, presentation, brochure, menu, or website page task." data-ar="لتصميم محدد، فيديو، بروفايل شركة، عرض تقديمي، بروشور، منيو، أو صفحة موقع.">For a specific design, video, company profile, presentation, brochure, menu, or website page task.</p>
+      <p class="package-desc" data-en="For a specific design, video, company profile, presentation, brochure, menu, or website page task." data-ar="لأي طلب محدد مثل تصميم، فيديو، بروفايل شركة، عرض تقديمي، بروشور، منيو، أو صفحة موقع.">For a specific design, video, company profile, presentation, brochure, menu, or website page task.</p>
       <div class="package-block">
-        <div class="package-block-title" data-en="Projects" data-ar="مشاريع مناسبة">Projects</div>
+        <div class="package-block-title" data-en="Projects" data-ar="يناسب هذه المشاريع">Projects</div>
         <div class="package-tags">
           <span class="package-tag" data-en="Company Profile" data-ar="بروفايل شركة">Company Profile</span>
           <span class="package-tag" data-en="Presentation" data-ar="عرض تقديمي">Presentation</span>
           <span class="package-tag" data-en="Brochure" data-ar="بروشور">Brochure</span>
           <span class="package-tag" data-en="Flyer" data-ar="فلاير">Flyer</span>
           <span class="package-tag" data-en="Menu" data-ar="منيو">Menu</span>
-          <span class="package-tag" data-en="Event Branding" data-ar="هوية فعالية">Event Branding</span>
+          <span class="package-tag" data-en="Event Branding" data-ar="مواد فعالية">Event Branding</span>
           <span class="package-tag" data-en="Promo Video" data-ar="فيديو ترويجي">Promo Video</span>
           <span class="package-tag main" data-en="Website Page" data-ar="صفحة موقع">Website Page</span>
         </div>
       </div>
       <div class="package-block">
-        <div class="package-block-title" data-en="Services Included" data-ar="الخدمات المتضمنة">Services Included</div>
+        <div class="package-block-title" data-en="Services Included" data-ar="ماذا تشمل الباقة">Services Included</div>
         <ul class="package-services">
           <li data-en="Clean design for your required material" data-ar="تصميم نظيف للمادة المطلوبة">Clean design for your required material</li>
-          <li data-en="Text arrangement and copy polishing" data-ar="ترتيب النصوص وتحسين الصياغة">Text arrangement and copy polishing</li>
-          <li data-en="Presentation or company profile structure" data-ar="هيكلة العرض أو بروفايل الشركة">Presentation or company profile structure</li>
+          <li data-en="Text arrangement and copy polishing" data-ar="ترتيب النصوص وتحسينها">Text arrangement and copy polishing</li>
+          <li data-en="Presentation or company profile structure" data-ar="تنظيم محتوى العرض أو بروفايل الشركة">Presentation or company profile structure</li>
           <li data-en="Brochure, flyer, menu, or event layout" data-ar="تصميم بروشور، فلاير، منيو، أو مواد فعالية">Brochure, flyer, menu, or event layout</li>
           <li data-en="Website page or section design" data-ar="تصميم صفحة أو قسم داخل الموقع">Website page or section design</li>
-          <li data-en="Final files ready for print, web, or social media" data-ar="ملفات نهائية جاهزة للطباعة، الويب، أو السوشيال ميديا">Final files ready for print, web, or social media</li>
+          <li data-en="Final files ready for print, web, or social media" data-ar="ملفات نهائية جاهزة للطباعة، الموقع، أو السوشيال ميديا">Final files ready for print, web, or social media</li>
         </ul>
       </div>
       <div class="package-price">
@@ -2101,7 +2311,7 @@ body.cursor-hover .cursor-ring {
     </article>
   </div>
 
-  <div class="packages-note reveal reveal-delay-4" data-en="All packages are flexible. Final pricing depends on scope, number of designs, video needs, website requirements, timeline, and revisions." data-ar="كل الباقات قابلة للتخصيص. السعر النهائي يعتمد على نطاق العمل، عدد التصاميم، احتياج الفيديو، متطلبات الموقع، الوقت، وعدد التعديلات.">
+  <div class="packages-note reveal reveal-delay-4" data-en="All packages are flexible. Final pricing depends on scope, number of designs, video needs, website requirements, timeline, and revisions." data-ar="كل الباقات قابلة للتخصيص. السعر النهائي يعتمد على حجم العمل، عدد التصاميم، احتياج الفيديو، متطلبات الموقع، مدة التنفيذ، وعدد التعديلات.">
     <strong>All packages are flexible.</strong> Final pricing depends on scope, number of designs, video needs, website requirements, timeline, and revisions.
   </div>
 </section>
@@ -2109,26 +2319,26 @@ body.cursor-hover .cursor-ring {
 <!-- PROCESS -->
 <section class="process-section" id="process">
   <div class="section-label reveal" data-en="How We Work" data-ar="طريقة عملنا">How We Work</div>
-  <h2 class="section-title reveal reveal-delay-1"><span data-en="Simple Process." data-ar="عملية بسيطة.">Simple Process.</span><br><span data-en="Serious Results." data-ar="نتائج جدية.">Serious Results.</span></h2>
+  <h2 class="section-title reveal reveal-delay-1"><span data-en="Simple Process." data-ar="خطوات واضحة.">Simple Process.</span><br><span data-en="Serious Results." data-ar="ونتيجة قابلة للاستخدام.">Serious Results.</span></h2>
   <div class="process-steps">
     <div class="process-step reveal">
       <div class="step-num">01</div>
-      <div class="step-title" data-en="Brief" data-ar="الإحاطة">Brief</div>
+      <div class="step-title" data-en="Brief" data-ar="فهم الطلب">Brief</div>
       <div class="step-desc" data-en="You share your vision, goals, and brand guidelines. We listen." data-ar="تشاركنا رؤيتك وأهدافك وهوية علامتك. نحن نُنصت.">You share your vision, goals, and brand guidelines. We listen.</div>
     </div>
     <div class="process-step reveal reveal-delay-1">
       <div class="step-num">02</div>
-      <div class="step-title" data-en="Create" data-ar="الإنشاء">Create</div>
+      <div class="step-title" data-en="Create" data-ar="التنفيذ">Create</div>
       <div class="step-desc" data-en="We build the first version fast — usually within 24 hours." data-ar="نبني النسخة الأولى بسرعة — عادةً خلال 24 ساعة.">We build the first version fast — usually within 24 hours.</div>
     </div>
     <div class="process-step reveal reveal-delay-2">
       <div class="step-num">03</div>
-      <div class="step-title" data-en="Refine" data-ar="التحسين">Refine</div>
+      <div class="step-title" data-en="Refine" data-ar="المراجعة">Refine</div>
       <div class="step-desc" data-en="We perfect every detail together until it's exactly right." data-ar="نُتقن كل تفصيلة معاً حتى تصل للكمال المطلوب.">We perfect every detail together until it's exactly right.</div>
     </div>
     <div class="process-step reveal reveal-delay-3">
       <div class="step-num">04</div>
-      <div class="step-title" data-en="Deliver" data-ar="التسليم">Deliver</div>
+      <div class="step-title" data-en="Deliver" data-ar="التسليم النهائي">Deliver</div>
       <div class="step-desc" data-en="You receive production-ready files, on time, every time." data-ar="تستلم ملفات جاهزة للإنتاج، في الوقت المحدد، في كل مرة.">You receive production-ready files, on time, every time.</div>
     </div>
   </div>
@@ -2137,21 +2347,21 @@ body.cursor-hover .cursor-ring {
 <!-- WHY -->
 <section class="why-section">
   <div class="section-label reveal" data-en="Why H.M Media" data-ar="لماذا H.M Media">Why H.M Media</div>
-  <h2 class="section-title reveal reveal-delay-1"><span data-en="Built Different." data-ar="مختلفون بالبناء.">Built Different.</span><br><span data-en="By Design." data-ar="بالتصميم.">By Design.</span></h2>
+  <h2 class="section-title reveal reveal-delay-1"><span data-en="Built Different." data-ar="طريقة عمل مختلفة.">Built Different.</span><br><span data-en="By Design." data-ar="بنتائج أوضح.">By Design.</span></h2>
   <div class="why-grid">
     <div class="why-card reveal">
       <div class="why-icon"><svg class="why-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2L4 14h7l-1 8 10-13h-7l1-7z"/></svg></div>
-      <div class="why-title" data-en="Speed Without Compromise" data-ar="السرعة بلا تنازلات">Speed Without Compromise</div>
+      <div class="why-title" data-en="Speed Without Compromise" data-ar="سرعة بدون خسارة الجودة">Speed Without Compromise</div>
       <div class="why-desc" data-en="Rapid delivery without cutting corners. First drafts in 24–72 hours. Final files within one week." data-ar="تسليم سريع دون التنازل عن الجودة. المسودة الأولى خلال 24–72 ساعة. الملفات النهائية خلال أسبوع.">Rapid delivery without cutting corners. First drafts in 24–72 hours. Final files within one week.</div>
     </div>
     <div class="why-card reveal reveal-delay-2">
       <div class="why-icon"><svg class="why-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
-      <div class="why-title" data-en="Senior-Level Output" data-ar="مخرجات بمستوى الكبار">Senior-Level Output</div>
+      <div class="why-title" data-en="Senior-Level Output" data-ar="نتيجة بمستوى احترافي">Senior-Level Output</div>
       <div class="why-desc" data-en="Direct, strategic creative work — no junior handoffs, no diluted briefs, no wasted revision rounds." data-ar="عمل إبداعي استراتيجي مباشر — لا تسليم للمبتدئين، لا إحاطات مخففة، لا جولات تعديل مهدرة.">Direct, strategic creative work — no junior handoffs, no diluted briefs, no wasted revision rounds.</div>
     </div>
     <div class="why-card reveal reveal-delay-3">
       <div class="why-icon"><svg class="why-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 16"/><path d="M4 20v-4h4"/></svg></div>
-      <div class="why-title" data-en="Scalable & Flexible" data-ar="قابل للتوسع والمرونة">Scalable & Flexible</div>
+      <div class="why-title" data-en="Scalable & Flexible" data-ar="مرونة حسب احتياجك">Scalable & Flexible</div>
       <div class="why-desc" data-en="From a single campaign to a full monthly content system — we scale to exactly what your brand needs." data-ar="من حملة واحدة إلى منظومة محتوى شهرية كاملة — نتكيّف مع ما تحتاجه علامتك بالضبط.">From a single campaign to a full monthly content system — we scale to exactly what your brand needs.</div>
     </div>
   </div>
@@ -2160,27 +2370,66 @@ body.cursor-hover .cursor-ring {
 <!-- FAQ -->
 <section class="faq-section" id="faq">
   <div class="section-label reveal" style="text-align:center" data-en="FAQ" data-ar="الأسئلة الشائعة">FAQ</div>
-  <h2 class="section-title reveal reveal-delay-1" style="text-align:center" data-en="Common Questions." data-ar="أسئلة شائعة.">Common Questions.</h2>
+  <h2 class="section-title reveal reveal-delay-1" style="text-align:center" data-en="Common Questions." data-ar="أسئلة يهمك تعرف إجاباتها.">Common Questions.</h2>
   <div class="faq-inner">
     <div class="faq-item reveal">
-      <button class="faq-q"><span data-en="How do you deliver projects so quickly?" data-ar="كيف تسلّمون المشاريع بهذه السرعة؟">How do you deliver projects so quickly?</span> <span class="faq-icon">+</span></button>
-      <div class="faq-a" data-en="Our production pipeline is built on the latest creative technology, allowing us to move fast without sacrificing quality. Most clients receive first drafts within 24–72 hours." data-ar="منظومة إنتاجنا مبنية على أحدث التقنيات الإبداعية، مما يتيح لنا العمل بسرعة دون التضحية بالجودة. معظم العملاء يستلمون مسوداتهم الأولى خلال 24–72 ساعة.">Our production pipeline is built on the latest creative technology, allowing us to move fast without sacrificing quality. Most clients receive first drafts within 24–72 hours.</div>
+      <button class="faq-q"><span data-en="How fast can you deliver a project?" data-ar="كم تحتاجون وقت لتسليم المشروع؟">How fast can you deliver a project?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="It depends on the scope. Simple designs can usually start within 24–72 hours, while larger campaigns, videos, presentations, or website pages need a clear timeline after the brief." data-ar="يعتمد الوقت على حجم المطلوب. التصاميم البسيطة يمكن أن تبدأ غالباً خلال 24–72 ساعة، أما الحملات، الفيديوهات، العروض التقديمية أو صفحات الموقع فتحتاج جدولاً أوضح بعد استلام التفاصيل.">It depends on the scope. Simple designs can usually start within 24–72 hours, while larger campaigns, videos, presentations, or website pages need a clear timeline after the brief.</div>
     </div>
+
     <div class="faq-item reveal">
-      <button class="faq-q"><span data-en="Is the content original and tailored to my brand?" data-ar="هل المحتوى أصلي ومخصص لعلامتي؟">Is the content original and tailored to my brand?</span> <span class="faq-icon">+</span></button>
-      <div class="faq-a" data-en="Absolutely. Every deliverable is built around your brand guidelines, messaging, and objectives — nothing generic, nothing templated." data-ar="بالتأكيد. كل مخرج مبني حول هوية علامتك ورسائلها وأهدافها — لا شيء عاماً، لا شيء مقولباً.">Absolutely. Every deliverable is built around your brand guidelines, messaging, and objectives — nothing generic, nothing templated.</div>
+      <button class="faq-q"><span data-en="What do you need from me before starting?" data-ar="ما المعلومات المطلوبة مني قبل البدء؟">What do you need from me before starting?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="We need your business goal, brand logo or guidelines if available, target audience, preferred platforms, text or offer details, references, and deadline. The clearer the brief, the faster and stronger the output." data-ar="نحتاج معرفة هدف المشروع، الشعار أو الهوية إن وجدت، الجمهور المستهدف، المنصات المطلوبة، النصوص أو تفاصيل العرض، المراجع البصرية، والموعد المطلوب. كلما كان الطلب أوضح، كانت النتيجة أسرع وأقوى.">We need your business goal, brand logo or guidelines if available, target audience, preferred platforms, text or offer details, references, and deadline. The clearer the brief, the faster and stronger the output.</div>
     </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q"><span data-en="Is the content original and tailored to my brand?" data-ar="هل يكون المحتوى مخصصاً لعلامتي؟">Is the content original and tailored to my brand?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="Yes. Every design, caption, video, or page direction is built around your brand, message, audience, and objective. We do not deliver generic template work." data-ar="نعم. كل تصميم أو نص أو فيديو أو توجّه لصفحة موقع يتم بناؤه حسب علامتك، رسالتك، جمهورك، وهدفك. لا نقدم عملاً عاماً أو قوالب جاهزة بلا تخصيص.">Yes. Every design, caption, video, or page direction is built around your brand, message, audience, and objective. We do not deliver generic template work.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q"><span data-en="Do you create social media content every month?" data-ar="هل تقدمون محتوى شهري للسوشيال ميديا؟">Do you create social media content every month?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="Yes. We offer monthly packages for posts, stories, captions, offers, campaign visuals, and content direction. The volume depends on the package and your business needs." data-ar="نعم. نقدم باقات شهرية تشمل بوستات، ستوريات، كابشنات، تصاميم عروض، أفكار حملات، وتوجيه للمحتوى. حجم العمل يختلف حسب الباقة واحتياج نشاطك التجاري.">Yes. We offer monthly packages for posts, stories, captions, offers, campaign visuals, and content direction. The volume depends on the package and your business needs.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q"><span data-en="Can you help with ads creatives?" data-ar="هل تساعدون في تصاميم الإعلانات الممولة؟">Can you help with ads creatives?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="Yes. We create ad visuals, short videos, headlines, and different creative directions for Meta, TikTok, and other platforms. The goal is to make the ad clear, attractive, and suitable for testing." data-ar="نعم. نصمم إعلانات، فيديوهات قصيرة، عناوين، وأكثر من اتجاه بصري لمنصات مثل Meta وTikTok وغيرها. الهدف أن يكون الإعلان واضحاً، جذاباً، ومناسباً للتجربة والتحسين.">Yes. We create ad visuals, short videos, headlines, and different creative directions for Meta, TikTok, and other platforms. The goal is to make the ad clear, attractive, and suitable for testing.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q"><span data-en="Do you design websites or landing pages?" data-ar="هل تصممون مواقع أو صفحات هبوط؟">Do you design websites or landing pages?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="Yes. We can help with website sections, landing pages, portfolio pages, and lead-focused pages. Full website development depends on the required structure, features, and content." data-ar="نعم. يمكننا العمل على أقسام موقع، صفحات هبوط، صفحات بورتفوليو، أو صفحات مخصصة لجمع الطلبات والعملاء المحتملين. أما تنفيذ موقع كامل فيعتمد على عدد الصفحات والمزايا والمحتوى المطلوب.">Yes. We can help with website sections, landing pages, portfolio pages, and lead-focused pages. Full website development depends on the required structure, features, and content.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q"><span data-en="Can you create videos and reels?" data-ar="هل تنفذون فيديوهات وريلز؟">Can you create videos and reels?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="Yes. We create short videos, reels, motion graphics, promotional edits, product videos, and campaign videos. The style depends on your goal, platform, available assets, and production level." data-ar="نعم. ننفذ فيديوهات قصيرة، ريلز، موشن جرافيك، مونتاج إعلاني، فيديوهات منتجات، وفيديوهات حملات. أسلوب التنفيذ يعتمد على الهدف، المنصة، المواد المتوفرة، ومستوى الإنتاج المطلوب.">Yes. We create short videos, reels, motion graphics, promotional edits, product videos, and campaign videos. The style depends on your goal, platform, available assets, and production level.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q"><span data-en="Do you use AI in the creative process?" data-ar="هل تستخدمون الذكاء الاصطناعي في العمل؟">Do you use AI in the creative process?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="Yes, when it adds value. We use AI, automation, and modern creative systems to speed up production, explore ideas, generate visual directions, and organize content workflows — while keeping the final output controlled and brand-focused." data-ar="نعم، عندما يكون مفيداً للمشروع. نستخدم الذكاء الاصطناعي، الأتمتة، وأنظمة العمل الحديثة لتسريع الإنتاج، تطوير الأفكار، بناء اتجاهات بصرية، وتنظيم سير العمل — مع الحفاظ على نتيجة نهائية مضبوطة ومناسبة للعلامة.">Yes, when it adds value. We use AI, automation, and modern creative systems to speed up production, explore ideas, generate visual directions, and organize content workflows — while keeping the final output controlled and brand-focused.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q"><span data-en="How many revisions are included?" data-ar="كم تعديل يشمل المشروع؟">How many revisions are included?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="Revision rounds depend on the package or project scope. Before starting, we agree on the deliverables, number of revisions, and timeline so everything is clear from the beginning." data-ar="عدد التعديلات يعتمد على نوع الباقة أو حجم المشروع. قبل البدء نحدد المخرجات، عدد جولات التعديل، والجدول الزمني حتى تكون الأمور واضحة من البداية.">Revision rounds depend on the package or project scope. Before starting, we agree on the deliverables, number of revisions, and timeline so everything is clear from the beginning.</div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q"><span data-en="Can I request a one-time project instead of a monthly package?" data-ar="هل يمكن طلب مشروع واحد بدون باقة شهرية؟">Can I request a one-time project instead of a monthly package?</span> <span class="faq-icon">+</span></button>
+      <div class="faq-a" data-en="Yes. You can request one-time work such as a company profile, presentation, brochure, flyer, menu, event branding, promotional video, or website page." data-ar="نعم. يمكنك طلب مشروع واحد مثل بروفايل شركة، عرض تقديمي، بروشور، فلاير، منيو، تصاميم فعالية، فيديو ترويجي، أو صفحة موقع.">Yes. You can request one-time work such as a company profile, presentation, brochure, flyer, menu, event branding, promotional video, or website page.</div>
+    </div>
+
     <div class="faq-item reveal">
       <button class="faq-q"><span data-en="What makes H.M Media different from a traditional agency?" data-ar="ما الذي يميز H.M Media عن الوكالات التقليدية؟">What makes H.M Media different from a traditional agency?</span> <span class="faq-icon">+</span></button>
-      <div class="faq-a" data-en="We cut through the layers. No lengthy briefing cycles, no bloated teams, no unnecessary back-and-forth. You get direct, senior-level creative output with faster timelines and sharper results." data-ar="نتجاوز الطبقات المعقدة. لا دورات إحاطة مطوّلة، لا فرق منتفخة، لا ذهاب وإياب غير ضروري. تحصل على مخرجات إبداعية مباشرة بأسرع الجداول وأحدّ النتائج.">We cut through the layers. No lengthy briefing cycles, no bloated teams, no unnecessary back-and-forth. You get direct, senior-level creative output with faster timelines and sharper results.</div>
+      <div class="faq-a" data-en="You get direct creative work without unnecessary layers. The process is faster, more practical, and focused on output that can be used in real marketing, not just nice-looking visuals." data-ar="تحصل على عمل إبداعي مباشر بدون طبقات وإجراءات غير ضرورية. أسلوبنا أسرع وأكثر عملية، ويركز على مخرجات يمكن استخدامها فعلياً في التسويق، وليس فقط تصاميم جميلة الشكل.">You get direct creative work without unnecessary layers. The process is faster, more practical, and focused on output that can be used in real marketing, not just nice-looking visuals.</div>
     </div>
-    <div class="faq-item reveal">
-      <button class="faq-q"><span data-en="Do you offer ongoing monthly packages?" data-ar="هل تقدمون باقات شهرية مستمرة؟">Do you offer ongoing monthly packages?</span> <span class="faq-icon">+</span></button>
-      <div class="faq-a" data-en="Yes. Monthly content packages, automation setups, and brand management retainers are available. Contact us to discuss what fits your needs." data-ar="نعم. باقات المحتوى الشهرية، وإعدادات الأتمتة، وعقود إدارة العلامة التجارية متاحة. تواصل معنا لنناقش ما يناسب احتياجاتك.">Yes. Monthly content packages, automation setups, and brand management retainers are available. Contact us to discuss what fits your needs.</div>
-    </div>
+
     <div class="faq-item reveal">
       <button class="faq-q"><span data-en="Do you work with clients outside the UAE?" data-ar="هل تعملون مع عملاء خارج الإمارات؟">Do you work with clients outside the UAE?</span> <span class="faq-icon">+</span></button>
-      <div class="faq-a" data-en="Yes. We serve clients across the GCC and work remotely with brands regionally and internationally." data-ar="نعم. نخدم عملاء في جميع أنحاء الخليج ونعمل عن بُعد مع علامات تجارية إقليمياً ودولياً.">Yes. We serve clients across the GCC and work remotely with brands regionally and internationally.</div>
+      <div class="faq-a" data-en="Yes. We work with clients across the UAE, GCC, and internationally. Most projects can be handled remotely through clear briefs, shared files, and regular communication." data-ar="نعم. نعمل مع عملاء داخل الإمارات، في الخليج، وخارج المنطقة. أغلب المشاريع يمكن تنفيذها عن بُعد من خلال طلب واضح، مشاركة الملفات، وتواصل منتظم.">Yes. We work with clients across the UAE, GCC, and internationally. Most projects can be handled remotely through clear briefs, shared files, and regular communication.</div>
     </div>
   </div>
 </section>
@@ -2200,33 +2449,33 @@ body.cursor-hover .cursor-ring {
       </div>
       <div class="form-group">
         <select>
-          <option value="" disabled selected>Service Needed</option>
-          <option>Video Production</option>
-          <option>Visual Content & Imagery</option>
-          <option>Motion Design & Animation</option>
-          <option>Content & Marketing Systems</option>
-          <option>Presentations & Pitch Decks</option>
-          <option>Social Media Production</option>
-          <option>Launch Package</option>
-          <option>Growth Package</option>
-          <option>Scale Package</option>
-          <option>Custom Project</option>
-          <option>Other</option>
+          <option value="" disabled selected data-en="Service Needed" data-ar="الخدمة المطلوبة" data-en="Service Needed" data-ar="الخدمة المطلوبة">Service Needed</option>
+          <option data-en="Video Production" data-ar="إنتاج الفيديو">Video Production</option>
+          <option data-en="Visual Content & Imagery" data-ar="المحتوى المرئي والصور">Visual Content & Imagery</option>
+          <option data-en="Motion Design & Animation" data-ar="موشن جرافيك وأنيميشن">Motion Design & Animation</option>
+          <option data-en="Content & Marketing Systems" data-ar="أنظمة المحتوى والتسويق">Content & Marketing Systems</option>
+          <option data-en="Presentations & Pitch Decks" data-ar="العروض التقديمية">Presentations & Pitch Decks</option>
+          <option data-en="Social Media Production" data-ar="إنتاج السوشيال ميديا">Social Media Production</option>
+          <option data-en="Launch Package" data-ar="باقة الانطلاق">Launch Package</option>
+          <option data-en="Growth Package" data-ar="باقة النمو">Growth Package</option>
+          <option data-en="Scale Package" data-ar="باقة التوسع">Scale Package</option>
+          <option data-en="Custom Project" data-ar="مشروع مخصص">Custom Project</option>
+          <option data-en="Other" data-ar="أخرى">Other</option>
         </select>
       </div>
       <div class="form-group">
         <textarea placeholder="Tell us about your project *" required></textarea>
       </div>
-      <button type="submit" class="btn-submit">Send Message</button>
+      <button type="submit" class="btn-submit" data-en="Send Message" data-ar="إرسال الرسالة">Send Message</button>
     </form>
     <div class="contact-alt reveal">
       <a href="https://wa.me/971542882950" class="contact-link" target="_blank">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        WhatsApp
+        <span data-en="WhatsApp" data-ar="واتساب">WhatsApp</span>
       </a>
       <a href="mailto:hussein.mlhem@gmail.com" class="contact-link">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Email Us
+        <span data-en="Email Us" data-ar="راسلنا">Email Us</span>
       </a>
     </div>
   </div>
@@ -2235,18 +2484,32 @@ body.cursor-hover .cursor-ring {
 <!-- FOOTER -->
 <footer>
   <div>
-    <div class="logo" style="margin-bottom:8px">H<span style="color:var(--green)">.</span>M <span style="color:var(--muted);font-weight:400">Media</span></div>
-    <div class="footer-copy">© 2025 H.M Media. All Rights Reserved. Dubai, UAE</div>
+    <div class="logo logo-footer" aria-label="H.M Media" style="margin-bottom:8px"><svg class="brand-logo-mark" viewBox="0 0 209.04 217.29" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="hmLogoGradientFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3DBE72"/>
+      <stop offset="45%" stop-color="#e8f0eb"/>
+      <stop offset="75%" stop-color="#3DBE72"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="-0.5 0;0.5 0;-0.5 0" dur="6s" repeatCount="indefinite"/>
+    </linearGradient>
+  </defs>
+  <g class="hm-logo-shape" fill="url(#hmLogoGradientFooter)" stroke="url(#hmLogoGradientFooter)" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M177.29,135.54c0,5.47-4.18,9.32-9.18,9.33-4.74,0-9.13-3.95-9.09-9.31l.1-15.53-18.23,1.18.12,14.46c.04,5.29-4.09,9.06-8.84,9.17-4.99.11-9.24-3.7-9.26-9.29l-.04-12.63-18.14,2.11.07,46.64c0,5.34-3.78,9.22-8.82,9.45-5.04.23-9.31-3.92-9.31-9.47v-43.74s-18.07,3.64-18.07,3.64l-.02,77.06c0,5.38-4.98,8.84-9.38,8.68-5.18-.19-8.79-4.25-8.79-9.68v-71.53c-14.69,4.64-28.57,8.92-41.24,17.02-1.67,1.07-4.24,2.17-5.79,1.79-1.43-.35-3.5-3.13-3.38-4.64.54-7.02,36.7-20.28,50.43-23.42V8.65c0-5.06,4.55-8.43,8.79-8.64s9.37,3.37,9.37,8.73v113.52s18.07-3.55,18.07-3.55l.07-74.01c0-5.35,5.15-8.68,9.34-8.46,5.02.26,8.71,3.92,8.71,9.38v70.5s18.12-2.4,18.12-2.4l.02-32.02c0-5.25,3.84-8.81,8.22-9.17,5.56-.46,8.99,3.17,10.01,8.71,1.96,10.67,8.21,22.59,17.88,27.45l.07-27.76c.01-4.6,4.27-8.09,8.01-8.41,4.4-.38,8.71,1.99,9.7,6.77,1.66,8.02,4.66,15.81,9.9,22.11,9.17,11.02,20.39,6.3,22.11,10.93.59,1.6-.17,4.9-1.36,6.37l-30.16.62v16.22ZM147.03,111.86l-6.04-7.01.18,7.34,5.87-.33Z"/>
+    <circle cx="22.82" cy="108.67" r="8.96"/>
+  </g>
+</svg></div>
+    <div class="footer-copy" data-en="© 2025 H.M Media. All Rights Reserved. Dubai, UAE" data-ar="© 2025 H.M Media. جميع الحقوق محفوظة. دبي، الإمارات">© 2025 H.M Media. All Rights Reserved. Dubai, UAE</div>
   </div>
   <div class="footer-links">
-    <a href="#services">Services</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#process">Process</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-    <a href="https://www.instagram.com/h.m.gcc/" target="_blank">Instagram</a>
-    <a href="https://www.facebook.com/h.m.mediaco" target="_blank">Facebook</a>
+    <a href="#services" data-en="Services" data-ar="الخدمات">Services</a>
+    <a href="#portfolio" data-en="Portfolio" data-ar="الأعمال">Portfolio</a>
+    <a href="#gallery" data-en="Gallery" data-ar="المعرض">Gallery</a>
+    <a href="#process" data-en="Process" data-ar="طريقة العمل">Process</a>
+    <a href="#about" data-en="About" data-ar="من نحن">About</a>
+    <a href="#contact" data-en="Contact" data-ar="تواصل معنا">Contact</a>
+    <a href="https://www.instagram.com/h.m.gcc/" target="_blank" data-en="Instagram" data-ar="إنستغرام">Instagram</a>
+    <a href="https://www.facebook.com/h.m.mediaco" target="_blank" data-en="Facebook" data-ar="فيسبوك">Facebook</a>
   </div>
 </footer>
 
@@ -2621,7 +2884,7 @@ function renderPortfolioVideos() {
   if (portfolioSection) portfolioSection.classList.toggle('expanded', portfolioVisibleCount > portfolioStep);
 
   if (!visible.length) {
-    grid.innerHTML = '<p class="portfolio-empty">No portfolio videos found.</p>';
+    grid.innerHTML = `<p class="portfolio-empty">${currentLang === 'ar' ? 'لم يتم العثور على فيديوهات.' : 'No portfolio videos found.'}</p>`;
     if (btn) btn.style.display = 'none';
     return;
   }
@@ -2644,10 +2907,10 @@ function renderPortfolioVideos() {
       </div>
       <div class="portfolio-card-meta">
         <div>
-          <span>Project ${String(index + 1).padStart(2, '0')}</span>
-          <strong>Watch the work</strong>
+          <span>${currentLang === 'ar' ? 'عمل' : 'Project'} ${String(index + 1).padStart(2, '0')}</span>
+          <strong>${currentLang === 'ar' ? 'شاهد العمل' : 'Watch the work'}</strong>
         </div>
-        <a href="${url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">YouTube</a>
+        <a href="${url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${currentLang === 'ar' ? 'مشاهدة' : 'YouTube'}</a>
       </div>
     `;
 
@@ -2695,7 +2958,7 @@ async function loadPortfolioVideos() {
       };
     }
   } catch (err) {
-    grid.innerHTML = '<p class="portfolio-error">Portfolio videos could not be loaded. Check portfolio-videos.txt location.</p>';
+    grid.innerHTML = `<p class="portfolio-error">${currentLang === 'ar' ? 'تعذر تحميل فيديوهات المعرض. تحقق من ملف portfolio-videos.txt.' : 'Portfolio videos could not be loaded. Check portfolio-videos.txt location.'}</p>`;
     if (btn) btn.style.display = 'none';
     console.error(err);
   }
@@ -2734,7 +2997,7 @@ function renderDesignGallery() {
   if (gallerySection) gallerySection.classList.toggle('expanded', galleryVisibleCount > galleryStep);
 
   if (!visible.length) {
-    grid.innerHTML = '<p class="gallery-empty">No images found in the designs folder.</p>';
+    grid.innerHTML = `<p class="gallery-empty">${currentLang === 'ar' ? 'لم يتم العثور على صور داخل مجلد التصاميم.' : 'No images found in the designs folder.'}</p>`;
     if (btn) btn.style.display = 'none';
     return;
   }
@@ -2750,7 +3013,7 @@ function renderDesignGallery() {
 
     const meta = document.createElement('div');
     meta.className = 'gallery-meta';
-    meta.innerHTML = `<span>Design ${String(index + 1).padStart(2, '0')}</span>`;
+    meta.innerHTML = `<span>${currentLang === 'ar' ? 'تصميم' : 'Design'} ${String(index + 1).padStart(2, '0')}</span>`;
 
     article.appendChild(img);
     article.appendChild(meta);
@@ -2841,7 +3104,10 @@ let currentLang = 'en';
 function setLang(lang) {
   currentLang = lang;
   document.body.classList.toggle('rtl', lang === 'ar');
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('lang', lang);
   document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
   // Toggle active button
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
@@ -2896,6 +3162,10 @@ function setLang(lang) {
   const copy = document.querySelector('.footer-copy');
   if (copy) copy.textContent = lang === 'ar' ? '© 2025 H.M Media. جميع الحقوق محفوظة. دبي، الإمارات' : '© 2025 H.M Media. All Rights Reserved. Dubai, UAE';
 
+  // Re-render dynamic portfolio/gallery labels if already loaded
+  if (typeof renderPortfolioVideos === 'function' && Array.isArray(portfolioUrls) && portfolioUrls.length) renderPortfolioVideos();
+  if (typeof renderDesignGallery === 'function' && Array.isArray(galleryUrls) && galleryUrls.length) renderDesignGallery();
+
   // Update FAQ answers (they use data-en/data-ar on .faq-a)
   document.querySelectorAll('.faq-a').forEach(el => {
     const txt = el.getAttribute('data-' + lang);
@@ -2906,10 +3176,7 @@ function setLang(lang) {
   const scrollSpan = document.querySelector('.scroll-indicator span');
   if (scrollSpan) scrollSpan.textContent = lang === 'ar' ? 'مرر' : 'Scroll';
 
-  // Update WhatsApp & email links text
-  const contactLinks = document.querySelectorAll('.contact-link');
-  if (contactLinks[0]) contactLinks[0].querySelector('svg').nextSibling.textContent = lang === 'ar' ? ' واتساب' : ' WhatsApp';
-  if (contactLinks[1]) contactLinks[1].querySelector('svg').nextSibling.textContent = lang === 'ar' ? ' راسلنا' : ' Email Us';
+  // Contact link labels are handled by data-en/data-ar spans
 }
 
 
@@ -2919,10 +3186,10 @@ loadDesignGallery();
 function handleSubmit(e) {
   e.preventDefault();
   const btn = e.target.querySelector('.btn-submit');
-  btn.textContent = 'Message Sent ✓';
+  btn.textContent = currentLang === 'ar' ? 'تم الإرسال ✓' : 'Message Sent ✓';
   btn.style.background = '#2fa85e';
   setTimeout(() => {
-    btn.textContent = 'Send Message';
+    btn.textContent = currentLang === 'ar' ? 'إرسال الرسالة' : 'Send Message';
     btn.style.background = '';
     e.target.reset();
   }, 3000);
