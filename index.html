@@ -1878,6 +1878,239 @@ body.rtl .package-services li::before {
   .logo-footer .brand-logo-mark { width: 42px; }
 }
 
+
+
+/* HM SERVICES MENU — updated from sales PDF */
+.hm-services-section {
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+.hm-services-section::before,
+.hm-usecases-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 82% 4%, rgba(61,190,114,0.10), transparent 34%),
+    linear-gradient(rgba(61,190,114,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,190,114,0.025) 1px, transparent 1px);
+  background-size: auto, 56px 56px, 56px 56px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.hm-services-header,
+.hm-usecases-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 42px;
+  margin-bottom: 54px;
+}
+.hm-section-intro {
+  max-width: 430px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+  font-weight: 300;
+}
+.hm-services-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.hm-service-card {
+  position: relative;
+  min-height: 260px;
+  padding: 26px 22px 22px;
+  background: linear-gradient(180deg, rgba(61,190,114,0.055), rgba(255,255,255,0.018));
+  border: 1px solid rgba(61,190,114,0.16);
+  overflow: hidden;
+  transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+}
+.hm-service-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(61,190,114,0.45);
+  background: linear-gradient(180deg, rgba(61,190,114,0.09), rgba(255,255,255,0.024));
+}
+.hm-service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--green), transparent 72%);
+}
+.hm-service-code {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hm-service-title {
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.hm-service-desc {
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.65;
+  font-weight: 300;
+  margin-bottom: 14px;
+}
+.hm-service-examples {
+  padding-top: 12px;
+  border-top: 1px solid rgba(61,190,114,0.12);
+  color: #c9d5ce;
+  font-size: 11.5px;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+.hm-service-examples strong { color: var(--green); }
+.hm-service-price {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 20px;
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+.hm-service-price span {
+  display: block;
+  color: var(--green);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.hm-usecases-section {
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+.hm-usecases-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.hm-usecase-card {
+  min-height: 252px;
+  padding: 26px 24px;
+  background: rgba(0,0,0,0.26);
+  border: 1px solid rgba(61,190,114,0.14);
+  transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+}
+.hm-usecase-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(61,190,114,0.38);
+  background: rgba(0,0,0,0.38);
+}
+.hm-usecase-type {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--green);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hm-usecase-card ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #c9d5ce;
+  font-size: 14px;
+  line-height: 1.68;
+  font-weight: 300;
+}
+.hm-usecase-card li { margin-bottom: 10px; }
+body.rtl .hm-services-header,
+body.rtl .hm-usecases-header { direction: rtl; }
+body.rtl .hm-section-intro { text-align: right; }
+body.rtl .hm-service-card,
+body.rtl .hm-usecase-card { direction: rtl; text-align: right; }
+body.rtl .hm-service-price { left: 22px; right: 22px; }
+body.rtl .hm-usecase-card ul { padding-left: 0; padding-right: 18px; }
+@media (max-width: 1180px) {
+  .hm-services-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .hm-services-grid,
+  .hm-usecases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hm-services-header,
+  .hm-usecases-header { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 640px) {
+  .hm-services-grid,
+  .hm-usecases-grid { grid-template-columns: 1fr; }
+  .hm-service-card { min-height: 235px; }
+}
+
+
+/* SCRUBBER SPLASH / PROGRESS LOADER */
+.scrub-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(61,190,114,0.14), transparent 34%),
+    #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.55s ease, visibility 0.55s ease;
+}
+.scrub-splash.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.scrub-splash-box {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text);
+}
+.scrub-splash-logo {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.scrub-splash-bar {
+  width: min(280px, 68vw);
+  height: 2px;
+  background: rgba(61,190,114,0.14);
+  overflow: hidden;
+  border-radius: 999px;
+  margin: 0 auto 14px;
+}
+.scrub-splash-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--green);
+  box-shadow: 0 0 18px rgba(61,190,114,0.75);
+  transition: width 0.25s ease;
+}
+.scrub-splash-percent {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
 </style>
 </head>
 <body>
@@ -1893,6 +2126,15 @@ body.rtl .package-services li::before {
 
 <!-- PROGRESS BAR -->
 <div id="progress-bar"></div>
+
+<!-- SCRUBBER SPLASH LOADER -->
+<div id="scrub-splash" class="scrub-splash" aria-hidden="true">
+  <div class="scrub-splash-box">
+    <div class="scrub-splash-logo">H.M Media</div>
+    <div class="scrub-splash-bar"><div id="scrub-splash-fill" class="scrub-splash-fill"></div></div>
+    <div id="scrub-splash-percent" class="scrub-splash-percent">Loading 0%</div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -1913,7 +2155,7 @@ body.rtl .package-services li::before {
 </svg></a>
   <ul class="nav-links">
     <li><a href="#services" data-en="Services" data-ar="الخدمات">Services</a></li>
-    <li><a href="#packages" data-en="Packages" data-ar="الباقات">Packages</a></li>
+    <li><a href="#use-cases" data-en="Use Cases" data-ar="حالات الاستخدام">Use Cases</a></li>
     <li><a href="#portfolio" data-en="Portfolio" data-ar="أعمالنا">Portfolio</a></li>
     <li><a href="#gallery" data-en="Gallery" data-ar="المعرض">Gallery</a></li>
     <li><a href="#process" data-en="Process" data-ar="طريقة العمل">Process</a></li>
@@ -1986,22 +2228,145 @@ I want to discuss my brand needs and understand which service or package fits me
     </div>
   </div>
 </div>
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat-item reveal">
-    <div class="stat-num">72h</div>
-    <div class="stat-label" data-en="Average Turnaround" data-ar="متوسط وقت التسليم">Average Turnaround</div>
-  </div>
-  <div class="stat-item reveal reveal-delay-2">
-    <div class="stat-num">UAE<span style="color:var(--muted);font-size:32px"> & </span>GCC</div>
-    <div class="stat-label" data-en="Markets We Serve" data-ar="الأسواق التي نخدمها">Markets We Serve</div>
-  </div>
-  <div class="stat-item reveal reveal-delay-3">
-    <div class="stat-num">24/7</div>
-    <div class="stat-label" data-en="Production Capability" data-ar="قدرة إنتاج مستمرة">Production Capability</div>
-  </div>
-</div>
 
+
+<!-- SERVICES MENU -->
+<section class="hm-services-section" id="services">
+  <div class="hm-services-header">
+    <div>
+      <div class="section-label reveal" data-en="Services" data-ar="الخدمات">Services</div>
+      <h2 class="section-title reveal reveal-delay-1"><span data-en="What We Do" data-ar="ماذا نقدم؟">What We Do</span><br><span data-en="For Your Business" data-ar="لعملك التجاري">For Your Business</span></h2>
+    </div>
+    <p class="hm-section-intro reveal reveal-delay-2" data-en="Designs, videos, websites, social media, and ads — all in one practical creative service." data-ar="تصاميم، فيديوهات، مواقع، سوشيال ميديا، وإعلانات — ضمن خدمة إبداعية عملية واحدة.">Designs, videos, websites, social media, and ads — all in one practical creative service.</p>
+  </div>
+
+  <div class="hm-services-grid">
+    <article class="hm-service-card reveal">
+      <div class="hm-service-code">S01</div>
+      <h3 class="hm-service-title" data-en="Social Media Designs" data-ar="تصاميم السوشيال ميديا">Social Media Designs</h3>
+      <p class="hm-service-desc" data-en="Professional designs ready to post on Instagram, Facebook, LinkedIn, stories, and ads." data-ar="تصاميم احترافية جاهزة للنشر على إنستغرام، فيسبوك، لينكدإن، الستوري، والإعلانات.">Professional designs ready to post on Instagram, Facebook, LinkedIn, stories, and ads.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Offer post, product post, story design, carousel post." data-ar="منشور عرض، منشور منتج، تصميم ستوري، بوست كاروسيل.">Offer post, product post, story design, carousel post.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 199</div>
+    </article>
+
+    <article class="hm-service-card reveal reveal-delay-1">
+      <div class="hm-service-code">S02</div>
+      <h3 class="hm-service-title" data-en="Reels & Short Videos" data-ar="ريلز وفيديوهات قصيرة">Reels & Short Videos</h3>
+      <p class="hm-service-desc" data-en="Short videos for social media, product promotion, offers, events, and quick business announcements." data-ar="فيديوهات قصيرة للسوشيال ميديا، ترويج المنتجات، العروض، الفعاليات، والإعلانات السريعة.">Short videos for social media, product promotion, offers, events, and quick business announcements.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Property reel, restaurant promo, product teaser, event recap." data-ar="ريل عقاري، ترويج مطعم، تشويق منتج، ملخص فعالية.">Property reel, restaurant promo, product teaser, event recap.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 799</div>
+    </article>
+
+    <article class="hm-service-card reveal reveal-delay-2">
+      <div class="hm-service-code">S03</div>
+      <h3 class="hm-service-title" data-en="Monthly Social Media" data-ar="محتوى سوشيال شهري">Monthly Social Media</h3>
+      <p class="hm-service-desc" data-en="Monthly content service for businesses that need consistent posts, stories, captions, and ideas." data-ar="خدمة محتوى شهرية للشركات التي تحتاج منشورات، ستوريات، كابشنز، وأفكار بشكل مستمر.">Monthly content service for businesses that need consistent posts, stories, captions, and ideas.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="12 posts, 4 reels ideas, captions, monthly content calendar." data-ar="12 منشور، أفكار 4 ريلز، كابشنز، تقويم محتوى شهري.">12 posts, 4 reels ideas, captions, monthly content calendar.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 2,999 / month</div>
+    </article>
+
+    <article class="hm-service-card reveal reveal-delay-3">
+      <div class="hm-service-code">S04</div>
+      <h3 class="hm-service-title" data-en="Sponsored Ads" data-ar="إعلانات ممولة">Sponsored Ads</h3>
+      <p class="hm-service-desc" data-en="Managing paid ads on Instagram, Facebook, TikTok, Google, or other platforms to get leads and reach." data-ar="إدارة الإعلانات الممولة على إنستغرام، فيسبوك، تيك توك، غوغل أو غيرها لجلب وصول واستفسارات.">Managing paid ads on Instagram, Facebook, TikTok, Google, or other platforms to get leads and reach.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Instagram ad, Google ad, TikTok ad, lead generation campaign." data-ar="إعلان إنستغرام، إعلان غوغل، إعلان تيك توك، حملة لجمع الاستفسارات.">Instagram ad, Google ad, TikTok ad, lead generation campaign.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 1,499 / month</div>
+    </article>
+
+    <article class="hm-service-card reveal">
+      <div class="hm-service-code">S05</div>
+      <h3 class="hm-service-title" data-en="Website / Landing Page" data-ar="موقع أو صفحة هبوط">Website / Landing Page</h3>
+      <p class="hm-service-desc" data-en="A simple professional website or campaign page that explains the business and brings inquiries." data-ar="موقع احترافي بسيط أو صفحة حملة تشرح النشاط وتساعد على جلب الاستفسارات.">A simple professional website or campaign page that explains the business and brings inquiries.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Company website, offer page, booking page, WhatsApp lead page." data-ar="موقع شركة، صفحة عرض، صفحة حجز، صفحة تقود إلى واتساب.">Company website, offer page, booking page, WhatsApp lead page.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 2,999</div>
+    </article>
+
+    <article class="hm-service-card reveal reveal-delay-1">
+      <div class="hm-service-code">S06</div>
+      <h3 class="hm-service-title" data-en="Logo & Brand Look" data-ar="شعار ومظهر البراند">Logo & Brand Look</h3>
+      <p class="hm-service-desc" data-en="A clean brand look that makes the business appear professional and consistent everywhere." data-ar="مظهر بصري نظيف يجعل البزنس يظهر بشكل احترافي ومتناسق في كل مكان.">A clean brand look that makes the business appear professional and consistent everywhere.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Logo, colors, fonts, business card, social profile look." data-ar="شعار، ألوان، خطوط، بطاقة عمل، مظهر حسابات السوشيال.">Logo, colors, fonts, business card, social profile look.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 999</div>
+    </article>
+
+    <article class="hm-service-card reveal reveal-delay-2">
+      <div class="hm-service-code">S07</div>
+      <h3 class="hm-service-title" data-en="Presentation & Company Profile" data-ar="عرض تقديمي وبروفايل شركة">Presentation & Company Profile</h3>
+      <p class="hm-service-desc" data-en="Professional presentations and company profiles for sales meetings, investors, and proposals." data-ar="عروض وبروفايلات احترافية لاجتماعات البيع، المستثمرين، والعروض التجارية.">Professional presentations and company profiles for sales meetings, investors, and proposals.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Company profile, sales deck, investor pitch, proposal deck." data-ar="بروفايل شركة، عرض مبيعات، عرض للمستثمرين، عرض مقترح.">Company profile, sales deck, investor pitch, proposal deck.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 1,499</div>
+    </article>
+
+    <article class="hm-service-card reveal reveal-delay-3">
+      <div class="hm-service-code">S08</div>
+      <h3 class="hm-service-title" data-en="Print & Event Designs" data-ar="تصاميم مطبوعات وفعاليات">Print & Event Designs</h3>
+      <p class="hm-service-desc" data-en="Designs for printed materials, exhibitions, events, restaurants, shops, and business displays." data-ar="تصاميم للمطبوعات، المعارض، الفعاليات، المطاعم، المتاجر، والعروض التجارية.">Designs for printed materials, exhibitions, events, restaurants, shops, and business displays.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Brochure, rollup, banner, menu, sticker, booth design." data-ar="بروشور، رول أب، بانر، منيو، ستيكر، تصميم بوث.">Brochure, rollup, banner, menu, sticker, booth design.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 499</div>
+    </article>
+
+    <article class="hm-service-card reveal">
+      <div class="hm-service-code">S09</div>
+      <h3 class="hm-service-title" data-en="Product Photos & Visuals" data-ar="صور ومناظر المنتجات">Product Photos & Visuals</h3>
+      <p class="hm-service-desc" data-en="Premium product images for ads, websites, social media, launches, and online stores." data-ar="صور منتجات احترافية للإعلانات، المواقع، السوشيال ميديا، الإطلاقات، والمتاجر الإلكترونية.">Premium product images for ads, websites, social media, launches, and online stores.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Product photo, lifestyle scene, menu item visual, e-commerce image." data-ar="صورة منتج، مشهد لايفستايل، صورة صنف منيو، صورة متجر إلكتروني.">Product photo, lifestyle scene, menu item visual, e-commerce image.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 599</div>
+    </article>
+
+    <article class="hm-service-card reveal reveal-delay-1">
+      <div class="hm-service-code">S10</div>
+      <h3 class="hm-service-title" data-en="Explainer Video" data-ar="فيديو شرح">Explainer Video</h3>
+      <p class="hm-service-desc" data-en="A clear video that explains a service, product, app, or business idea in a simple way." data-ar="فيديو واضح يشرح خدمة، منتج، تطبيق، أو فكرة بزنس بطريقة بسيطة.">A clear video that explains a service, product, app, or business idea in a simple way.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="App video, service explanation, product benefits, company intro." data-ar="فيديو تطبيق، شرح خدمة، فوائد منتج، تعريف شركة.">App video, service explanation, product benefits, company intro.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 1,999</div>
+    </article>
+
+    <article class="hm-service-card reveal reveal-delay-2">
+      <div class="hm-service-code">S11</div>
+      <h3 class="hm-service-title" data-en="Ad Video Script" data-ar="سكريبت فيديو إعلاني">Ad Video Script</h3>
+      <p class="hm-service-desc" data-en="A short script and scene idea for a social media ad, person-style video, or product demo." data-ar="سكريبت قصير وفكرة مشهد لإعلان سوشيال ميديا، فيديو بشخص، أو ديمو منتج.">A short script and scene idea for a social media ad, person-style video, or product demo.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Spoken ad script, product demo idea, customer-style video." data-ar="سكريبت إعلان منطوق، فكرة ديمو منتج، فيديو بأسلوب عميل.">Spoken ad script, product demo idea, customer-style video.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 299</div>
+    </article>
+
+    <article class="hm-service-card reveal reveal-delay-3">
+      <div class="hm-service-code">S12</div>
+      <h3 class="hm-service-title" data-en="Online Store Setup" data-ar="إعداد متجر إلكتروني">Online Store Setup</h3>
+      <p class="hm-service-desc" data-en="A simple online store setup for businesses that want to sell products and receive orders online." data-ar="إعداد متجر إلكتروني بسيط للشركات التي تريد بيع المنتجات واستلام الطلبات أونلاين.">A simple online store setup for businesses that want to sell products and receive orders online.</p>
+      <div class="hm-service-examples"><strong data-en="Examples:" data-ar="أمثلة:">Examples:</strong> <span data-en="Shopify store, product pages, checkout setup, basic store design." data-ar="متجر شوبيفاي، صفحات منتجات، إعداد الدفع، تصميم متجر أساسي.">Shopify store, product pages, checkout setup, basic store design.</span></div>
+      <div class="hm-service-price"><span data-en="Starting from" data-ar="يبدأ من">Starting from</span>AED 3,499</div>
+    </article>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="hm-usecases-section" id="use-cases">
+  <div class="hm-usecases-header">
+    <div>
+      <div class="section-label reveal" data-en="Use Cases" data-ar="حالات استخدام">Use Cases</div>
+      <h2 class="section-title reveal reveal-delay-1"><span data-en="How We Help" data-ar="كيف نساعد؟">How We Help</span><br><span data-en="Different Businesses" data-ar="أنواع مختلفة من الأعمال">Different Businesses</span></h2>
+    </div>
+    <p class="hm-section-intro reveal reveal-delay-2" data-en="Examples of real situations where a business may need design, video, ads, websites, or content support." data-ar="أمثلة لمواقف واقعية قد يحتاج فيها أي بزنس إلى تصميم، فيديو، إعلان، موقع، أو محتوى.">Examples of real situations where a business may need design, video, ads, websites, or content support.</p>
+  </div>
+
+  <div class="hm-usecases-grid">
+    <article class="hm-usecase-card reveal"><span class="hm-usecase-type">🍽 <span data-en="Restaurant" data-ar="مطعم">Restaurant</span></span><ul><li data-en="A restaurant wants to create an offer for one specific dish." data-ar="مطعم يريد إنشاء عرض على صنف معين.">A restaurant wants to create an offer for one specific dish.</li><li data-en="A restaurant wants better Instagram presence and cleaner daily posts." data-ar="مطعم يريد تحسين ظهوره على إنستغرام بمنشورات أنظف.">A restaurant wants better Instagram presence and cleaner daily posts.</li><li data-en="A new branch needs opening announcement designs and short videos." data-ar="فرع جديد يحتاج تصاميم افتتاح وفيديوهات قصيرة.">A new branch needs opening announcement designs and short videos.</li><li data-en="A restaurant wants more delivery orders through sponsored ads." data-ar="مطعم يريد زيادة طلبات التوصيل عبر إعلانات ممولة.">A restaurant wants more delivery orders through sponsored ads.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-1"><span class="hm-usecase-type">🏙 <span data-en="Real Estate" data-ar="عقارات">Real Estate</span></span><ul><li data-en="A real estate company wants to announce a new project." data-ar="شركة عقارات تريد الإعلان عن مشروع جديد.">A real estate company wants to announce a new project.</li><li data-en="A broker wants to promote a specific apartment or villa." data-ar="وسيط عقاري يريد ترويج شقة أو فيلا محددة.">A broker wants to promote a specific apartment or villa.</li><li data-en="A developer needs a professional presentation for investors." data-ar="مطور يحتاج عرضاً احترافياً للمستثمرين.">A developer needs a professional presentation for investors.</li><li data-en="A sales team wants lead ads for interested buyers." data-ar="فريق مبيعات يريد إعلانات لجلب مشترين مهتمين.">A sales team wants lead ads for interested buyers.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-2"><span class="hm-usecase-type">🏢 <span data-en="Corporate Company" data-ar="شركة">Corporate Company</span></span><ul><li data-en="A company wants a professional website that looks trustworthy." data-ar="شركة تريد موقعاً احترافياً يعطي ثقة.">A company wants a professional website that looks trustworthy.</li><li data-en="A company needs a modern company profile for meetings." data-ar="شركة تحتاج بروفايل حديث للاجتماعات.">A company needs a modern company profile for meetings.</li><li data-en="A company wants automatic WhatsApp replies for inquiries." data-ar="شركة تريد ردود واتساب تلقائية للاستفسارات.">A company wants automatic WhatsApp replies for inquiries.</li><li data-en="A company needs service explanation videos for clients." data-ar="شركة تحتاج فيديوهات تشرح خدماتها للعملاء.">A company needs service explanation videos for clients.</li></ul></article>
+    <article class="hm-usecase-card reveal"><span class="hm-usecase-type">🛍 <span data-en="Retail Store" data-ar="متجر">Retail Store</span></span><ul><li data-en="A store wants to promote discounts for Eid, Ramadan, or National Day." data-ar="متجر يريد ترويج خصومات العيد أو رمضان أو اليوم الوطني.">A store wants to promote discounts for Eid, Ramadan, or National Day.</li><li data-en="A shop wants to announce new arrivals." data-ar="محل يريد الإعلان عن منتجات وصلت حديثاً.">A shop wants to announce new arrivals.</li><li data-en="A store wants posters and story designs for a weekend sale." data-ar="متجر يريد بوسترات وستوريز لعرض نهاية الأسبوع.">A store wants posters and story designs for a weekend sale.</li><li data-en="A business wants ads to bring people to the physical branch." data-ar="بزنس يريد إعلانات تجلب الناس إلى الفرع.">A business wants ads to bring people to the physical branch.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-1"><span class="hm-usecase-type">🏥 <span data-en="Clinic" data-ar="عيادة">Clinic</span></span><ul><li data-en="A clinic wants to promote a new treatment or consultation offer." data-ar="عيادة تريد ترويج علاج جديد أو عرض استشارة.">A clinic wants to promote a new treatment or consultation offer.</li><li data-en="A doctor wants short educational videos for Instagram." data-ar="طبيب يريد فيديوهات تعليمية قصيرة لإنستغرام.">A doctor wants short educational videos for Instagram.</li><li data-en="A clinic needs a booking page for a specific service." data-ar="عيادة تحتاج صفحة حجز لخدمة محددة.">A clinic needs a booking page for a specific service.</li><li data-en="A clinic wants sponsored ads to receive WhatsApp inquiries." data-ar="عيادة تريد إعلانات ممولة لاستلام استفسارات واتساب.">A clinic wants sponsored ads to receive WhatsApp inquiries.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-2"><span class="hm-usecase-type">☕ <span data-en="Café" data-ar="كافيه">Café</span></span><ul><li data-en="A café wants to launch a new drink or dessert." data-ar="كافيه يريد إطلاق مشروب أو حلوى جديدة.">A café wants to launch a new drink or dessert.</li><li data-en="A café needs beautiful visuals for Instagram and menu screens." data-ar="كافيه يحتاج صوراً جميلة لإنستغرام وشاشات المنيو.">A café needs beautiful visuals for Instagram and menu screens.</li><li data-en="A café wants a short creative video for a seasonal item." data-ar="كافيه يريد فيديو قصيراً لمنتج موسمي.">A café wants a short creative video for a seasonal item.</li><li data-en="A café wants nearby customers to discover the location." data-ar="كافيه يريد أن يكتشفه العملاء القريبون.">A café wants nearby customers to discover the location.</li></ul></article>
+    <article class="hm-usecase-card reveal"><span class="hm-usecase-type">🏋️ <span data-en="Gym / Fitness" data-ar="جيم ولياقة">Gym / Fitness</span></span><ul><li data-en="A gym wants to promote a monthly membership offer." data-ar="جيم يريد ترويج عرض اشتراك شهري.">A gym wants to promote a monthly membership offer.</li><li data-en="A trainer wants videos explaining personal training packages." data-ar="مدرب يريد فيديوهات تشرح باقات التدريب الشخصي.">A trainer wants videos explaining personal training packages.</li><li data-en="A gym wants before-and-after style content for motivation." data-ar="جيم يريد محتوى قبل/بعد للتحفيز.">A gym wants before-and-after style content for motivation.</li><li data-en="A fitness business wants leads through Instagram and WhatsApp." data-ar="بزنس لياقة يريد عملاء محتملين عبر إنستغرام وواتساب.">A fitness business wants leads through Instagram and WhatsApp.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-1"><span class="hm-usecase-type">💇 <span data-en="Beauty Salon" data-ar="صالون تجميل">Beauty Salon</span></span><ul><li data-en="A salon wants to promote hair, nails, or bridal packages." data-ar="صالون يريد ترويج باقات شعر أو أظافر أو عرائس.">A salon wants to promote hair, nails, or bridal packages.</li><li data-en="A salon needs elegant price-list and story templates." data-ar="صالون يحتاج قائمة أسعار وستوريز أنيقة.">A salon needs elegant price-list and story templates.</li><li data-en="A beauty business wants reels showing the service experience." data-ar="بزنس تجميل يريد ريلز تظهر تجربة الخدمة.">A beauty business wants reels showing the service experience.</li><li data-en="A salon wants booking inquiries from nearby customers." data-ar="صالون يريد حجوزات من العملاء القريبين.">A salon wants booking inquiries from nearby customers.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-2"><span class="hm-usecase-type">🚗 <span data-en="Car Business" data-ar="سيارات">Car Business</span></span><ul><li data-en="A showroom wants to advertise a specific car for sale." data-ar="معرض يريد الإعلان عن سيارة محددة للبيع.">A showroom wants to advertise a specific car for sale.</li><li data-en="A garage wants to promote a service package." data-ar="كراج يريد ترويج باقة صيانة أو خدمة.">A garage wants to promote a service package.</li><li data-en="A detailing shop needs before-and-after videos." data-ar="محل تلميع يحتاج فيديوهات قبل وبعد.">A detailing shop needs before-and-after videos.</li><li data-en="A car business wants more calls from Google or social ads." data-ar="بزنس سيارات يريد مكالمات أكثر من غوغل أو السوشيال.">A car business wants more calls from Google or social ads.</li></ul></article>
+    <article class="hm-usecase-card reveal"><span class="hm-usecase-type">🎪 <span data-en="Events" data-ar="فعاليات">Events</span></span><ul><li data-en="An event needs invitation designs and announcement posts." data-ar="فعالية تحتاج دعوات ومنشورات إعلان.">An event needs invitation designs and announcement posts.</li><li data-en="An exhibition booth needs banners, screens, and printed designs." data-ar="بوث معرض يحتاج بانرات وشاشات ومطبوعات.">An exhibition booth needs banners, screens, and printed designs.</li><li data-en="An organizer wants a short recap video after the event." data-ar="منظم يريد فيديو ملخص قصير بعد الفعالية.">An organizer wants a short recap video after the event.</li><li data-en="A sponsor needs branded visuals during the activation." data-ar="راعي يحتاج تصاميم تحمل علامته خلال التفعيل.">A sponsor needs branded visuals during the activation.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-1"><span class="hm-usecase-type">📦 <span data-en="Product Brand" data-ar="براند منتج">Product Brand</span></span><ul><li data-en="A brand wants AI product images for a new campaign." data-ar="براند يريد صور منتجات بالذكاء الاصطناعي لحملة جديدة.">A brand wants AI product images for a new campaign.</li><li data-en="A company needs creative product photos without a full photoshoot." data-ar="شركة تحتاج صور منتجات إبداعية بدون جلسة تصوير كاملة.">A company needs creative product photos without a full photoshoot.</li><li data-en="A product needs a short launch video for social media." data-ar="منتج يحتاج فيديو إطلاق قصير للسوشيال ميديا.">A product needs a short launch video for social media.</li><li data-en="A brand wants packaging or website visuals for a new item." data-ar="براند يريد تصاميم تغليف أو صور موقع لمنتج جديد.">A brand wants packaging or website visuals for a new item.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-2"><span class="hm-usecase-type">🛒 <span data-en="E-commerce" data-ar="متجر إلكتروني">E-commerce</span></span><ul><li data-en="An online store wants to launch a new Shopify website." data-ar="متجر أونلاين يريد إطلاق متجر شوبيفاي جديد.">An online store wants to launch a new Shopify website.</li><li data-en="A store needs product pages and professional product visuals." data-ar="متجر يحتاج صفحات منتجات وصور احترافية.">A store needs product pages and professional product visuals.</li><li data-en="A business wants ads for a discount or bundle offer." data-ar="بزنس يريد إعلانات لخصم أو عرض باقة.">A business wants ads for a discount or bundle offer.</li><li data-en="An online seller needs better banners and sales creatives." data-ar="بائع أونلاين يحتاج بانرات وتصاميم بيع أفضل.">An online seller needs better banners and sales creatives.</li></ul></article>
+    <article class="hm-usecase-card reveal"><span class="hm-usecase-type">🏨 <span data-en="Hotel / Tourism" data-ar="فنادق وسياحة">Hotel / Tourism</span></span><ul><li data-en="A hotel wants to promote a staycation or weekend offer." data-ar="فندق يريد ترويج إقامة نهاية أسبوع أو عرض ستايكيشن.">A hotel wants to promote a staycation or weekend offer.</li><li data-en="A tourism company needs videos for tours and experiences." data-ar="شركة سياحة تحتاج فيديوهات للجولات والتجارب.">A tourism company needs videos for tours and experiences.</li><li data-en="A desert camp wants premium visuals for bookings." data-ar="مخيم صحراوي يريد صوراً فاخرة للحجوزات.">A desert camp wants premium visuals for bookings.</li><li data-en="A travel business wants ads for a seasonal package." data-ar="بزنس سفر يريد إعلانات لباقة موسمية.">A travel business wants ads for a seasonal package.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-1"><span class="hm-usecase-type">🎓 <span data-en="Education" data-ar="تعليم وتدريب">Education</span></span><ul><li data-en="A training center wants to announce a new course." data-ar="مركز تدريب يريد الإعلان عن دورة جديدة.">A training center wants to announce a new course.</li><li data-en="A school or institute needs registration campaign designs." data-ar="مدرسة أو معهد يحتاج تصاميم حملة تسجيل.">A school or institute needs registration campaign designs.</li><li data-en="An instructor wants short videos explaining the course value." data-ar="مدرب يريد فيديوهات قصيرة تشرح قيمة الدورة.">An instructor wants short videos explaining the course value.</li><li data-en="An academy wants leads from parents or professionals." data-ar="أكاديمية تريد استفسارات من الأهالي أو المهنيين.">An academy wants leads from parents or professionals.</li></ul></article>
+    <article class="hm-usecase-card reveal reveal-delay-2"><span class="hm-usecase-type">🚀 <span data-en="New Business" data-ar="بزنس جديد">New Business</span></span><ul><li data-en="A new business needs logo, colors, and first social media look." data-ar="بزنس جديد يحتاج شعار وألوان ومظهر أولي للسوشيال.">A new business needs logo, colors, and first social media look.</li><li data-en="A startup needs a simple website and opening announcement." data-ar="ستارت أب يحتاج موقعاً بسيطاً وإعلان افتتاح.">A startup needs a simple website and opening announcement.</li><li data-en="A business owner wants a creative launch video." data-ar="صاحب بزنس يريد فيديو إطلاق إبداعي.">A business owner wants a creative launch video.</li><li data-en="A new brand wants ads to get its first customers." data-ar="براند جديد يريد إعلانات لجلب أول العملاء.">A new brand wants ads to get its first customers.</li></ul></article>
+  </div>
+</section>
 
 <!-- PORTFOLIO -->
 <section class="portfolio-section" id="portfolio">
@@ -2067,306 +2432,15 @@ I want to discuss my brand needs and understand which service or package fits me
 <!-- ABOUT -->
 <section class="about-section" id="about">
   <div class="reveal">
-    <div class="section-label" data-en="AI, Automation & Creative Systems" data-ar="الذكاء الاصطناعي وأنظمة العمل">AI, Automation & Systems</div>
-    <blockquote class="about-quote" data-en='"We use AI, automation, and sharp creative direction to produce faster, smarter, and more consistent brand content."' data-ar='"نستخدم الذكاء الاصطناعي والأتمتة والتوجيه الإبداعي لإنتاج محتوى أسرع، أذكى، وأكثر اتساقاً للعلامات التجارية."'>"We use AI, automation, and sharp creative direction to produce faster, smarter, and more consistent brand content."</blockquote>
+    <div class="section-label" data-en="Creative, Marketing & Digital Systems" data-ar="الإبداع والتسويق والحلول الرقمية">Creative, Marketing & Digital Systems</div>
+    <blockquote class="about-quote" data-en='"We create practical designs, videos, websites, and ads that help businesses look sharper and sell with more confidence."' data-ar='"نصنع تصاميم، فيديوهات، مواقع، وإعلانات عملية تساعد الشركات على الظهور بشكل أقوى والبيع بثقة أكبر."'>"We create practical designs, videos, websites, and ads that help businesses look sharper and sell with more confidence."</blockquote>
   </div>
   <div class="reveal reveal-delay-2">
     <div class="about-text">
-      <p data-en="We follow the latest AI trends and automation workflows, but always keep the final result practical, polished, and aligned with your brand." data-ar="نواكب أحدث اتجاهات الذكاء الاصطناعي وأنظمة الأتمتة، مع الحفاظ على نتيجة عملية، مصقولة، ومناسبة لهوية علامتك.">We follow the latest AI trends and automation workflows, but always keep the final result practical, polished, and aligned with your brand.</p>
-      <p data-en="The goal is simple: better ideas, faster production, and content that is ready to be used across social media, ads, and websites." data-ar="الهدف واضح: أفكار أقوى، تنفيذ أسرع، ومحتوى جاهز للاستخدام على السوشيال ميديا، الإعلانات، والمواقع.">The goal is simple: better ideas, faster production, and content that is ready to be used across social media, ads, and websites.</p>
+      <p data-en="We keep the work simple to understand and strong in execution: clear service, clean design, useful content, and a final output ready for the platforms you use." data-ar="نحافظ على العمل واضحاً وسهل الفهم وقوياً في التنفيذ: خدمة واضحة، تصميم نظيف، محتوى مفيد، ونتيجة جاهزة للمنصات التي تستخدمها.">We keep the work simple to understand and strong in execution: clear service, clean design, useful content, and a final output ready for the platforms you use.</p>
+      <p data-en="Whether you need a single post, a video, a landing page, or monthly social media content, the goal is the same: make your business look professional and easier to contact." data-ar="سواء كنت تحتاج بوست واحد، فيديو، صفحة هبوط، أو محتوى شهري للسوشيال، الهدف واحد: أن يظهر بزنسك بشكل احترافي ويسهل التواصل معه.">Whether you need a single post, a video, a landing page, or monthly social media content, the goal is the same: make your business look professional and easier to contact.</p>
     </div>
     <div class="about-location" data-en="Dubai, UAE · Serving brands across the UAE & GCC" data-ar="دبي، الإمارات · نخدم العلامات التجارية في الإمارات والخليج">Dubai, UAE · Serving brands across the UAE & GCC</div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section class="services-section" id="services">
-  <div class="services-header">
-    <div>
-      <div class="section-label reveal" data-en="What We Do" data-ar="ماذا نقدم">What We Do</div>
-      <h2 class="section-title reveal reveal-delay-1"><span data-en="Creative Services." data-ar="خدمات تصنع حضورك.">Creative Services.</span><br><span data-en="Built for the Future." data-ar="وتخدم نموّك.">Built for the Future.</span></h2>
-    </div>
-  </div>
-  <div class="services-grid">
-    <div class="service-card reveal">
-      <div class="service-num">01</div>
-      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5,3 19,12 5,21"/></svg>
-      <div class="service-title" data-en="Video Production" data-ar="إنتاج الفيديو">Video Production</div>
-      <div class="service-tagline" data-en='"Cinematic content. Engineered for impact."' data-ar='"محتوى سينمائي. مصمم للتأثير."'>"Cinematic content. Engineered for impact."</div>
-      <div class="service-desc" data-en="Brand films, social ads, and product videos — produced with next-generation tools and full creative direction. What used to take weeks, we deliver in days." data-ar="أفلام العلامة التجارية، إعلانات السوشيال ميديا، وفيديوهات المنتجات — بتقنيات الجيل القادم وإشراف إبداعي كامل. ما كان يستغرق أسابيع، نسلّمه في أيام.">Brand films, social ads, and product videos — produced with next-generation tools and full creative direction. What used to take weeks, we deliver in days.</div>
-    </div>
-    <div class="service-card reveal reveal-delay-1">
-      <div class="service-num">02</div>
-      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-      <div class="service-title" data-en="Visual Content & Imagery" data-ar="المحتوى المرئي والصور">Visual Content & Imagery</div>
-      <div class="service-tagline" data-en='"Beyond the photoshoot."' data-ar='"ما وراء جلسات التصوير."'>"Beyond the photoshoot."</div>
-      <div class="service-desc" data-en="Campaign visuals and product imagery that push the boundaries of traditional production — without the studio, the logistics, or the wait." data-ar="صور الحملات الإعلانية ومنتجاتك بجودة تتجاوز حدود الإنتاج التقليدي — بلا استوديو، بلا لوجستيات، بلا انتظار.">Campaign visuals and product imagery that push the boundaries of traditional production — without the studio, the logistics, or the wait.</div>
-    </div>
-    <div class="service-card reveal reveal-delay-2">
-      <div class="service-num">03</div>
-      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      <div class="service-title" data-en="Motion Design & Animation" data-ar="موشن جرافيك وأنيميشن">Motion Design & Animation</div>
-      <div class="service-tagline" data-en='"Your brand, alive."' data-ar='"علامتك التجارية، حية."'>"Your brand, alive."</div>
-      <div class="service-desc" data-en="Logo animations, motion graphics, and animated social content — built with precision technology to make your brand unforgettable in motion." data-ar="أنيميشن الشعار، موشن جرافيك، ومحتوى متحرك للسوشيال — بتقنية دقيقة تجعل علامتك التجارية لا تُنسى.">Logo animations, motion graphics, and animated social content — built with precision technology to make your brand unforgettable in motion.</div>
-    </div>
-    <div class="service-card reveal reveal-delay-1">
-      <div class="service-num">04</div>
-      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      <div class="service-title" data-en="Content & Marketing Systems" data-ar="أنظمة المحتوى والتسويق">Content & Marketing Systems</div>
-      <div class="service-tagline" data-en='"Your brand, always on."' data-ar='"علامتك التجارية، دائماً حاضرة."'>"Your brand, always on."</div>
-      <div class="service-desc" data-en="We design intelligent content systems that keep you consistent, scheduled, and ahead of the curve — without demanding your constant attention." data-ar="نصمم أنظمة محتوى ذكية تبقي علامتك متسقة ومجدولة وفي الصدارة — دون أن تطلب انتباهك المستمر.">We design intelligent content systems that keep you consistent, scheduled, and ahead of the curve — without demanding your constant attention.</div>
-    </div>
-    <div class="service-card reveal reveal-delay-2">
-      <div class="service-num">05</div>
-      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><polyline points="7,10 12,6 17,10"/></svg>
-      <div class="service-title" data-en="Presentations & Pitch Decks" data-ar="العروض التقديمية">Presentations & Pitch Decks</div>
-      <div class="service-tagline" data-en='"Ideas engineered to close."' data-ar='"أفكار مصممة لتُقنع."'>"Ideas engineered to close."</div>
-      <div class="service-desc" data-en="Investor decks, company profiles, and sales presentations — data-driven layouts and sharp design that commands attention and drives decisions." data-ar="عروض المستثمرين، ملفات الشركات، وعروض المبيعات — تصميم حاد ومبني على البيانات يستقطب الانتباه ويقود القرارات.">Investor decks, company profiles, and sales presentations — data-driven layouts and sharp design that commands attention and drives decisions.</div>
-    </div>
-    <div class="service-card reveal reveal-delay-3">
-      <div class="service-num">06</div>
-      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      <div class="service-title" data-en="Social Media Production" data-ar="إنتاج السوشيال ميديا">Social Media Production</div>
-      <div class="service-tagline" data-en='"A complete content engine."' data-ar='"محرك محتوى متكامل."'>"A complete content engine."</div>
-      <div class="service-desc" data-en="Strategy, design, copy, and delivery — packaged into a seamless monthly system that keeps your brand visible, consistent, and growing." data-ar="الاستراتيجية، التصميم، الكتابة، والتسليم — في منظومة شهرية متكاملة تبقي علامتك حاضرة ومتسقة ومتنامية.">Strategy, design, copy, and delivery — packaged into a seamless monthly system that keeps your brand visible, consistent, and growing.</div>
-    </div>
-  </div>
-</section>
-
-<!-- PACKAGES -->
-<section class="packages-section" id="packages">
-  <div class="packages-header">
-    <div>
-      <div class="section-label reveal" data-en="Packages" data-ar="الباقات">Packages</div>
-      <h2 class="section-title reveal reveal-delay-1">
-        <span data-en="Choose the" data-ar="اختر">Choose the</span>
-        <span class="reey" data-en="Right" data-ar="الباقة">Right</span><br>
-        <span data-en="Starting Point." data-ar="الأنسب لمشروعك.">Starting Point.</span>
-      </h2>
-    </div>
-    <p class="packages-intro reveal reveal-delay-2" data-en="Clear packages for real business needs — social media, campaigns, videos, company profiles, and website or landing page work. Each package can be customized after we understand the scope." data-ar="اختر نقطة البداية الأقرب لك: محتوى سوشيال ميديا، حملة إعلانية، فيديو، بروفايل شركة، أو موقع وصفحة هبوط. بعد فهم التفاصيل نخصص الباقة حسب احتياجك.">
-      Clear packages for real business needs — social media, campaigns, videos, company profiles, and website or landing page work. Each package can be customized after we understand the scope.
-    </p>
-  </div>
-
-  <div class="packages-grid">
-    <article class="package-card reveal">
-      <div class="package-top">
-        <div class="package-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M5 16c1.5-4.5 4.5-7.5 9-9"/><path d="M14 7l3-3 3 3-3 3z"/><path d="M4 20c3.5-.2 6.2-1.3 8.3-3.3"/><path d="M9 15l-2-2"/></svg>
-        </div>
-        <div>
-          <div class="package-name" data-en="Launch Package" data-ar="باقة الانطلاق">Launch Package</div>
-          <h3 class="package-title" data-en="New Business Launches" data-ar="إطلاق مشروع جديد">New Business Launches</h3>
-        </div>
-      </div>
-      <p class="package-desc" data-en="For a new business that wants to start with a clean look, clear message, and professional online presence." data-ar="للمشروع الجديد الذي يحتاج شكلاً مرتباً، رسالة واضحة، وحضوراً احترافياً على الإنترنت.">For a new business that wants to start with a clean look, clear message, and professional online presence.</p>
-      <div class="package-block">
-        <div class="package-block-title" data-en="Projects" data-ar="يناسب هذه المشاريع">Projects</div>
-        <div class="package-tags">
-          <span class="package-tag" data-en="Café" data-ar="كافيه">Café</span>
-          <span class="package-tag" data-en="Restaurant" data-ar="مطعم">Restaurant</span>
-          <span class="package-tag" data-en="Salon" data-ar="صالون">Salon</span>
-          <span class="package-tag" data-en="Clinic" data-ar="عيادة">Clinic</span>
-          <span class="package-tag" data-en="Gym" data-ar="نادي رياضي">Gym</span>
-          <span class="package-tag" data-en="Startup" data-ar="شركة ناشئة">Startup</span>
-          <span class="package-tag" data-en="Online Store" data-ar="متجر إلكتروني">Online Store</span>
-          <span class="package-tag main" data-en="Website / Landing Page" data-ar="موقع / صفحة هبوط">Website / Landing Page</span>
-        </div>
-      </div>
-      <div class="package-block">
-        <div class="package-block-title" data-en="Services Included" data-ar="ماذا تشمل الباقة">Services Included</div>
-        <ul class="package-services">
-          <li data-en="A clean look for your brand before launch" data-ar="مظهر مرتب للعلامة قبل الإطلاق">A clean look for your brand before launch</li>
-          <li data-en="Social media posts to introduce your business" data-ar="منشورات تعرّف الناس على المشروع">Social media posts to introduce your business</li>
-          <li data-en="Profile picture, cover, highlights, and bio direction" data-ar="توجيه صورة الحساب، الغلاف، الهايلايت، والبايو">Profile picture, cover, highlights, and bio direction</li>
-          <li data-en="Basic captions and launch messages" data-ar="كابشنات ورسائل مناسبة لمرحلة الإطلاق">Basic captions and launch messages</li>
-          <li data-en="Simple website or landing page direction" data-ar="توجيه أولي للموقع أو صفحة الهبوط">Simple website or landing page direction</li>
-          <li data-en="Ready-to-use files for Instagram, ads, or website" data-ar="ملفات جاهزة للاستخدام على إنستغرام، الإعلانات، أو الموقع">Ready-to-use files for Instagram, ads, or website</li>
-        </ul>
-      </div>
-      <div class="package-price">
-        <div class="package-price-label" data-en="Starting from" data-ar="يبدأ من">Starting from</div>
-        <div class="package-price-value" data-en="AED 2,500" data-ar="٢,٥٠٠ درهم">AED 2,500</div>
-        <a href="https://wa.me/971542882950?text=Hi%20Hussein%2C%20I%E2%80%99m%20interested%20in%20the%20Launch%20Package.%0ASelected%20package%3A%20Launch%20Package.%0ABest%20for%3A%20New%20Business%20Launches.%0AStarting%20from%3A%20AED%202%2C500.%0ASuitable%20projects%3A%20Caf%C3%A9%2C%20restaurant%2C%20salon%2C%20clinic%2C%20gym%2C%20startup%2C%20online%20store%2C%20website%20or%20landing%20page.%0AWhat%20I%20need%3A%20a%20clean%20launch%20look%2C%20social%20media%20intro%20posts%2C%20profile%20setup%2C%20basic%20captions%2C%20and%20website%20or%20landing%20page%20direction.%0AI%20want%20to%20discuss%20if%20this%20package%20fits%20my%20business." data-wa-en="Hi Hussein, I’m interested in the Launch Package.
-Selected package: Launch Package.
-Best for: New Business Launches.
-Starting from: AED 2,500.
-Suitable projects: Café, restaurant, salon, clinic, gym, startup, online store, website or landing page.
-What I need: a clean launch look, social media intro posts, profile setup, basic captions, and website or landing page direction.
-I want to discuss if this package fits my business." data-wa-ar="مرحباً حسين، أنا مهتم بباقة الإطلاق.
-الباقة المختارة: Launch Package.
-مناسبة لـ: إطلاق مشروع جديد.
-تبدأ من: ٢,٥٠٠ درهم.
-تناسب: كافيه، مطعم، صالون، عيادة، نادي، شركة ناشئة، متجر إلكتروني، موقع أو صفحة هبوط.
-احتياجي: مظهر مرتب للإطلاق، منشورات تعريفية، تجهيز الحساب، كابشنات أساسية، وتوجيه للموقع أو صفحة الهبوط.
-أريد مناقشة هل هذه الباقة مناسبة لمشروعي." class="package-cta" target="_blank" rel="noopener" data-en="Get Started" data-ar="ابدأ الآن">Get Started</a>
-      </div>
-    </article>
-
-    <article class="package-card growth-package reveal reveal-delay-1">
-      <div class="package-top">
-        <div class="package-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-3 3 2 5-7"/><path d="M16 7h3v3"/></svg>
-        </div>
-        <div>
-          <div class="package-name" data-en="Growth Package" data-ar="باقة النمو">Growth Package</div>
-          <h3 class="package-title" data-en="Monthly Social Media Growth" data-ar="نمو شهري على السوشيال ميديا">Monthly Social Media Growth</h3>
-        </div>
-      </div>
-      <p class="package-desc" data-en="For businesses that already exist and need regular content, better visuals, offers, and more customer messages." data-ar="للأعمال القائمة التي تحتاج محتوى منتظم، تصاميم أقوى، عروض واضحة، ورسائل أكثر من العملاء.">For businesses that already exist and need regular content, better visuals, offers, and more customer messages.</p>
-      <div class="package-block">
-        <div class="package-block-title" data-en="Projects" data-ar="يناسب هذه المشاريع">Projects</div>
-        <div class="package-tags">
-          <span class="package-tag" data-en="Restaurant" data-ar="مطعم">Restaurant</span>
-          <span class="package-tag" data-en="Clinic" data-ar="عيادة">Clinic</span>
-          <span class="package-tag" data-en="Real Estate" data-ar="عقارات">Real Estate</span>
-          <span class="package-tag" data-en="Retail Shop" data-ar="متجر">Retail Shop</span>
-          <span class="package-tag" data-en="Beauty Center" data-ar="مركز تجميل">Beauty Center</span>
-          <span class="package-tag" data-en="Service Business" data-ar="شركة خدمات">Service Business</span>
-          <span class="package-tag" data-en="Offers Campaign" data-ar="حملة عروض">Offers Campaign</span>
-          <span class="package-tag main" data-en="Website Traffic" data-ar="زيارات للموقع">Website Traffic</span>
-        </div>
-      </div>
-      <div class="package-block">
-        <div class="package-block-title" data-en="Services Included" data-ar="ماذا تشمل الباقة">Services Included</div>
-        <ul class="package-services">
-          <li data-en="Monthly posts and story designs" data-ar="تصاميم منشورات وستوري شهرية">Monthly posts and story designs</li>
-          <li data-en="Captions written in a clear marketing style" data-ar="كابشنات مكتوبة بأسلوب تسويقي واضح">Captions written in a clear marketing style</li>
-          <li data-en="Offer designs for discounts, bundles, and promotions" data-ar="تصاميم للعروض، الخصومات، والباقات">Offer designs for discounts, bundles, and promotions</li>
-          <li data-en="Content calendar so your page stays active" data-ar="تقويم محتوى يحافظ على نشاط الحساب">Content calendar so your page stays active</li>
-          <li data-en="Visuals that push people to message or visit your website" data-ar="تصاميم تشجع العميل على التواصل أو زيارة الموقع">Visuals that push people to message or visit your website</li>
-          <li data-en="Basic monthly content direction and improvement ideas" data-ar="أفكار شهرية لتحسين المحتوى والظهور">Basic monthly content direction and improvement ideas</li>
-        </ul>
-      </div>
-      <div class="package-price">
-        <div class="package-price-label" data-en="Starting from" data-ar="يبدأ من">Starting from</div>
-        <div class="package-price-value" data-en="AED 3,500 / month" data-ar="٣,٥٠٠ درهم / شهرياً">AED 3,500 <span>/ month</span></div>
-        <a href="https://wa.me/971542882950?text=Hi%20Hussein%2C%20I%E2%80%99m%20interested%20in%20the%20Growth%20Package.%0ASelected%20package%3A%20Growth%20Package.%0ABest%20for%3A%20Monthly%20Social%20Media%20Growth.%0AStarting%20from%3A%20AED%203%2C500%20per%20month.%0ASuitable%20projects%3A%20Restaurant%2C%20clinic%2C%20real%20estate%2C%20retail%2C%20beauty%20center%2C%20service%20business%2C%20offers%20campaign%2C%20and%20website%20traffic.%0AWhat%20I%20need%3A%20monthly%20posts%2C%20stories%2C%20captions%2C%20offer%20designs%2C%20a%20content%20calendar%2C%20and%20visuals%20that%20help%20bring%20messages%2C%20calls%2C%20or%20website%20visits.%0AI%20want%20to%20discuss%20if%20this%20package%20fits%20my%20business." data-wa-en="Hi Hussein, I’m interested in the Growth Package.
-Selected package: Growth Package.
-Best for: Monthly Social Media Growth.
-Starting from: AED 3,500 per month.
-Suitable projects: Restaurant, clinic, real estate, retail, beauty center, service business, offers campaign, and website traffic.
-What I need: monthly posts, stories, captions, offer designs, a content calendar, and visuals that help bring messages, calls, or website visits.
-I want to discuss if this package fits my business." data-wa-ar="مرحباً حسين، أنا مهتم بباقة النمو.
-الباقة المختارة: Growth Package.
-مناسبة لـ: نمو شهري على السوشيال ميديا.
-تبدأ من: ٣,٥٠٠ درهم شهرياً.
-تناسب: مطعم، عيادة، عقارات، متجر، مركز تجميل، شركة خدمات، حملة عروض، وزيارات للموقع.
-احتياجي: منشورات وستوري شهرية، كابشنات، تصاميم عروض، تقويم محتوى، وتصاميم تساعد على زيادة الرسائل أو الاتصالات أو زيارات الموقع.
-أريد مناقشة هل هذه الباقة مناسبة لعملي." class="package-cta" target="_blank" rel="noopener" data-en="Request This Package" data-ar="اطلب هذه الباقة">Request This Package</a>
-      </div>
-    </article>
-
-    <article class="package-card reveal reveal-delay-2">
-      <div class="package-top">
-        <div class="package-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M4 14l4-4 4 4 8-8"/><path d="M14 6h6v6"/><path d="M5 20h14"/><path d="M7 20v-4"/><path d="M12 20v-6"/><path d="M17 20v-9"/></svg>
-        </div>
-        <div>
-          <div class="package-name" data-en="Scale Package" data-ar="باقة التوسع">Scale Package</div>
-          <h3 class="package-title" data-en="Campaigns, Ads & Video" data-ar="حملات، إعلانات وفيديو">Campaigns, Ads & Video</h3>
-        </div>
-      </div>
-      <p class="package-desc" data-en="For businesses that need stronger campaigns, ad creatives, reels, videos, and pages that help collect leads." data-ar="للشركات التي تحتاج حملات أقوى، إعلانات، ريلز، فيديوهات، وصفحات تساعد على جذب العملاء.">For businesses that need stronger campaigns, ad creatives, reels, videos, and pages that help collect leads.</p>
-      <div class="package-block">
-        <div class="package-block-title" data-en="Projects" data-ar="يناسب هذه المشاريع">Projects</div>
-        <div class="package-tags">
-          <span class="package-tag" data-en="Product Launch" data-ar="إطلاق منتج">Product Launch</span>
-          <span class="package-tag" data-en="Meta Ads" data-ar="إعلانات ميتا">Meta Ads</span>
-          <span class="package-tag" data-en="TikTok Ads" data-ar="إعلانات تيك توك">TikTok Ads</span>
-          <span class="package-tag" data-en="Reels" data-ar="ريلز">Reels</span>
-          <span class="package-tag" data-en="Promo Video" data-ar="فيديو ترويجي">Promo Video</span>
-          <span class="package-tag" data-en="Event Campaign" data-ar="حملة فعالية">Event Campaign</span>
-          <span class="package-tag" data-en="Exhibition" data-ar="معرض">Exhibition</span>
-          <span class="package-tag main" data-en="Lead Website" data-ar="موقع لجذب العملاء">Lead Website</span>
-        </div>
-      </div>
-      <div class="package-block">
-        <div class="package-block-title" data-en="Services Included" data-ar="ماذا تشمل الباقة">Services Included</div>
-        <ul class="package-services">
-          <li data-en="Campaign idea and creative direction" data-ar="فكرة الحملة والتوجيه الإبداعي">Campaign idea and creative direction</li>
-          <li data-en="Ad designs for Instagram, Facebook, and TikTok" data-ar="تصاميم إعلانية لإنستغرام، فيسبوك، وتيك توك">Ad designs for Instagram, Facebook, and TikTok</li>
-          <li data-en="Short videos, reels, and motion graphics" data-ar="فيديوهات قصيرة، ريلز، وموشن جرافيك">Short videos, reels, and motion graphics</li>
-          <li data-en="Messages and visuals made for selling or lead generation" data-ar="رسائل وتصاميم موجهة للبيع وجذب العملاء">Messages and visuals made for selling or lead generation</li>
-          <li data-en="Landing page or website section support" data-ar="دعم صفحة هبوط أو قسم مخصص داخل الموقع">Landing page or website section support</li>
-          <li data-en="Different creative versions for testing" data-ar="نسخ إبداعية مختلفة للاختبار">Different creative versions for testing</li>
-        </ul>
-      </div>
-      <div class="package-price">
-        <div class="package-price-label" data-en="Starting from" data-ar="يبدأ من">Starting from</div>
-        <div class="package-price-value" data-en="AED 8,500 / month" data-ar="٨,٥٠٠ درهم / شهرياً">AED 8,500 <span>/ month</span></div>
-        <a href="https://wa.me/971542882950?text=Hi%20Hussein%2C%20I%E2%80%99m%20interested%20in%20the%20Scale%20Package.%0ASelected%20package%3A%20Scale%20Package.%0ABest%20for%3A%20Campaigns%2C%20Ads%20%26%20Video.%0AStarting%20from%3A%20AED%208%2C500%20per%20month.%0ASuitable%20projects%3A%20Product%20launch%2C%20Meta%20ads%2C%20TikTok%20ads%2C%20reels%2C%20promo%20videos%2C%20event%20campaigns%2C%20exhibitions%2C%20and%20lead%20websites.%0AWhat%20I%20need%3A%20campaign%20ideas%2C%20ad%20creatives%2C%20short%20videos%2C%20motion%20graphics%2C%20lead-focused%20visuals%2C%20landing%20page%20support%2C%20and%20creative%20versions%20for%20testing.%0AI%20want%20to%20discuss%20if%20this%20package%20fits%20my%20campaign." data-wa-en="Hi Hussein, I’m interested in the Scale Package.
-Selected package: Scale Package.
-Best for: Campaigns, Ads &amp; Video.
-Starting from: AED 8,500 per month.
-Suitable projects: Product launch, Meta ads, TikTok ads, reels, promo videos, event campaigns, exhibitions, and lead websites.
-What I need: campaign ideas, ad creatives, short videos, motion graphics, lead-focused visuals, landing page support, and creative versions for testing.
-I want to discuss if this package fits my campaign." data-wa-ar="مرحباً حسين، أنا مهتم بباقة التوسع.
-الباقة المختارة: Scale Package.
-مناسبة لـ: الحملات، الإعلانات، والفيديو.
-تبدأ من: ٨,٥٠٠ درهم شهرياً.
-تناسب: إطلاق منتج، إعلانات ميتا، إعلانات تيك توك، ريلز، فيديوهات ترويجية، حملات فعاليات، معارض، ومواقع لجمع العملاء المحتملين.
-احتياجي: فكرة حملة، تصاميم إعلانية، فيديوهات قصيرة، موشن جرافيك، رسائل وتصاميم للبيع أو جمع الليدات، ودعم صفحة هبوط.
-أريد مناقشة هل هذه الباقة مناسبة لحملتي." class="package-cta" target="_blank" rel="noopener" data-en="Let’s Talk" data-ar="لنتحدث">Let’s Talk</a>
-      </div>
-    </article>
-
-    <article class="package-card reveal reveal-delay-3">
-      <div class="package-top">
-        <div class="package-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/><path d="M8 13h4"/><path d="M8 16h8"/><path d="M16 13h1"/></svg>
-        </div>
-        <div>
-          <div class="package-name" data-en="Custom Project" data-ar="مشروع مخصص">Custom Project</div>
-          <h3 class="package-title" data-en="One-Time Creative Projects" data-ar="مشروع إبداعي لمرة واحدة">One-Time Creative Projects</h3>
-        </div>
-      </div>
-      <p class="package-desc" data-en="For a specific design, video, company profile, presentation, brochure, menu, or website page task." data-ar="لأي طلب محدد مثل تصميم، فيديو، بروفايل شركة، عرض تقديمي، بروشور، منيو، أو صفحة موقع.">For a specific design, video, company profile, presentation, brochure, menu, or website page task.</p>
-      <div class="package-block">
-        <div class="package-block-title" data-en="Projects" data-ar="يناسب هذه المشاريع">Projects</div>
-        <div class="package-tags">
-          <span class="package-tag" data-en="Company Profile" data-ar="بروفايل شركة">Company Profile</span>
-          <span class="package-tag" data-en="Presentation" data-ar="عرض تقديمي">Presentation</span>
-          <span class="package-tag" data-en="Brochure" data-ar="بروشور">Brochure</span>
-          <span class="package-tag" data-en="Flyer" data-ar="فلاير">Flyer</span>
-          <span class="package-tag" data-en="Menu" data-ar="منيو">Menu</span>
-          <span class="package-tag" data-en="Event Branding" data-ar="مواد فعالية">Event Branding</span>
-          <span class="package-tag" data-en="Promo Video" data-ar="فيديو ترويجي">Promo Video</span>
-          <span class="package-tag main" data-en="Website Page" data-ar="صفحة موقع">Website Page</span>
-        </div>
-      </div>
-      <div class="package-block">
-        <div class="package-block-title" data-en="Services Included" data-ar="ماذا تشمل الباقة">Services Included</div>
-        <ul class="package-services">
-          <li data-en="Clean design for your required material" data-ar="تصميم نظيف للمادة المطلوبة">Clean design for your required material</li>
-          <li data-en="Text arrangement and copy polishing" data-ar="ترتيب النصوص وتحسينها">Text arrangement and copy polishing</li>
-          <li data-en="Presentation or company profile structure" data-ar="تنظيم محتوى العرض أو بروفايل الشركة">Presentation or company profile structure</li>
-          <li data-en="Brochure, flyer, menu, or event layout" data-ar="تصميم بروشور، فلاير، منيو، أو مواد فعالية">Brochure, flyer, menu, or event layout</li>
-          <li data-en="Website page or section design" data-ar="تصميم صفحة أو قسم داخل الموقع">Website page or section design</li>
-          <li data-en="Final files ready for print, web, or social media" data-ar="ملفات نهائية جاهزة للطباعة، الموقع، أو السوشيال ميديا">Final files ready for print, web, or social media</li>
-        </ul>
-      </div>
-      <div class="package-price">
-        <div class="package-price-label" data-en="Starting from" data-ar="يبدأ من">Starting from</div>
-        <div class="package-price-value" data-en="AED 950" data-ar="٩٥٠ درهم">AED 950</div>
-        <a href="https://wa.me/971542882950?text=Hi%20Hussein%2C%20I%E2%80%99m%20interested%20in%20a%20Custom%20Project.%0ASelected%20option%3A%20Custom%20Project.%0AStarting%20from%3A%20AED%20950.%0ASuitable%20projects%3A%20Company%20profile%2C%20presentation%2C%20brochure%2C%20flyer%2C%20menu%2C%20event%20branding%2C%20promo%20video%2C%20or%20website%20page.%0AWhat%20I%20need%3A%20a%20clear%20one-time%20creative%20deliverable%20with%20final%20files%20ready%20for%20print%2C%20web%2C%20or%20social%20media.%0AI%20want%20to%20discuss%20my%20project%20details." data-wa-en="Hi Hussein, I’m interested in a Custom Project.
-Selected option: Custom Project.
-Starting from: AED 950.
-Suitable projects: Company profile, presentation, brochure, flyer, menu, event branding, promo video, or website page.
-What I need: a clear one-time creative deliverable with final files ready for print, web, or social media.
-I want to discuss my project details." data-wa-ar="مرحباً حسين، أنا مهتم بمشروع مخصص.
-الاختيار: Custom Project.
-يبدأ من: ٩٥٠ درهم.
-يناسب: بروفايل شركة، عرض تقديمي، بروشور، فلاير، منيو، مواد فعالية، فيديو ترويجي، أو صفحة موقع.
-احتياجي: تنفيذ إبداعي محدد لمرة واحدة مع ملفات نهائية جاهزة للطباعة أو الموقع أو السوشيال ميديا.
-أريد مناقشة تفاصيل مشروعي." class="package-cta" target="_blank" rel="noopener" data-en="Discuss Your Project" data-ar="ناقش مشروعك">Discuss Your Project</a>
-      </div>
-    </article>
-  </div>
-
-  <div class="packages-note reveal reveal-delay-4" data-en="All packages are flexible. Final pricing depends on scope, number of designs, video needs, website requirements, timeline, and revisions." data-ar="كل الباقات قابلة للتخصيص. السعر النهائي يعتمد على حجم العمل، عدد التصاميم، احتياج الفيديو، متطلبات الموقع، مدة التنفيذ، وعدد التعديلات.">
-    <strong>All packages are flexible.</strong> Final pricing depends on scope, number of designs, video needs, website requirements, timeline, and revisions.
   </div>
 </section>
 
@@ -2378,22 +2452,22 @@ I want to discuss my project details." data-wa-ar="مرحباً حسين، أن�
     <div class="process-step reveal">
       <div class="step-num">01</div>
       <div class="step-title" data-en="Brief" data-ar="فهم الطلب">Brief</div>
-      <div class="step-desc" data-en="You share your vision, goals, and brand guidelines. We listen." data-ar="تشاركنا رؤيتك وأهدافك وهوية علامتك. نحن نُنصت.">You share your vision, goals, and brand guidelines. We listen.</div>
+      <div class="step-desc" data-en="You share the business type, goal, offer, references, platforms, and deadline." data-ar="تشاركنا نوع البزنس، الهدف، العرض، المراجع، المنصات، والموعد المطلوب.">You share the business type, goal, offer, references, platforms, and deadline.</div>
     </div>
     <div class="process-step reveal reveal-delay-1">
       <div class="step-num">02</div>
       <div class="step-title" data-en="Create" data-ar="التنفيذ">Create</div>
-      <div class="step-desc" data-en="We build the first version fast — usually within 24 hours." data-ar="نبني النسخة الأولى بسرعة — عادةً خلال 24 ساعة.">We build the first version fast — usually within 24 hours.</div>
+      <div class="step-desc" data-en="We create the first direction, design, script, video, or page based on the agreed service." data-ar="ننشئ الاتجاه الأول، التصميم، السكريبت، الفيديو، أو الصفحة حسب الخدمة المتفق عليها.">We create the first direction, design, script, video, or page based on the agreed service.</div>
     </div>
     <div class="process-step reveal reveal-delay-2">
       <div class="step-num">03</div>
       <div class="step-title" data-en="Refine" data-ar="المراجعة">Refine</div>
-      <div class="step-desc" data-en="We perfect every detail together until it's exactly right." data-ar="نُتقن كل تفصيلة معاً حتى تصل للكمال المطلوب.">We perfect every detail together until it's exactly right.</div>
+      <div class="step-desc" data-en="We adjust the content, layout, message, and visuals based on clear feedback." data-ar="نعدل المحتوى، الترتيب، الرسالة، والمرئيات بناءً على ملاحظات واضحة.">We adjust the content, layout, message, and visuals based on clear feedback.</div>
     </div>
     <div class="process-step reveal reveal-delay-3">
       <div class="step-num">04</div>
       <div class="step-title" data-en="Deliver" data-ar="التسليم النهائي">Deliver</div>
-      <div class="step-desc" data-en="You receive production-ready files, on time, every time." data-ar="تستلم ملفات جاهزة للإنتاج، في الوقت المحدد، في كل مرة.">You receive production-ready files, on time, every time.</div>
+      <div class="step-desc" data-en="You receive final files ready for social media, ads, website, print, or presentation use." data-ar="تستلم الملفات النهائية جاهزة للسوشيال، الإعلانات، الموقع، الطباعة، أو العروض.">You receive final files ready for social media, ads, website, print, or presentation use.</div>
     </div>
   </div>
 </section>
@@ -2405,18 +2479,18 @@ I want to discuss my project details." data-wa-ar="مرحباً حسين، أن�
   <div class="why-grid">
     <div class="why-card reveal">
       <div class="why-icon"><svg class="why-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2L4 14h7l-1 8 10-13h-7l1-7z"/></svg></div>
-      <div class="why-title" data-en="Speed Without Compromise" data-ar="سرعة بدون خسارة الجودة">Speed Without Compromise</div>
-      <div class="why-desc" data-en="Rapid delivery without cutting corners. First drafts in 24–72 hours. Final files within one week." data-ar="تسليم سريع دون التنازل عن الجودة. المسودة الأولى خلال 24–72 ساعة. الملفات النهائية خلال أسبوع.">Rapid delivery without cutting corners. First drafts in 24–72 hours. Final files within one week.</div>
+      <div class="why-title" data-en="Fast, Practical Delivery" data-ar="تسليم سريع وعملي">Fast, Practical Delivery</div>
+      <div class="why-desc" data-en="Clear output without unnecessary complexity. Simple tasks move fast, and larger projects get a clean timeline." data-ar="نتيجة واضحة بدون تعقيد غير ضروري. المهام البسيطة تتحرك بسرعة، والمشاريع الأكبر لها جدول واضح.">Clear output without unnecessary complexity. Simple tasks move fast, and larger projects get a clean timeline.</div>
     </div>
     <div class="why-card reveal reveal-delay-2">
       <div class="why-icon"><svg class="why-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
-      <div class="why-title" data-en="Senior-Level Output" data-ar="نتيجة بمستوى احترافي">Senior-Level Output</div>
-      <div class="why-desc" data-en="Direct, strategic creative work — no junior handoffs, no diluted briefs, no wasted revision rounds." data-ar="عمل إبداعي استراتيجي مباشر — لا تسليم للمبتدئين، لا إحاطات مخففة، لا جولات تعديل مهدرة.">Direct, strategic creative work — no junior handoffs, no diluted briefs, no wasted revision rounds.</div>
+      <div class="why-title" data-en="Clean Business-Focused Work" data-ar="عمل واضح يخدم البزنس">Clean Business-Focused Work</div>
+      <div class="why-desc" data-en="Every service is built around what the business actually needs: better appearance, clearer message, and easier customer action." data-ar="كل خدمة تُبنى حول ما يحتاجه البزنس فعلاً: مظهر أفضل، رسالة أوضح، وتسهيل تواصل العميل.">Every service is built around what the business actually needs: better appearance, clearer message, and easier customer action.</div>
     </div>
     <div class="why-card reveal reveal-delay-3">
       <div class="why-icon"><svg class="why-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 16"/><path d="M4 20v-4h4"/></svg></div>
-      <div class="why-title" data-en="Scalable & Flexible" data-ar="مرونة حسب احتياجك">Scalable & Flexible</div>
-      <div class="why-desc" data-en="From a single campaign to a full monthly content system — we scale to exactly what your brand needs." data-ar="من حملة واحدة إلى منظومة محتوى شهرية كاملة — نتكيّف مع ما تحتاجه علامتك بالضبط.">From a single campaign to a full monthly content system — we scale to exactly what your brand needs.</div>
+      <div class="why-title" data-en="Flexible by Scope" data-ar="مرونة حسب حجم الطلب">Flexible by Scope</div>
+      <div class="why-desc" data-en="Start with one design, one reel, one page, or build a full monthly system when the business is ready." data-ar="ابدأ بتصميم واحد، ريل واحد، صفحة واحدة، أو ابنِ نظاماً شهرياً كاملاً عندما يكون البزنس جاهزاً.">Start with one design, one reel, one page, or build a full monthly system when the business is ready.</div>
     </div>
   </div>
 </section>
@@ -2504,16 +2578,18 @@ I want to discuss my project details." data-wa-ar="مرحباً حسين، أن�
       <div class="form-group">
         <select>
           <option value="" disabled selected data-en="Service Needed" data-ar="الخدمة المطلوبة" data-en="Service Needed" data-ar="الخدمة المطلوبة">Service Needed</option>
-          <option data-en="Video Production" data-ar="إنتاج الفيديو">Video Production</option>
-          <option data-en="Visual Content & Imagery" data-ar="المحتوى المرئي والصور">Visual Content & Imagery</option>
-          <option data-en="Motion Design & Animation" data-ar="موشن جرافيك وأنيميشن">Motion Design & Animation</option>
-          <option data-en="Content & Marketing Systems" data-ar="أنظمة المحتوى والتسويق">Content & Marketing Systems</option>
-          <option data-en="Presentations & Pitch Decks" data-ar="العروض التقديمية">Presentations & Pitch Decks</option>
-          <option data-en="Social Media Production" data-ar="إنتاج السوشيال ميديا">Social Media Production</option>
-          <option data-en="Launch Package" data-ar="باقة الانطلاق">Launch Package</option>
-          <option data-en="Growth Package" data-ar="باقة النمو">Growth Package</option>
-          <option data-en="Scale Package" data-ar="باقة التوسع">Scale Package</option>
-          <option data-en="Custom Project" data-ar="مشروع مخصص">Custom Project</option>
+          <option data-en="Social Media Designs" data-ar="تصاميم السوشيال ميديا">Social Media Designs</option>
+          <option data-en="Reels & Short Videos" data-ar="ريلز وفيديوهات قصيرة">Reels & Short Videos</option>
+          <option data-en="Monthly Social Media" data-ar="محتوى سوشيال شهري">Monthly Social Media</option>
+          <option data-en="Sponsored Ads" data-ar="إعلانات ممولة">Sponsored Ads</option>
+          <option data-en="Website / Landing Page" data-ar="موقع أو صفحة هبوط">Website / Landing Page</option>
+          <option data-en="Logo & Brand Look" data-ar="شعار ومظهر البراند">Logo & Brand Look</option>
+          <option data-en="Presentation & Company Profile" data-ar="عرض تقديمي وبروفايل شركة">Presentation & Company Profile</option>
+          <option data-en="Print & Event Designs" data-ar="تصاميم مطبوعات وفعاليات">Print & Event Designs</option>
+          <option data-en="Product Photos & Visuals" data-ar="صور ومناظر المنتجات">Product Photos & Visuals</option>
+          <option data-en="Explainer Video" data-ar="فيديو شرح">Explainer Video</option>
+          <option data-en="Ad Video Script" data-ar="سكريبت فيديو إعلاني">Ad Video Script</option>
+          <option data-en="Online Store Setup" data-ar="إعداد متجر إلكتروني">Online Store Setup</option>
           <option data-en="Other" data-ar="أخرى">Other</option>
         </select>
       </div>
@@ -2561,6 +2637,7 @@ Please share the best next step so I can explain what I need." data-wa-ar="مر�
   </div>
   <div class="footer-links">
     <a href="#services" data-en="Services" data-ar="الخدمات">Services</a>
+    <a href="#use-cases" data-en="Use Cases" data-ar="حالات الاستخدام">Use Cases</a>
     <a href="#portfolio" data-en="Portfolio" data-ar="الأعمال">Portfolio</a>
     <a href="#gallery" data-en="Gallery" data-ar="المعرض">Gallery</a>
     <a href="#process" data-en="Process" data-ar="طريقة العمل">Process</a>
@@ -2582,22 +2659,34 @@ Please help me choose the right service or package." data-wa-ar="مرحباً ح
 
 <script>
 
-// FRAME SCRUBBER — fixed version
+// FRAME SCRUBBER — 48 WebP frames version
 const scrubberCanvas = document.getElementById('scrubber-canvas');
 const scrubberCtx = scrubberCanvas ? scrubberCanvas.getContext('2d') : null;
 
-// Change this number to match your real frame count
-const FRAME_COUNT = 100;
+// New exported frames:
+// first: frame_0001_0.00s.webp
+// last : frame_0048_3.13s.webp
+const FRAME_COUNT = 48;
+const FRAME_DURATION_SECONDS = 3.13;
+const FRAME_DIR = 'https://husseinmlhem.github.io/hmmedia/frames/';
 
-// Your files must be named like: frame_00001.webp, frame_00002.webp ...
-const FRAME_BASE = 'https://husseinmlhem.github.io/hmmedia/frames/frame_';
 const scrubFrames = [];
 let scrubLoaded = 0;
+let scrubFirstFrameReady = false;
 let currentScrubIndex = 1;
 let scrubRAF = null;
 
-function padNum(n) {
-  return String(n).padStart(5, '0');
+function padFrameNumber(n) {
+  return String(n).padStart(4, '0');
+}
+
+function getFrameTime(index) {
+  const time = ((index - 1) * FRAME_DURATION_SECONDS) / (FRAME_COUNT - 1);
+  return time.toFixed(2);
+}
+
+function getFrameSrc(index) {
+  return `${FRAME_DIR}frame_${padFrameNumber(index)}_${getFrameTime(index)}s.webp`;
 }
 
 function sizeScrubberCanvas() {
@@ -2610,6 +2699,10 @@ function sizeScrubberCanvas() {
   scrubberCanvas.width = Math.floor(width * dpr);
   scrubberCanvas.height = Math.floor(height * dpr);
   scrubberCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // Keep the WebP frames crisp on high-DPI screens.
+  scrubberCtx.imageSmoothingEnabled = true;
+  scrubberCtx.imageSmoothingQuality = 'high';
 }
 
 function drawImageCover(ctx, img, canvas) {
@@ -2631,39 +2724,82 @@ function drawImageCover(ctx, img, canvas) {
 function drawScrubFrame(index) {
   if (!scrubberCanvas || !scrubberCtx) return;
 
-  const img = scrubFrames[index];
-  if (!img || !img.complete) return;
+  const safeIndex = Math.max(1, Math.min(FRAME_COUNT, index));
+  const img = scrubFrames[safeIndex];
+
+  if (!img || !img.complete || !img.naturalWidth) return;
 
   sizeScrubberCanvas();
   drawImageCover(scrubberCtx, img, scrubberCanvas);
 }
 
-function updateScrubLoader() {
-  const loader = document.getElementById('scrub-loader');
-  if (!loader) return;
-
-  const pct = Math.round((scrubLoaded / FRAME_COUNT) * 100);
-  loader.textContent = pct < 100 ? pct + '%' : '';
-  if (pct >= 100) loader.style.opacity = '0';
+function hideScrubSplash() {
+  const splash = document.getElementById('scrub-splash');
+  if (!splash) return;
+  splash.classList.add('hidden');
+  setTimeout(() => splash.remove(), 900);
 }
 
-for (let i = 1; i <= FRAME_COUNT; i++) {
-  const img = new Image();
-  img.src = FRAME_BASE + padNum(i) + '.webp';
+function updateScrubLoader() {
+  const loader = document.getElementById('scrub-loader');
+  const splashPercent = document.getElementById('scrub-splash-percent');
+  const splashFill = document.getElementById('scrub-splash-fill');
 
-  img.onload = () => {
-    scrubLoaded++;
-    updateScrubLoader();
-    if (i === 1) drawScrubFrame(1);
-  };
+  const pct = Math.round((scrubLoaded / FRAME_COUNT) * 100);
 
-  img.onerror = () => {
-    console.warn('Frame not found:', img.src);
-    scrubLoaded++;
-    updateScrubLoader();
-  };
+  if (loader) {
+    loader.textContent = pct < 100 ? pct + '%' : '';
+    if (pct >= 100) loader.style.opacity = '0';
+  }
 
-  scrubFrames[i] = img;
+  if (splashPercent) splashPercent.textContent = pct < 100 ? `Loading ${pct}%` : 'Ready';
+  if (splashFill) splashFill.style.width = pct + '%';
+
+  if (pct >= 100) hideScrubSplash();
+}
+
+function loadScrubFrame(i) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.decoding = 'async';
+    img.loading = i <= 6 ? 'eager' : 'lazy';
+    img.src = getFrameSrc(i);
+
+    img.onload = () => {
+      scrubLoaded++;
+      scrubFrames[i] = img;
+      if (i === 1) {
+        scrubFirstFrameReady = true;
+        currentScrubIndex = 1;
+        drawScrubFrame(1);
+      }
+      updateScrubLoader();
+      resolve();
+    };
+
+    img.onerror = () => {
+      console.warn('Frame not found:', img.src);
+      scrubLoaded++;
+      updateScrubLoader();
+      resolve();
+    };
+  });
+}
+
+async function preloadScrubFrames() {
+  // Load the first frame first so the hero appears immediately.
+  await loadScrubFrame(1);
+
+  // Then load the remaining frames in small lazy chunks to keep the page responsive.
+  const chunkSize = 6;
+  for (let start = 2; start <= FRAME_COUNT; start += chunkSize) {
+    const chunk = [];
+    for (let i = start; i < start + chunkSize && i <= FRAME_COUNT; i++) {
+      chunk.push(loadScrubFrame(i));
+    }
+    await Promise.all(chunk);
+    await new Promise(requestAnimationFrame);
+  }
 }
 
 function updateScrubberOnScroll() {
@@ -2671,13 +2807,13 @@ function updateScrubberOnScroll() {
   if (!section) return;
 
   const rect = section.getBoundingClientRect();
-  const total = section.offsetHeight - window.innerHeight;
+  const total = Math.max(1, section.offsetHeight - window.innerHeight);
   const scrolled = -rect.top;
   const progress = Math.max(0, Math.min(1, scrolled / total));
 
   const index = Math.min(
     FRAME_COUNT,
-    Math.max(1, Math.ceil(progress * FRAME_COUNT))
+    Math.max(1, Math.floor(progress * (FRAME_COUNT - 1)) + 1)
   );
 
   if (index !== currentScrubIndex) {
@@ -2686,16 +2822,22 @@ function updateScrubberOnScroll() {
   }
 }
 
-window.addEventListener('scroll', () => {
-  if (scrubRAF) cancelAnimationFrame(scrubRAF);
-  scrubRAF = requestAnimationFrame(updateScrubberOnScroll);
-}, { passive: true });
+if (scrubberCanvas && scrubberCtx) {
+  sizeScrubberCanvas();
+  preloadScrubFrames();
 
-window.addEventListener('resize', () => {
-  drawScrubFrame(currentScrubIndex);
-});
+  window.addEventListener('scroll', () => {
+    if (scrubRAF) cancelAnimationFrame(scrubRAF);
+    scrubRAF = requestAnimationFrame(updateScrubberOnScroll);
+  }, { passive: true });
 
-updateScrubLoader();
+  window.addEventListener('resize', () => {
+    drawScrubFrame(currentScrubIndex);
+  });
+
+  updateScrubLoader();
+}
+
 // CURSOR
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
