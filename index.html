@@ -2659,11 +2659,11 @@ Please help me choose the right service or package." data-wa-ar="مرحباً ح
 
 <script>
 
-// FRAME SCRUBBER — 48 WebP frames version
+// FRAME SCRUBBER — 48 WebP frames version with resilient splash loading
 const scrubberCanvas = document.getElementById('scrubber-canvas');
 const scrubberCtx = scrubberCanvas ? scrubberCanvas.getContext('2d') : null;
 
-// New exported frames:
+// Exported frames:
 // first: frame_0001_0.00s.webp
 // last : frame_0048_3.13s.webp
 const FRAME_COUNT = 48;
@@ -2672,9 +2672,10 @@ const FRAME_DIR = 'https://husseinmlhem.github.io/hmmedia/frames/';
 
 const scrubFrames = [];
 let scrubLoaded = 0;
-let scrubFirstFrameReady = false;
+let scrubFinished = 0;
 let currentScrubIndex = 1;
 let scrubRAF = null;
+let splashHidden = false;
 
 function padFrameNumber(n) {
   return String(n).padStart(4, '0');
@@ -2693,21 +2694,25 @@ function sizeScrubberCanvas() {
   if (!scrubberCanvas || !scrubberCtx) return;
 
   const dpr = window.devicePixelRatio || 1;
-  const width = scrubberCanvas.offsetWidth;
-  const height = scrubberCanvas.offsetHeight;
+  const width = scrubberCanvas.offsetWidth || window.innerWidth;
+  const height = scrubberCanvas.offsetHeight || window.innerHeight;
 
-  scrubberCanvas.width = Math.floor(width * dpr);
-  scrubberCanvas.height = Math.floor(height * dpr);
+  const targetW = Math.floor(width * dpr);
+  const targetH = Math.floor(height * dpr);
+
+  if (scrubberCanvas.width !== targetW || scrubberCanvas.height !== targetH) {
+    scrubberCanvas.width = targetW;
+    scrubberCanvas.height = targetH;
+  }
+
   scrubberCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  // Keep the WebP frames crisp on high-DPI screens.
   scrubberCtx.imageSmoothingEnabled = true;
   scrubberCtx.imageSmoothingQuality = 'high';
 }
 
 function drawImageCover(ctx, img, canvas) {
-  const canvasW = canvas.offsetWidth;
-  const canvasH = canvas.offsetHeight;
+  const canvasW = canvas.offsetWidth || window.innerWidth;
+  const canvasH = canvas.offsetHeight || window.innerHeight;
   const imgW = img.naturalWidth || img.width;
   const imgH = img.naturalHeight || img.height;
 
@@ -2721,11 +2726,24 @@ function drawImageCover(ctx, img, canvas) {
   ctx.drawImage(img, drawX, drawY, drawW, drawH);
 }
 
+function getNearestLoadedFrame(index) {
+  if (scrubFrames[index]) return scrubFrames[index];
+
+  for (let offset = 1; offset < FRAME_COUNT; offset++) {
+    const before = index - offset;
+    const after = index + offset;
+    if (before >= 1 && scrubFrames[before]) return scrubFrames[before];
+    if (after <= FRAME_COUNT && scrubFrames[after]) return scrubFrames[after];
+  }
+
+  return null;
+}
+
 function drawScrubFrame(index) {
   if (!scrubberCanvas || !scrubberCtx) return;
 
   const safeIndex = Math.max(1, Math.min(FRAME_COUNT, index));
-  const img = scrubFrames[safeIndex];
+  const img = getNearestLoadedFrame(safeIndex);
 
   if (!img || !img.complete || !img.naturalWidth) return;
 
@@ -2734,10 +2752,22 @@ function drawScrubFrame(index) {
 }
 
 function hideScrubSplash() {
+  if (splashHidden) return;
+  splashHidden = true;
+
   const splash = document.getElementById('scrub-splash');
   if (!splash) return;
-  splash.classList.add('hidden');
-  setTimeout(() => splash.remove(), 900);
+
+  const splashPercent = document.getElementById('scrub-splash-percent');
+  const splashFill = document.getElementById('scrub-splash-fill');
+
+  if (splashPercent) splashPercent.textContent = 'Ready';
+  if (splashFill) splashFill.style.width = '100%';
+
+  setTimeout(() => {
+    splash.classList.add('hidden');
+    setTimeout(() => splash.remove(), 900);
+  }, 250);
 }
 
 function updateScrubLoader() {
@@ -2745,7 +2775,8 @@ function updateScrubLoader() {
   const splashPercent = document.getElementById('scrub-splash-percent');
   const splashFill = document.getElementById('scrub-splash-fill');
 
-  const pct = Math.round((scrubLoaded / FRAME_COUNT) * 100);
+  // Use finished requests, not only successfully loaded images, so missing/slow frames never trap the splash screen.
+  const pct = Math.min(100, Math.round((scrubFinished / FRAME_COUNT) * 100));
 
   if (loader) {
     loader.textContent = pct < 100 ? pct + '%' : '';
@@ -2754,52 +2785,73 @@ function updateScrubLoader() {
 
   if (splashPercent) splashPercent.textContent = pct < 100 ? `Loading ${pct}%` : 'Ready';
   if (splashFill) splashFill.style.width = pct + '%';
-
-  if (pct >= 100) hideScrubSplash();
 }
 
-function loadScrubFrame(i) {
+function loadScrubFrame(i, timeoutMs = 5000) {
   return new Promise((resolve) => {
     const img = new Image();
-    img.decoding = 'async';
-    img.loading = i <= 6 ? 'eager' : 'lazy';
-    img.src = getFrameSrc(i);
+    let settled = false;
 
-    img.onload = () => {
-      scrubLoaded++;
-      scrubFrames[i] = img;
-      if (i === 1) {
-        scrubFirstFrameReady = true;
-        currentScrubIndex = 1;
-        drawScrubFrame(1);
+    function finish(success) {
+      if (settled) return;
+      settled = true;
+
+      if (success && img.naturalWidth) {
+        scrubLoaded++;
+        scrubFrames[i] = img;
+
+        if (i === 1) {
+          currentScrubIndex = 1;
+          drawScrubFrame(1);
+
+          // Do not force the visitor to wait for all 48 frames.
+          // Show the first frame, then continue loading the rest in the background.
+          setTimeout(hideScrubSplash, 450);
+        }
+      } else {
+        console.warn('Frame not loaded:', getFrameSrc(i));
       }
-      updateScrubLoader();
-      resolve();
-    };
 
-    img.onerror = () => {
-      console.warn('Frame not found:', img.src);
-      scrubLoaded++;
+      scrubFinished++;
       updateScrubLoader();
-      resolve();
-    };
+      resolve(success);
+    }
+
+    img.onload = () => finish(true);
+    img.onerror = () => finish(false);
+
+    // Prevent the splash screen from getting stuck if GitHub Pages is slow or a filename is missing.
+    setTimeout(() => finish(false), timeoutMs);
+
+    img.decoding = 'async';
+    img.loading = i <= 8 ? 'eager' : 'lazy';
+    img.src = getFrameSrc(i);
   });
 }
 
 async function preloadScrubFrames() {
-  // Load the first frame first so the hero appears immediately.
-  await loadScrubFrame(1);
+  // Critical first frame.
+  await loadScrubFrame(1, 7000);
 
-  // Then load the remaining frames in small lazy chunks to keep the page responsive.
+  // If the first frame also fails, never leave the user trapped on the splash screen.
+  if (!scrubFrames[1]) hideScrubSplash();
+
+  // Load nearby frames first for smooth initial scrolling.
+  const priorityFrames = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+  await Promise.all(priorityFrames.map(i => loadScrubFrame(i, 5000)));
+
+  // Then load the remaining frames lazily in small batches.
   const chunkSize = 6;
-  for (let start = 2; start <= FRAME_COUNT; start += chunkSize) {
+  for (let start = 11; start <= FRAME_COUNT; start += chunkSize) {
     const chunk = [];
     for (let i = start; i < start + chunkSize && i <= FRAME_COUNT; i++) {
-      chunk.push(loadScrubFrame(i));
+      chunk.push(loadScrubFrame(i, 5000));
     }
     await Promise.all(chunk);
     await new Promise(requestAnimationFrame);
   }
+
+  updateScrubLoader();
 }
 
 function updateScrubberOnScroll() {
@@ -2835,6 +2887,8 @@ if (scrubberCanvas && scrubberCtx) {
     drawScrubFrame(currentScrubIndex);
   });
 
+  // Absolute safety fallback: never keep the splash longer than 8 seconds.
+  setTimeout(hideScrubSplash, 8000);
   updateScrubLoader();
 }
 
