@@ -2064,51 +2064,107 @@ body.rtl .hm-usecase-card ul { padding-left: 0; padding-right: 18px; }
   inset: 0;
   z-index: 100000;
   background:
-    radial-gradient(circle at 50% 45%, rgba(61,190,114,0.14), transparent 34%),
+    radial-gradient(circle at 50% 46%, rgba(61,190,114,0.13), transparent 28%),
+    radial-gradient(circle at 18% 82%, rgba(61,190,114,0.07), transparent 22%),
     #000;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.55s ease, visibility 0.55s ease;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 .scrub-splash.hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
+.scrub-splash::before {
+  content: '';
+  position: absolute;
+  width: min(620px, 72vw);
+  height: 1px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-7deg);
+  background: linear-gradient(90deg, transparent 0%, rgba(61,190,114,0.05) 14%, rgba(61,190,114,0.85) 50%, rgba(61,190,114,0.05) 86%, transparent 100%);
+  box-shadow: 0 0 24px rgba(61,190,114,0.42);
+  opacity: 0.85;
+  animation: splashLinePulse 2.8s ease-in-out infinite;
+}
+.scrub-splash::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  left: calc(50% - min(265px, 31vw));
+  top: calc(50% - 34px);
+  background: var(--green);
+  box-shadow: 0 0 0 6px rgba(61,190,114,0.12), 0 0 28px rgba(61,190,114,0.85), 0 0 80px rgba(61,190,114,0.34);
+  animation: splashOrbTravel 3.1s cubic-bezier(.65,0,.35,1) infinite;
+}
 .scrub-splash-box {
+  position: relative;
+  z-index: 2;
+  width: min(360px, 76vw);
   text-align: center;
   font-family: 'Poppins', sans-serif;
   color: var(--text);
+  padding: 34px 28px 30px;
+  border: 1px solid rgba(61,190,114,0.14);
+  background: rgba(0,0,0,0.34);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 0 80px rgba(0,0,0,0.55), inset 0 0 28px rgba(61,190,114,0.035);
 }
 .scrub-splash-logo {
   color: var(--green);
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 22px rgba(61,190,114,0.45);
+  animation: splashLogoGlow 2.6s ease-in-out infinite;
 }
 .scrub-splash-bar {
-  width: min(280px, 68vw);
-  height: 2px;
-  background: rgba(61,190,114,0.14);
+  width: 100%;
+  height: 3px;
+  background: rgba(61,190,114,0.12);
   overflow: hidden;
   border-radius: 999px;
   margin: 0 auto 14px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.45);
 }
 .scrub-splash-fill {
   width: 0%;
   height: 100%;
-  background: var(--green);
+  background: linear-gradient(90deg, rgba(61,190,114,0.65), var(--green), #9af0b8);
   box-shadow: 0 0 18px rgba(61,190,114,0.75);
-  transition: width 0.25s ease;
+  transition: width 0.28s ease;
 }
 .scrub-splash-percent {
-  color: var(--muted);
+  color: rgba(232,240,235,0.72);
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+#scrub-loader { display: none !important; }
+@keyframes splashLinePulse {
+  0%, 100% { opacity: 0.35; filter: blur(0.15px); }
+  50% { opacity: 1; filter: blur(0); }
+}
+@keyframes splashOrbTravel {
+  0% { transform: translate3d(0, 0, 0) scale(0.82); opacity: 0.45; }
+  18% { opacity: 1; }
+  58% { transform: translate3d(min(530px, 62vw), 68px, 0) scale(1.12); opacity: 1; }
+  100% { transform: translate3d(min(530px, 62vw), 68px, 0) scale(0.82); opacity: 0; }
+}
+@keyframes splashLogoGlow {
+  0%, 100% { opacity: 0.72; text-shadow: 0 0 14px rgba(61,190,114,0.20); }
+  50% { opacity: 1; text-shadow: 0 0 26px rgba(61,190,114,0.70); }
+}
+@media (max-width: 640px) {
+  .scrub-splash-box { width: min(320px, 82vw); padding: 30px 22px 26px; }
+  .scrub-splash::before { width: 82vw; }
 }
 
 </style>
@@ -2202,12 +2258,7 @@ I want to discuss my brand needs and understand which service or package fits me
 <div id="scrubber-section" style="height:500vh;position:relative;">
   <div style="position:sticky;top:0;height:100vh;background:#000;overflow:hidden;">
     <canvas id="scrubber-canvas" style="width:100%;height:100%;display:block;"></canvas>
-    <div id="scrub-loader" style="
-      position:absolute;top:50%;left:50%;
-      transform:translate(-50%,-50%);
-      font-family:'Poppins',sans-serif;
-      font-size:13px;letter-spacing:0.3em;
-      color:var(--green);transition:opacity 1s;">0%</div>
+
     <div style="
       position:absolute;bottom:60px;width:100%;
       text-align:center;pointer-events:none;">
@@ -2659,20 +2710,19 @@ Please help me choose the right service or package." data-wa-ar="مرحباً ح
 
 <script>
 
-// FRAME SCRUBBER — 48 WebP frames version with resilient splash loading
+// FRAME SCRUBBER — 48 WebP frames version with single splash loader
 const scrubberCanvas = document.getElementById('scrubber-canvas');
 const scrubberCtx = scrubberCanvas ? scrubberCanvas.getContext('2d') : null;
 
 // Exported frames:
-// first: frame_0001_0.00s.webp
-// last : frame_0048_3.13s.webp
+// first: 0001.webp
+// last : 0048.webp
 const FRAME_COUNT = 48;
-const FRAME_DURATION_SECONDS = 3.13;
 const FRAME_DIR = 'https://husseinmlhem.github.io/hmmedia/frames/';
 
 const scrubFrames = [];
 let scrubLoaded = 0;
-let scrubFinished = 0;
+let scrubFailed = 0;
 let currentScrubIndex = 1;
 let scrubRAF = null;
 let splashHidden = false;
@@ -2681,13 +2731,8 @@ function padFrameNumber(n) {
   return String(n).padStart(4, '0');
 }
 
-function getFrameTime(index) {
-  const time = ((index - 1) * FRAME_DURATION_SECONDS) / (FRAME_COUNT - 1);
-  return time.toFixed(2);
-}
-
 function getFrameSrc(index) {
-  return `${FRAME_DIR}frame_${padFrameNumber(index)}_${getFrameTime(index)}s.webp`;
+  return `${FRAME_DIR}${padFrameNumber(index)}.webp`;
 }
 
 function sizeScrubberCanvas() {
@@ -2756,38 +2801,39 @@ function hideScrubSplash() {
   splashHidden = true;
 
   const splash = document.getElementById('scrub-splash');
-  if (!splash) return;
-
   const splashPercent = document.getElementById('scrub-splash-percent');
   const splashFill = document.getElementById('scrub-splash-fill');
 
-  if (splashPercent) splashPercent.textContent = 'Ready';
+  if (splashPercent) splashPercent.textContent = 'Ready 100%';
   if (splashFill) splashFill.style.width = '100%';
 
+  // Draw frame one immediately before revealing the page.
+  currentScrubIndex = 1;
+  drawScrubFrame(1);
+
   setTimeout(() => {
+    if (!splash) return;
     splash.classList.add('hidden');
     setTimeout(() => splash.remove(), 900);
-  }, 250);
+  }, 420);
 }
 
 function updateScrubLoader() {
-  const loader = document.getElementById('scrub-loader');
   const splashPercent = document.getElementById('scrub-splash-percent');
   const splashFill = document.getElementById('scrub-splash-fill');
 
-  // Use finished requests, not only successfully loaded images, so missing/slow frames never trap the splash screen.
-  const pct = Math.min(100, Math.round((scrubFinished / FRAME_COUNT) * 100));
+  // One counter only: the splash loader. It is based on successfully loaded frames.
+  const pct = Math.min(100, Math.round((scrubLoaded / FRAME_COUNT) * 100));
 
-  if (loader) {
-    loader.textContent = pct < 100 ? pct + '%' : '';
-    if (pct >= 100) loader.style.opacity = '0';
+  if (splashPercent) {
+    splashPercent.textContent = scrubFailed > 0
+      ? `Loading ${pct}% · ${scrubFailed} frame issue${scrubFailed > 1 ? 's' : ''}`
+      : `Loading ${pct}%`;
   }
-
-  if (splashPercent) splashPercent.textContent = pct < 100 ? `Loading ${pct}%` : 'Ready';
   if (splashFill) splashFill.style.width = pct + '%';
 }
 
-function loadScrubFrame(i, timeoutMs = 5000) {
+function loadScrubFrame(i) {
   return new Promise((resolve) => {
     const img = new Image();
     let settled = false;
@@ -2803,55 +2849,49 @@ function loadScrubFrame(i, timeoutMs = 5000) {
         if (i === 1) {
           currentScrubIndex = 1;
           drawScrubFrame(1);
-
-          // Do not force the visitor to wait for all 48 frames.
-          // Show the first frame, then continue loading the rest in the background.
-          setTimeout(hideScrubSplash, 450);
         }
       } else {
+        scrubFailed++;
         console.warn('Frame not loaded:', getFrameSrc(i));
       }
 
-      scrubFinished++;
       updateScrubLoader();
       resolve(success);
     }
 
     img.onload = () => finish(true);
     img.onerror = () => finish(false);
-
-    // Prevent the splash screen from getting stuck if GitHub Pages is slow or a filename is missing.
-    setTimeout(() => finish(false), timeoutMs);
-
     img.decoding = 'async';
-    img.loading = i <= 8 ? 'eager' : 'lazy';
+    img.loading = 'eager';
     img.src = getFrameSrc(i);
   });
 }
 
 async function preloadScrubFrames() {
-  // Critical first frame.
-  await loadScrubFrame(1, 7000);
+  updateScrubLoader();
 
-  // If the first frame also fails, never leave the user trapped on the splash screen.
-  if (!scrubFrames[1]) hideScrubSplash();
+  // Load the first frame first so the canvas is ready behind the splash.
+  await loadScrubFrame(1);
 
-  // Load nearby frames first for smooth initial scrolling.
-  const priorityFrames = [2, 3, 4, 5, 6, 7, 8, 9, 10];
-  await Promise.all(priorityFrames.map(i => loadScrubFrame(i, 5000)));
-
-  // Then load the remaining frames lazily in small batches.
-  const chunkSize = 6;
-  for (let start = 11; start <= FRAME_COUNT; start += chunkSize) {
+  // Load the remaining frames in controlled batches. The splash stays visible until the last frame is loaded.
+  const chunkSize = 8;
+  for (let start = 2; start <= FRAME_COUNT; start += chunkSize) {
     const chunk = [];
     for (let i = start; i < start + chunkSize && i <= FRAME_COUNT; i++) {
-      chunk.push(loadScrubFrame(i, 5000));
+      chunk.push(loadScrubFrame(i));
     }
     await Promise.all(chunk);
     await new Promise(requestAnimationFrame);
   }
 
-  updateScrubLoader();
+  if (scrubLoaded === FRAME_COUNT) {
+    hideScrubSplash();
+  } else {
+    const splashPercent = document.getElementById('scrub-splash-percent');
+    if (splashPercent) {
+      splashPercent.textContent = `Check frame names · ${scrubLoaded}/${FRAME_COUNT} loaded`;
+    }
+  }
 }
 
 function updateScrubberOnScroll() {
@@ -2886,10 +2926,6 @@ if (scrubberCanvas && scrubberCtx) {
   window.addEventListener('resize', () => {
     drawScrubFrame(currentScrubIndex);
   });
-
-  // Absolute safety fallback: never keep the splash longer than 8 seconds.
-  setTimeout(hideScrubSplash, 8000);
-  updateScrubLoader();
 }
 
 // CURSOR
