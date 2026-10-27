@@ -3,24 +3,30 @@
   'use strict';
 
   const WA_NUMBER = '971542882950';
+  const PLAYLIST_ID = 'PLqqrYKCZFlioU3ZsRjw3uf1_qfNR9sRE5';
   const FRAME_COUNT = 48;
   const FRAME_DIR = 'frames/';
-  const DESIGNS_DIR = 'designs';
-  const GITHUB_REPO = 'husseinmlhem/hmmedia';
-  const IMAGE_RE = /\.(jpe?g|png|webp|gif)$/i;
-  // Used when the GitHub API is unavailable (e.g. rate limited or running locally).
-  const FALLBACK_DESIGNS = Array.from({ length: 23 }, (_, i) => `1 (${i + 1}).jpg`);
-  const VIDEO_STEP = window.matchMedia('(max-width: 760px)').matches ? 4 : 6;
-  const DESIGN_STEP = 8;
+  const GALLERY_STEP = window.matchMedia('(max-width: 760px)').matches ? 8 : 12;
+
+  // Example requests typed into the AI studio box, one per result panel.
+  const DEMOS = [
+    { key: 'images', en: 'Luxury product photos of my water bottle floating in the clouds', ar: 'صور فاخرة لزجاجة المياه الخاصة بي وهي تطفو بين الغيوم' },
+    { key: 'video', en: 'A 15-second National Day video ad for my brand', ar: 'فيديو إعلاني مدته 15 ثانية لعلامتي بمناسبة اليوم الوطني' },
+    { key: 'chat', en: 'A WhatsApp assistant that answers customers and books appointments', ar: 'مساعد واتساب يرد على العملاء ويحجز المواعيد' },
+    { key: 'app', en: 'A web app that writes product descriptions in Arabic and English', ar: 'تطبيق ويب يكتب أوصاف المنتجات بالعربية والإنجليزية' },
+    { key: 'flow', en: 'Send every new lead from Instagram to WhatsApp and my CRM', ar: 'أرسل كل عميل جديد من إنستغرام إلى واتساب ونظام إدارة العملاء' },
+  ];
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   let lang = 'en';
   const t = (en, ar) => (lang === 'ar' ? ar : en);
   const waHref = (message) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+  const openWhatsApp = (message) => window.open(waHref(message), '_blank', 'noopener');
 
   /* ---------------- Language ---------------- */
   function applyLang(next) {
@@ -45,9 +51,8 @@
 
     updateWhatsAppLinks();
     buildServiceOptions();
-    updateIndustryCta();
-    renderVideos();
-    renderDesigns();
+    renderGallery();
+    studio.restart();
   }
 
   /* ---------------- WhatsApp links ---------------- */
@@ -93,45 +98,133 @@
     $$('.lang-btn').forEach((btn) => btn.addEventListener('click', () => applyLang(btn.dataset.lang)));
   }
 
-  /* ---------------- Service filters ---------------- */
-  function setFilter(filter) {
-    $$('.filter-btn').forEach((btn) => {
-      const active = btn.dataset.filter === filter;
-      btn.classList.toggle('active', active);
-      btn.setAttribute('aria-selected', String(active));
-    });
-    $('#svc-grid').dataset.filter = filter;
-    $$('.svc').forEach((card) => {
-      const show = filter === 'all'
-        || card.classList.contains('svc-custom')
-        || card.dataset.cat === filter
-        || (filter === 'new' && card.hasAttribute('data-new'));
-      card.hidden = !show;
-    });
-  }
+  /* ---------------- AI studio (hero) ---------------- */
+  const studio = (() => {
+    const form = $('#prompt-form');
+    const input = $('#prompt-input');
+    const stage = $('#result-stage');
+    const chips = $$('.pchip');
+    const panels = $$('.result-panel');
+    let run = 0;          // bumps to cancel a running demo loop
+    let engaged = false;  // the visitor typed or picked an example
+    let visible = true;
 
-  function initFilters() {
-    $$('.filter-btn').forEach((btn) => btn.addEventListener('click', () => setFilter(btn.dataset.filter)));
-    $$('[data-filter-link]').forEach((link) => link.addEventListener('click', () => {
-      setFilter(link.dataset.filterLink);
-      if (link.dataset.filterLink === 'all') $('#svc-grid').classList.add('expanded');
+    function selectChip(key) {
+      chips.forEach((chip) => {
+        const active = chip.dataset.demo === key;
+        chip.classList.toggle('active', active);
+        chip.setAttribute('aria-selected', String(active));
+      });
+    }
+
+    async function showPanel(key, token) {
+      if (!reduceMotion) {
+        stage.classList.add('loading');
+        await wait(750);
+        if (token !== run) return;
+      }
+      panels.forEach((p) => p.classList.toggle('active', p.dataset.panel === key));
+      stage.classList.remove('loading');
+    }
+
+    async function typePlaceholder(text, token) {
+      for (let i = 1; i <= text.length; i++) {
+        if (token !== run) return false;
+        input.placeholder = text.slice(0, i);
+        await wait(32);
+      }
+      return token === run;
+    }
+
+    async function loop(token) {
+      for (let i = 0; token === run; i = (i + 1) % DEMOS.length) {
+        const demo = DEMOS[i];
+        selectChip(demo.key);
+        if (!(await typePlaceholder(demo[lang], token))) return;
+        await showPanel(demo.key, token);
+        await wait(3400);
+        while (token === run && !visible) await wait(400);
+      }
+    }
+
+    function restart() {
+      run++;
+      stage.classList.remove('loading');
+      if (engaged || reduceMotion) {
+        if (!engaged) input.placeholder = DEMOS[0][lang];
+        return;
+      }
+      loop(run);
+    }
+
+    function stop() {
+      engaged = true;
+      run++;
+      stage.classList.remove('loading');
+      input.placeholder = t(input.dataset.phEn, input.dataset.phAr);
+    }
+
+    function autoGrow() {
+      input.style.height = 'auto';
+      input.style.height = `${Math.min(input.scrollHeight, 160)}px`;
+    }
+
+    chips.forEach((chip) => chip.addEventListener('click', () => {
+      const demo = DEMOS.find((d) => d.key === chip.dataset.demo);
+      stop();
+      selectChip(demo.key);
+      input.value = demo[lang];
+      autoGrow();
+      showPanel(demo.key, run);
     }));
-    // On phones the full list starts collapsed to the first six services.
-    $('#svc-more').addEventListener('click', () => $('#svc-grid').classList.add('expanded'));
-  }
+
+    input.addEventListener('focus', stop);
+    input.addEventListener('input', () => {
+      autoGrow();
+      input.closest('.prompt-box').classList.remove('invalid');
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) {
+        input.closest('.prompt-box').classList.add('invalid');
+        input.focus();
+        return;
+      }
+      openWhatsApp(lang === 'ar'
+        ? `مرحباً حسين، أريد تنفيذ هذا بالذكاء الاصطناعي:\n${text}\nالاختيار: استوديو الذكاء الاصطناعي في الموقع.`
+        : `Hi Hussein, I'd like to create this with AI:\n${text}\nSelected from: AI Studio on the website.`);
+    });
+
+    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }).observe(form.closest('.mock'));
+
+    return { restart };
+  })();
 
   /* ---------------- Contact form ---------------- */
   function buildServiceOptions() {
     const select = $('#cf-service');
     if (!select) return;
     const previous = select.selectedIndex;
-    const titles = $$('.svc [data-request-title]').map((el) => el.textContent.trim());
-
     select.textContent = '';
+
     const placeholder = new Option(t('Select a service', 'اختر الخدمة'), '');
     placeholder.disabled = true;
     select.add(placeholder);
-    titles.forEach((title) => select.add(new Option(title, title)));
+
+    [['ai', t('AI services', 'خدمات الذكاء الاصطناعي')], ['agency', t('Agency services', 'خدمات الوكالة')]].forEach(([id, label]) => {
+      const group = document.createElement('optgroup');
+      group.label = label;
+      $$(`#${id} [data-service] [data-request-title]`).forEach((el) => {
+        const title = el.textContent.trim();
+        group.appendChild(new Option(title, title));
+      });
+      select.appendChild(group);
+    });
     const other = t('Other / not sure', 'أخرى / غير متأكد');
     select.add(new Option(other, other));
     select.selectedIndex = previous > 0 ? previous : 0;
@@ -156,10 +249,9 @@
       if (firstInvalid) { firstInvalid.focus(); return; }
 
       const chosen = service.value || t('Not selected', 'غير محددة');
-      const message = lang === 'ar'
+      openWhatsApp(lang === 'ar'
         ? `مرحباً حسين، أريد التواصل مع H.M Media بخصوص مشروع.\nالاختيار: نموذج التواصل في الموقع.\nالاسم: ${name.value.trim()}\nالخدمة: ${chosen}\nالتفاصيل: ${details.value.trim()}`
-        : `Hi Hussein, I want to contact H.M Media about a project.\nSelected from: Website contact form.\nName: ${name.value.trim()}\nService: ${chosen}\nDetails: ${details.value.trim()}`;
-      window.open(waHref(message), '_blank', 'noopener');
+        : `Hi Hussein, I want to contact H.M Media about a project.\nSelected from: Website contact form.\nName: ${name.value.trim()}\nService: ${chosen}\nDetails: ${details.value.trim()}`);
 
       const label = $('span', submit);
       label.textContent = t('WhatsApp opened ✓', 'تم فتح واتساب ✓');
@@ -169,51 +261,7 @@
     [name, details].forEach((field) => field.addEventListener('input', () => field.removeAttribute('aria-invalid')));
   }
 
-  /* ---------------- Industries ---------------- */
-  let activeIndustry = 0;
-
-  function updateIndustryCta() {
-    const cta = $('#ind-cta');
-    const btn = $$('.ind-btn')[activeIndustry];
-    if (!cta || !btn) return;
-    const name = btn.textContent.trim();
-    cta.href = waHref(lang === 'ar'
-      ? `مرحباً حسين، نوع عملي: ${name}.\nالاختيار: قسم حالات الاستخدام.\nأريد أفكاراً والخدمات المناسبة لعملي.`
-      : `Hi Hussein, my business type: ${name}.\nSelected from: Use cases section.\nI'd like ideas and the right services for my business.`);
-  }
-
-  function initIndustries() {
-    const buttons = $$('.ind-btn');
-    const panels = $$('.ind-panel');
-    buttons.forEach((btn, i) => btn.addEventListener('click', () => {
-      activeIndustry = i;
-      buttons.forEach((b, k) => {
-        b.classList.toggle('active', k === i);
-        b.setAttribute('aria-selected', String(k === i));
-      });
-      panels.forEach((p, k) => { p.hidden = k !== i; });
-      updateIndustryCta();
-    }));
-  }
-
-  /* ---------------- Process stepper ---------------- */
-  function initStepper() {
-    const rows = $$('.step-row');
-    if (!rows.length || reduceMotion) return;
-    let index = 0;
-    let timer = null;
-    const tick = () => {
-      rows[index].classList.remove('active');
-      index = (index + 1) % rows.length;
-      rows[index].classList.add('active');
-    };
-    new IntersectionObserver(([entry]) => {
-      clearInterval(timer);
-      if (entry.isIntersecting) timer = setInterval(tick, 2400);
-    }).observe(rows[0].parentElement);
-  }
-
-  /* ---------------- Reveal & card spotlight ---------------- */
+  /* ---------------- Reveal, spotlight, marquee ---------------- */
   function initReveal() {
     const items = $$('.reveal');
     if (reduceMotion || !('IntersectionObserver' in window)) {
@@ -251,14 +299,25 @@
     });
   }
 
-  /* ---------------- Showreel frame scrubber ---------------- */
-  function initReel() {
-    const reel = $('#reel');
+  /* ---------------- Video portfolio: showreel poster + playlist ---------------- */
+  function initPlayer() {
+    const player = $('#player');
     const canvas = $('#reel-canvas');
     const progressBar = $('#reel-progress');
     const ctx = canvas && canvas.getContext('2d');
-    if (!reel || !ctx) return;
+    if (!player || !ctx) return;
 
+    $('#player-start').addEventListener('click', () => {
+      player.classList.add('playing');
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/videoseries?list=${PLAYLIST_ID}&autoplay=1&rel=0`;
+      iframe.title = 'H.M Media video portfolio';
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      iframe.allowFullscreen = true;
+      player.appendChild(iframe);
+    });
+
+    // The poster is the H.M showreel: 48 frames scrubbed as the player scrolls into view.
     const frames = [];
     const saveData = navigator.connection && navigator.connection.saveData;
     const wanted = [];
@@ -267,7 +326,6 @@
     let loaded = 0;
     let current = 1;
     let rafId = null;
-
     const frameSrc = (i) => `${FRAME_DIR}${String(i).padStart(4, '0')}.webp`;
 
     function sizeCanvas() {
@@ -302,14 +360,12 @@
       ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
     }
 
-    // Frame 1 at the top of the page, last frame once the reel sits in the middle of the screen.
+    // First frame when the player enters at the bottom, last frame once it is centred.
     function frameForScroll() {
-      const rect = reel.getBoundingClientRect();
+      const rect = player.getBoundingClientRect();
       const vh = window.innerHeight;
-      const absTop = rect.top + window.scrollY;
       const endTop = Math.max(vh * 0.08, (vh - rect.height) / 2);
-      const distance = Math.max(absTop - endTop, vh * 0.6);
-      const progress = clamp(window.scrollY / distance, 0, 1);
+      const progress = clamp((vh - rect.top) / Math.max(vh - endTop, 1), 0, 1);
       return Math.round(progress * (FRAME_COUNT - 1)) + 1;
     }
 
@@ -339,17 +395,22 @@
     }
 
     async function preload() {
-      await load(wanted[0]);
-      for (let k = 1; k < wanted.length; k += 6) {
-        await Promise.all(wanted.slice(k, k + 6).map(load));
+      current = frameForScroll();
+      await load(current);
+      const rest = wanted.filter((i) => i !== current);
+      for (let k = 0; k < rest.length; k += 6) {
+        await Promise.all(rest.slice(k, k + 6).map(load));
       }
       if (progressBar) progressBar.classList.add('done');
     }
 
     sizeCanvas();
-    current = frameForScroll();
-    if (document.readyState === 'complete') preload();
-    else window.addEventListener('load', preload, { once: true });
+    // Only download the frames when the visitor gets close to the player.
+    new IntersectionObserver(([entry], obs) => {
+      if (!entry.isIntersecting) return;
+      obs.disconnect();
+      preload();
+    }, { rootMargin: '800px 0px' }).observe(player);
 
     window.addEventListener('scroll', () => {
       if (!rafId) rafId = requestAnimationFrame(update);
@@ -357,201 +418,139 @@
     new ResizeObserver(() => { sizeCanvas(); draw(current); }).observe(canvas);
   }
 
-  /* ---------------- Work: videos ---------------- */
-  let videoIds = [];
-  let videoShown = 0;
-  let videoState = 'loading';
+  /* ---------------- Image portfolio (public Google Drive folder) ---------------- */
+  let galleryItems = [];
+  let galleryShown = 0;
+  let galleryState = 'loading';
+  let lightboxIndex = 0;
 
-  function youTubeId(url) {
-    try {
-      const u = new URL(url);
-      if (u.hostname.includes('youtu.be')) return u.pathname.split('/').filter(Boolean)[0] || null;
-      if (u.searchParams.get('v')) return u.searchParams.get('v');
-      const parts = u.pathname.split('/').filter(Boolean);
-      const idx = parts.findIndex((p) => p === 'shorts' || p === 'embed');
-      return idx !== -1 && parts[idx + 1] ? parts[idx + 1] : null;
-    } catch (e) {
-      return null;
-    }
+  // Drive serves resized copies of public files, so phones never download the full-size originals.
+  const driveSrc = (id, width) => `https://lh3.googleusercontent.com/d/${id}=w${width}`;
+  const driveFallback = (id, width) => `https://drive.google.com/thumbnail?id=${id}&sz=w${width}`;
+
+  function loadDriveImage(img, item, width, onFail) {
+    img.addEventListener('error', function retry() {
+      img.removeEventListener('error', retry);
+      img.addEventListener('error', onFail, { once: true });
+      img.src = driveFallback(item.id, width);
+    });
+    img.src = driveSrc(item.id, width);
   }
 
-  function renderVideos() {
-    const grid = $('#video-grid');
-    const more = $('#video-more');
-    if (!grid || videoState === 'loading') return;
+  function renderGallery() {
+    const grid = $('#gallery');
+    const more = $('#gallery-more');
+    if (!grid || galleryState === 'loading') return;
 
-    if (videoState === 'error' || !videoIds.length) {
-      grid.innerHTML = `<p class="work-msg">${videoState === 'error'
-        ? t('Videos could not be loaded right now.', 'تعذر تحميل الفيديوهات حالياً.')
-        : t('No videos yet.', 'لا توجد فيديوهات بعد.')}</p>`;
+    if (galleryState === 'error' || !galleryItems.length) {
+      grid.innerHTML = `<p class="work-msg">${t('The gallery could not be loaded here — open the full gallery instead.', 'تعذر تحميل المعرض هنا — افتح المعرض الكامل.')}</p>`;
       more.hidden = true;
       return;
     }
 
     grid.textContent = '';
-    videoIds.slice(0, videoShown).forEach((id, i) => {
-      const card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'video-card';
-      card.setAttribute('aria-label', `${t('Play project', 'تشغيل العمل')} ${i + 1}`);
-      card.innerHTML = `
-        <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy" decoding="async">
-        <span class="corner" aria-hidden="true"><svg><use href="#i-out"/></svg></span>
-        <span class="video-cap">
-          <span class="play-sm" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
-          <span><b>${t('Project', 'عمل')} ${String(i + 1).padStart(2, '0')}</b><small>${t('Watch the work', 'شاهد العمل')}</small></span>
-        </span>`;
-      $('img', card).addEventListener('error', (e) => e.target.remove(), { once: true });
-      card.addEventListener('click', () => openVideo(id));
-      grid.appendChild(card);
+    galleryItems.slice(0, galleryShown).forEach((item, i) => {
+      if (item.failed) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'design-item';
+      btn.setAttribute('aria-label', `${t('Open', 'عرض')}: ${item.title}`);
+      const img = document.createElement('img');
+      img.alt = item.title;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.addEventListener('load', () => btn.classList.add('loaded'), { once: true });
+      loadDriveImage(img, item, 800, () => {
+        item.failed = true;
+        btn.remove();
+        if (!$('.design-item', grid)) {
+          grid.innerHTML = `<p class="work-msg">${t('The gallery could not be loaded here — open the full gallery instead.', 'تعذر تحميل المعرض هنا — افتح المعرض الكامل.')}</p>`;
+        }
+      });
+      const cap = document.createElement('span');
+      cap.className = 'design-cap';
+      cap.textContent = item.title;
+      btn.append(img, cap);
+      btn.addEventListener('click', () => openLightbox(i));
+      grid.appendChild(btn);
     });
-    more.hidden = videoShown >= videoIds.length;
+    more.hidden = galleryShown >= galleryItems.length;
   }
 
-  async function loadVideos() {
+  async function loadGallery() {
     try {
-      const res = await fetch('portfolio-videos.txt', { cache: 'no-cache' });
-      if (!res.ok) throw new Error(`portfolio-videos.txt: HTTP ${res.status}`);
-      const lines = (await res.text()).split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
-      videoIds = [...new Set(lines.map(youTubeId).filter(Boolean))];
-      videoShown = Math.min(VIDEO_STEP, videoIds.length);
-      videoState = 'ready';
+      const res = await fetch('assets/data/gallery.json', { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`gallery.json: HTTP ${res.status}`);
+      galleryItems = (await res.json()).images || [];
+      galleryShown = Math.min(GALLERY_STEP, galleryItems.length);
+      galleryState = 'ready';
     } catch (err) {
       console.error(err);
-      videoState = 'error';
+      galleryState = 'error';
     }
-    renderVideos();
+    renderGallery();
   }
 
-  /* ---------------- Work: designs ---------------- */
-  let designUrls = [];
-  let designShown = 0;
-  let designState = 'idle';
-
-  function renderDesigns() {
-    const grid = $('#design-grid');
-    const more = $('#design-more');
-    if (!grid || designState !== 'ready') return;
-
-    if (!designUrls.length) {
-      grid.innerHTML = `<p class="work-msg">${t('No designs yet.', 'لا توجد تصاميم بعد.')}</p>`;
-      more.hidden = true;
-      return;
-    }
-
-    grid.textContent = '';
-    designUrls.slice(0, designShown).forEach((src, i) => {
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'design-item';
-      item.setAttribute('aria-label', `${t('Open design', 'عرض التصميم')} ${i + 1}`);
-      item.innerHTML = `<img src="${src}" alt="" loading="lazy" decoding="async"><span class="corner" aria-hidden="true"><svg><use href="#i-out"/></svg></span>`;
-      item.addEventListener('click', () => openLightbox(i));
-      grid.appendChild(item);
+  function initGallery() {
+    $('#gallery-more').addEventListener('click', () => {
+      galleryShown = Math.min(galleryShown + GALLERY_STEP, galleryItems.length);
+      renderGallery();
     });
-    more.hidden = designShown >= designUrls.length;
-  }
-
-  async function loadDesigns() {
-    if (designState !== 'idle') return;
-    designState = 'loading';
-    let names;
-    try {
-      const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${DESIGNS_DIR}`);
-      if (!res.ok) throw new Error(`GitHub API: HTTP ${res.status}`);
-      names = (await res.json()).filter((f) => f.type === 'file' && IMAGE_RE.test(f.name)).map((f) => f.name);
-    } catch (err) {
-      console.warn('Using the bundled design list instead of the GitHub API.', err);
-      names = FALLBACK_DESIGNS;
-    }
-    names.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-    designUrls = names.map((n) => `${DESIGNS_DIR}/${encodeURIComponent(n)}`);
-    designShown = Math.min(DESIGN_STEP, designUrls.length);
-    designState = 'ready';
-    renderDesigns();
-  }
-
-  function initWork() {
-    const tabs = $$('.work-tab');
-    tabs.forEach((tab) => tab.addEventListener('click', () => {
-      tabs.forEach((x) => {
-        const active = x === tab;
-        x.classList.toggle('active', active);
-        x.setAttribute('aria-selected', String(active));
-        $(`#${x.getAttribute('aria-controls')}`).hidden = !active;
-      });
-      if (tab.dataset.workTab === 'designs') loadDesigns();
-    }));
-
-    $('#video-more').addEventListener('click', () => {
-      videoShown = Math.min(videoShown + VIDEO_STEP, videoIds.length);
-      renderVideos();
-    });
-    $('#design-more').addEventListener('click', () => {
-      designShown = Math.min(designShown + DESIGN_STEP, designUrls.length);
-      renderDesigns();
-    });
-
-    // Start fetching the video list only when the work section is close.
-    const section = $('#work');
     new IntersectionObserver(([entry], obs) => {
       if (!entry.isIntersecting) return;
       obs.disconnect();
-      loadVideos();
-    }, { rootMargin: '600px 0px' }).observe(section);
+      loadGallery();
+    }, { rootMargin: '800px 0px' }).observe($('#gallery'));
   }
 
-  /* ---------------- Modals ---------------- */
+  /* ---------------- Lightbox ---------------- */
   let lastFocus = null;
-  let lightboxIndex = 0;
 
-  function openModal(modal) {
-    lastFocus = document.activeElement;
-    modal.hidden = false;
-    document.body.style.overflow = 'hidden';
-    $('.modal-close', modal).focus();
-  }
-
-  function closeModal(modal) {
-    if (modal.hidden) return;
-    modal.hidden = true;
-    document.body.style.overflow = '';
-    if (modal.id === 'video-modal') $('#video-frame').textContent = '';
-    if (lastFocus) lastFocus.focus();
-  }
-
-  function openVideo(id) {
-    $('#video-frame').innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="H.M Media video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
-    openModal($('#video-modal'));
-  }
-
-  function showLightbox(i) {
-    lightboxIndex = (i + designUrls.length) % designUrls.length;
-    $('#lb-img').src = designUrls[lightboxIndex];
-    $('#lb-count').textContent = `${lightboxIndex + 1} / ${designUrls.length}`;
+  function showLightbox(i, step = 1) {
+    const total = galleryItems.length;
+    for (let n = 0; n < total; n++) {
+      const idx = ((i + n * step) % total + total) % total;
+      if (!galleryItems[idx].failed) { lightboxIndex = idx; break; }
+    }
+    const item = galleryItems[lightboxIndex];
+    const img = $('#lb-img');
+    img.alt = item.title;
+    loadDriveImage(img, item, 2000, () => {});
+    $('#lb-cap').textContent = `${item.title} · ${lightboxIndex + 1} / ${total}`;
   }
 
   function openLightbox(i) {
+    lastFocus = document.activeElement;
     showLightbox(i);
-    openModal($('#lightbox'));
+    const box = $('#lightbox');
+    box.hidden = false;
+    document.body.style.overflow = 'hidden';
+    $('.modal-close', box).focus();
   }
 
-  function initModals() {
-    $$('.modal').forEach((modal) => {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.closest('[data-close]')) closeModal(modal);
-      });
-    });
-    $('#lb-prev').addEventListener('click', () => showLightbox(lightboxIndex - 1));
-    $('#lb-next').addEventListener('click', () => showLightbox(lightboxIndex + 1));
+  function closeLightbox() {
+    const box = $('#lightbox');
+    if (box.hidden) return;
+    box.hidden = true;
+    document.body.style.overflow = '';
+    $('#lb-img').removeAttribute('src');
+    if (lastFocus) lastFocus.focus();
+  }
 
+  function initLightbox() {
+    const box = $('#lightbox');
+    box.addEventListener('click', (e) => {
+      if (e.target === box || e.target.closest('[data-close]')) closeLightbox();
+    });
+    $('#lb-prev').addEventListener('click', () => showLightbox(lightboxIndex - 1, -1));
+    $('#lb-next').addEventListener('click', () => showLightbox(lightboxIndex + 1, 1));
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') $$('.modal').forEach(closeModal);
-      if ($('#lightbox').hidden) return;
+      if (box.hidden) return;
+      if (e.key === 'Escape') closeLightbox();
       const forward = lang === 'ar' ? 'ArrowLeft' : 'ArrowRight';
       const back = lang === 'ar' ? 'ArrowRight' : 'ArrowLeft';
-      if (e.key === forward) showLightbox(lightboxIndex + 1);
-      if (e.key === back) showLightbox(lightboxIndex - 1);
+      if (e.key === forward) showLightbox(lightboxIndex + 1, 1);
+      if (e.key === back) showLightbox(lightboxIndex - 1, -1);
     });
   }
 
@@ -567,14 +566,11 @@
   $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   initMarquee();
   initNav();
-  initFilters();
   initForm();
-  initIndustries();
-  initWork();
-  initModals();
+  initGallery();
+  initLightbox();
   applyLang(initialLang());
   initReveal();
   initSpotlight();
-  initStepper();
-  initReel();
+  initPlayer();
 })();
