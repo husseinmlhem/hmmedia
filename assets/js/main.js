@@ -3,14 +3,12 @@
   'use strict';
 
   const WA_NUMBER = '971542882950';
-  const PLAYLIST_ID = 'PLqqrYKCZFlioU3ZsRjw3uf1_qfNR9sRE5';
   const FRAME_COUNT = 48;
   const FRAME_DIR = 'frames/';
-  const GALLERY_STEP = window.matchMedia('(max-width: 760px)').matches ? 8 : 12;
 
   // Example requests typed into the AI studio box, one per result panel.
   const DEMOS = [
-    { key: 'images', en: 'Luxury product photos of my water bottle floating in the clouds', ar: 'صور فاخرة لزجاجة المياه الخاصة بي وهي تطفو بين الغيوم' },
+    { key: 'images', en: 'Luxury 3D visuals of my perfume bottle in emerald and gold', ar: 'صور ثلاثية الأبعاد فاخرة لزجاجة العطر الخاصة بي بالأخضر الزمردي والذهبي' },
     { key: 'video', en: 'A 15-second National Day video ad for my brand', ar: 'فيديو إعلاني مدته 15 ثانية لعلامتي بمناسبة اليوم الوطني' },
     { key: 'chat', en: 'A WhatsApp assistant that answers customers and books appointments', ar: 'مساعد واتساب يرد على العملاء ويحجز المواعيد' },
     { key: 'app', en: 'A web app that writes product descriptions in Arabic and English', ar: 'تطبيق ويب يكتب أوصاف المنتجات بالعربية والإنجليزية' },
@@ -51,7 +49,6 @@
 
     updateWhatsAppLinks();
     buildServiceOptions();
-    renderGallery();
     studio.restart();
   }
 
@@ -299,25 +296,14 @@
     });
   }
 
-  /* ---------------- Video portfolio: showreel poster + playlist ---------------- */
-  function initPlayer() {
-    const player = $('#player');
+  /* ---------------- Talk band: H.M showreel scrubbed by scroll ---------------- */
+  function initReel() {
+    const band = $('#talk-band');
     const canvas = $('#reel-canvas');
     const progressBar = $('#reel-progress');
     const ctx = canvas && canvas.getContext('2d');
-    if (!player || !ctx) return;
+    if (!band || !ctx) return;
 
-    $('#player-start').addEventListener('click', () => {
-      player.classList.add('playing');
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/videoseries?list=${PLAYLIST_ID}&autoplay=1&rel=0`;
-      iframe.title = 'H.M Media video portfolio';
-      iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      iframe.allowFullscreen = true;
-      player.appendChild(iframe);
-    });
-
-    // The poster is the H.M showreel: 48 frames scrubbed as the player scrolls into view.
     const frames = [];
     const saveData = navigator.connection && navigator.connection.saveData;
     const wanted = [];
@@ -353,16 +339,17 @@
       if (!img) return;
       const cw = canvas.clientWidth;
       const ch = canvas.clientHeight;
-      const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      // Keep the animation in the upper part of the band so the text below stays readable.
+      const scale = Math.max(cw / img.naturalWidth, (ch * 0.72) / img.naturalHeight);
       const w = img.naturalWidth * scale;
       const h = img.naturalHeight * scale;
       ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      ctx.drawImage(img, (cw - w) / 2, ch * 0.34 - h / 2, w, h);
     }
 
-    // First frame when the player enters at the bottom, last frame once it is centred.
+    // First frame when the band enters at the bottom, the H.M logo once it is centred.
     function frameForScroll() {
-      const rect = player.getBoundingClientRect();
+      const rect = band.getBoundingClientRect();
       const vh = window.innerHeight;
       const endTop = Math.max(vh * 0.08, (vh - rect.height) / 2);
       const progress = clamp((vh - rect.top) / Math.max(vh - endTop, 1), 0, 1);
@@ -405,153 +392,17 @@
     }
 
     sizeCanvas();
-    // Only download the frames when the visitor gets close to the player.
+    // Only download the frames when the visitor gets close to the band.
     new IntersectionObserver(([entry], obs) => {
       if (!entry.isIntersecting) return;
       obs.disconnect();
       preload();
-    }, { rootMargin: '800px 0px' }).observe(player);
+    }, { rootMargin: '800px 0px' }).observe(band);
 
     window.addEventListener('scroll', () => {
       if (!rafId) rafId = requestAnimationFrame(update);
     }, { passive: true });
     new ResizeObserver(() => { sizeCanvas(); draw(current); }).observe(canvas);
-  }
-
-  /* ---------------- Image portfolio (public Google Drive folder) ---------------- */
-  let galleryItems = [];
-  let galleryShown = 0;
-  let galleryState = 'loading';
-  let lightboxIndex = 0;
-
-  // Drive serves resized copies of public files, so phones never download the full-size originals.
-  const driveSrc = (id, width) => `https://lh3.googleusercontent.com/d/${id}=w${width}`;
-  const driveFallback = (id, width) => `https://drive.google.com/thumbnail?id=${id}&sz=w${width}`;
-
-  function loadDriveImage(img, item, width, onFail) {
-    img.addEventListener('error', function retry() {
-      img.removeEventListener('error', retry);
-      img.addEventListener('error', onFail, { once: true });
-      img.src = driveFallback(item.id, width);
-    });
-    img.src = driveSrc(item.id, width);
-  }
-
-  function renderGallery() {
-    const grid = $('#gallery');
-    const more = $('#gallery-more');
-    if (!grid || galleryState === 'loading') return;
-
-    if (galleryState === 'error' || !galleryItems.length) {
-      grid.innerHTML = `<p class="work-msg">${t('The gallery could not be loaded here — open the full gallery instead.', 'تعذر تحميل المعرض هنا — افتح المعرض الكامل.')}</p>`;
-      more.hidden = true;
-      return;
-    }
-
-    grid.textContent = '';
-    galleryItems.slice(0, galleryShown).forEach((item, i) => {
-      if (item.failed) return;
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'design-item';
-      btn.setAttribute('aria-label', `${t('Open', 'عرض')}: ${item.title}`);
-      const img = document.createElement('img');
-      img.alt = item.title;
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.addEventListener('load', () => btn.classList.add('loaded'), { once: true });
-      loadDriveImage(img, item, 800, () => {
-        item.failed = true;
-        btn.remove();
-        if (!$('.design-item', grid)) {
-          grid.innerHTML = `<p class="work-msg">${t('The gallery could not be loaded here — open the full gallery instead.', 'تعذر تحميل المعرض هنا — افتح المعرض الكامل.')}</p>`;
-        }
-      });
-      const cap = document.createElement('span');
-      cap.className = 'design-cap';
-      cap.textContent = item.title;
-      btn.append(img, cap);
-      btn.addEventListener('click', () => openLightbox(i));
-      grid.appendChild(btn);
-    });
-    more.hidden = galleryShown >= galleryItems.length;
-  }
-
-  async function loadGallery() {
-    try {
-      const res = await fetch('assets/data/gallery.json', { cache: 'no-cache' });
-      if (!res.ok) throw new Error(`gallery.json: HTTP ${res.status}`);
-      galleryItems = (await res.json()).images || [];
-      galleryShown = Math.min(GALLERY_STEP, galleryItems.length);
-      galleryState = 'ready';
-    } catch (err) {
-      console.error(err);
-      galleryState = 'error';
-    }
-    renderGallery();
-  }
-
-  function initGallery() {
-    $('#gallery-more').addEventListener('click', () => {
-      galleryShown = Math.min(galleryShown + GALLERY_STEP, galleryItems.length);
-      renderGallery();
-    });
-    new IntersectionObserver(([entry], obs) => {
-      if (!entry.isIntersecting) return;
-      obs.disconnect();
-      loadGallery();
-    }, { rootMargin: '800px 0px' }).observe($('#gallery'));
-  }
-
-  /* ---------------- Lightbox ---------------- */
-  let lastFocus = null;
-
-  function showLightbox(i, step = 1) {
-    const total = galleryItems.length;
-    for (let n = 0; n < total; n++) {
-      const idx = ((i + n * step) % total + total) % total;
-      if (!galleryItems[idx].failed) { lightboxIndex = idx; break; }
-    }
-    const item = galleryItems[lightboxIndex];
-    const img = $('#lb-img');
-    img.alt = item.title;
-    loadDriveImage(img, item, 2000, () => {});
-    $('#lb-cap').textContent = `${item.title} · ${lightboxIndex + 1} / ${total}`;
-  }
-
-  function openLightbox(i) {
-    lastFocus = document.activeElement;
-    showLightbox(i);
-    const box = $('#lightbox');
-    box.hidden = false;
-    document.body.style.overflow = 'hidden';
-    $('.modal-close', box).focus();
-  }
-
-  function closeLightbox() {
-    const box = $('#lightbox');
-    if (box.hidden) return;
-    box.hidden = true;
-    document.body.style.overflow = '';
-    $('#lb-img').removeAttribute('src');
-    if (lastFocus) lastFocus.focus();
-  }
-
-  function initLightbox() {
-    const box = $('#lightbox');
-    box.addEventListener('click', (e) => {
-      if (e.target === box || e.target.closest('[data-close]')) closeLightbox();
-    });
-    $('#lb-prev').addEventListener('click', () => showLightbox(lightboxIndex - 1, -1));
-    $('#lb-next').addEventListener('click', () => showLightbox(lightboxIndex + 1, 1));
-    document.addEventListener('keydown', (e) => {
-      if (box.hidden) return;
-      if (e.key === 'Escape') closeLightbox();
-      const forward = lang === 'ar' ? 'ArrowLeft' : 'ArrowRight';
-      const back = lang === 'ar' ? 'ArrowRight' : 'ArrowLeft';
-      if (e.key === forward) showLightbox(lightboxIndex + 1, 1);
-      if (e.key === back) showLightbox(lightboxIndex - 1, -1);
-    });
   }
 
   /* ---------------- Init ---------------- */
@@ -567,10 +418,8 @@
   initMarquee();
   initNav();
   initForm();
-  initGallery();
-  initLightbox();
   applyLang(initialLang());
   initReveal();
   initSpotlight();
-  initPlayer();
+  initReel();
 })();
