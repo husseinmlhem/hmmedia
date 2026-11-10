@@ -42,8 +42,8 @@ WEBSITE_ID = f"{SITE}/#website"
 FOUNDER = {
     "name": "Hussein Mlhem",
     "name_ar": "حسين ملحم",
-    "url": "https://husseinmlhem.com/",
-    "id": "https://husseinmlhem.com/#person",
+    "url": "https://www.husseinmlhem.com/",
+    "id": "https://www.husseinmlhem.com/#person",
 }
 SAME_AS = [
     "https://www.instagram.com/h.m.gcc/",
