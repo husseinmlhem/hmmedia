@@ -699,3 +699,23 @@ html[lang="ar"] .rel-card .more { transform: scaleX(-1); }
 .svc-text + .svc-text, .link-list + .svc-text { margin-top: 14px; }
 .text-link { font-weight: 600; color: var(--accent); }
 .text-link:hover { color: var(--accent-hi); }
+
+/* ---------- H.M One and Work pages ---------- */
+.svc-lead { margin: -10px 0 24px; max-width: 720px; font-size: 15.5px; color: var(--text-2); }
+.one-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.one-cta { padding: 32px; text-align: center; }
+.one-cta .svc-hero-cta { justify-content: center; margin-top: 8px; }
+.one-teaser { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: clamp(24px, 4vw, 44px); }
+.one-teaser > div { max-width: 720px; }
+.work-grid { columns: 3 260px; column-gap: 16px; }
+.work-item { display: block; margin-bottom: 16px; break-inside: avoid; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); transition: border-color 0.25s, transform 0.25s; }
+.work-item:hover { border-color: rgba(var(--accent-rgb), 0.5); transform: translateY(-2px); }
+.work-item img { width: 100%; height: auto; }
+.work-videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.work-video { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: #0b0d0c; }
+.work-video img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.25s, transform 0.4s; }
+.work-video:hover img { opacity: 1; transform: scale(1.04); }
+.work-play { position: absolute; inset: 0; margin: auto; width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; color: var(--on-accent); background: var(--accent); box-shadow: 0 8px 24px -6px rgba(var(--accent-rgb), 0.8); }
+.work-play svg { width: 20px; height: 20px; }
+@media (max-width: 1024px) { .one-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .one-grid { grid-template-columns: 1fr; } }

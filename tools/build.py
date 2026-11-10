@@ -438,6 +438,11 @@ def llms_txt(page: PageParser, pages: list[dict]) -> str:
     for p in pages:
         lines.append(f"- [{p['title']['en']}]({SITE}/services/{p['slug']}/): {p['description']['en']}")
     lines += [f"- [About H.M Media]({SITE}/about/): Who we are, what we do, where we work and who founded the studio."]
+    lines += [f"- [Work]({SITE}/work/): Selected designs, product visuals, videos and motion graphics."]
+    one = service_pages.sc.ONE["en"]
+    lines += ["", "## H.M One: business software", "", f"{one['intro']} Page: {SITE}/one/ (Arabic: {SITE}/ar/one/).", "", "Solutions available today:", ""]
+    lines += [f"- **{s['en'][0]}**: {s['en'][1]}" for s in service_pages.sc.ONE_SOLUTIONS]
+    lines += ["", "Custom Solutions are built on request. Pricing is quoted per company; request it on WhatsApp."]
     lines += ["", "## FAQ", ""]
     for faq in page.faqs:
         if faq["q"] and faq["a"]:
@@ -468,6 +473,8 @@ def sitemap_xml(pages: list[dict]) -> str:
     urls = entry("/", "/ar/", "1.0")
     for p in pages:
         urls += entry(f"/services/{p['slug']}/", f"/ar/services/{p['slug']}/", "0.8")
+    urls += entry("/one/", "/ar/one/", "0.9")
+    urls += entry("/work/", "/ar/work/", "0.7")
     urls += entry("/about/", "/ar/about/", "0.6")
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -498,6 +505,8 @@ def main() -> int:
         "WHATSAPP": WHATSAPP,
         "EMAIL": EMAIL,
         "PHONE_DISPLAY": PHONE_DISPLAY,
+        "designs": json.loads((ROOT / "tools" / "work_designs.json").read_text(encoding="utf-8")),
+        "videos": [line.split("v=")[1].strip() for line in (ROOT / "portfolio-videos.txt").read_text(encoding="utf-8").splitlines() if "v=" in line],
         "SOCIAL_LINKS": [("Instagram", SAME_AS[0]), ("Facebook", SAME_AS[1]), ("YouTube", SAME_AS[2])],
         "FOUNDER": FOUNDER,
         "AREA_SERVED": AREA_SERVED,

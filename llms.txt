@@ -61,6 +61,25 @@ H.M Media is an AI creative studio and creative agency founded by Hussein Mlhem 
 - [Social Media Management, Ads & Local SEO](https://h-m.agency/services/marketing-and-growth/): Monthly social media management, sponsored ads, Google Business and local SEO, Arabic and English copywriting, and social media audits, from AED 299. H.M Media serves brands across the UAE, GCC and the Middle East.
 - [Website, Landing Page & Online Store Setup](https://h-m.agency/services/web-and-ecommerce/): Websites, landing pages and online store setup, from AED 2,999. H.M Media builds them for brands across the UAE, GCC and the Middle East.
 - [About H.M Media](https://h-m.agency/about/): Who we are, what we do, where we work and who founded the studio.
+- [Work](https://h-m.agency/work/): Selected designs, product visuals, videos and motion graphics.
+
+## H.M One: business software
+
+H.M One is our business operations platform for companies in the UAE and the region. Your company gets its own private workspace in Arabic and English, and you activate only the Solutions you need. If what you need does not exist yet, we build it for you. Page: https://h-m.agency/one/ (Arabic: https://h-m.agency/ar/one/).
+
+Solutions available today:
+
+- **HR Management**: Employee records, interactive organization chart, contracts, documents, requests, loans, onboarding and offboarding, and end-of-service estimates.
+- **Attendance & Leave**: Attendance records and schedules, leave requests with approvals, spreadsheet import and reports.
+- **Payroll**: Payroll cycles, payslips, allowances, deductions and loans, with approvals.
+- **Facility Management**: Clients, properties and units, work orders, technician assignment, time and cost logs, with basic invoicing and collection.
+- **Asset Management**: Asset register with tags, locations, employee custody, assignment and return, documents, linked to work orders.
+- **Preventive Maintenance**: Recurring maintenance plans with due dates, automatic work orders and checklists.
+- **Procurement**: Suppliers, purchase requests with approvals, supplier quotes, purchase orders and partial or full receiving.
+- **Inventory & Spare Parts**: Items and warehouses with an auditable movement ledger: receive, issue, transfer and adjust.
+- **Finance & Expenses**: VAT invoices, credit notes, expenses and quotes, payments and receipts, with PDF and Excel export.
+
+Custom Solutions are built on request. Pricing is quoted per company; request it on WhatsApp.
 
 ## FAQ
 
