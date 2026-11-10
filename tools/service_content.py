@@ -546,3 +546,51 @@ UI = {
         "view_all": "كل الخدمات",
     },
 }
+
+# --------------------------------------------------------------------------- About page
+# Facts only: everything here is already stated on the home page or the founder's CV. Do not add a founding
+# year, team size, client numbers or results unless they are true and the owner has supplied them.
+ABOUT = {
+    "en": {
+        "nav": "About",
+        "title": "About H.M Media | AI Creative Studio",
+        "description": "H.M Media is an AI creative studio and creative agency for brands in the UAE, GCC and the Middle East, working remotely worldwide in Arabic and English. Founded by Hussein Mlhem.",
+        "label": "About",
+        "h1": ("About H.M Media,", "an AI creative studio."),
+        "intro": "H.M Media is an AI creative studio and creative agency. We build AI product visuals, AI video ads, chatbots, apps and automation, and we also do the classic agency work: design, video, marketing and websites. We are based in the UAE and work with brands across the GCC, the Middle East and worldwide, in Arabic and English.",
+        "ai_h": "AI services",
+        "agency_h": "Agency services",
+        "where_h": "Where we work",
+        "where": "We are based in the UAE and work with clients across the UAE, the GCC and internationally. Most projects are handled remotely through clear briefs, shared files and regular communication. We work in Arabic and English.",
+        "founder_h": "Founder",
+        "founder": "H.M Media was founded by Hussein Mlhem, a Multimedia Lead and Creative Technologist with 9+ years of experience across video, motion design, design and software engineering, and a bachelor's degree in software engineering.",
+        "founder_link": "Hussein's profile and CV",
+        "contact_h": "Contact",
+        "reply": "We reply within 24 hours.",
+        "phone": "WhatsApp / phone",
+        "email": "Email",
+        "socials": "Instagram · Facebook · YouTube",
+        "source": "About page",
+    },
+    "ar": {
+        "nav": "من نحن",
+        "title": "من نحن | H.M Media استوديو إبداعي بالذكاء الاصطناعي",
+        "description": "H.M Media استوديو إبداعي ووكالة إبداعية بالذكاء الاصطناعي للعلامات التجارية في الإمارات والخليج والشرق الأوسط، وتعمل عن بعد مع العالم بالعربية والإنجليزية. أسّسها حسين ملحم.",
+        "label": "من نحن",
+        "h1": ("عن H.M Media،", "استوديو إبداعي بالذكاء الاصطناعي."),
+        "intro": "H.M Media استوديو إبداعي ووكالة إبداعية. ننفّذ صور المنتجات وإعلانات الفيديو بالذكاء الاصطناعي والشات بوت والتطبيقات والأتمتة، ونقدّم أيضاً خدمات الوكالة التقليدية: التصميم والفيديو والتسويق والمواقع. مقرّنا الإمارات ونعمل مع العلامات التجارية في الخليج والشرق الأوسط والعالم، بالعربية والإنجليزية.",
+        "ai_h": "خدمات الذكاء الاصطناعي",
+        "agency_h": "خدمات الوكالة",
+        "where_h": "أين نعمل",
+        "where": "مقرّنا الإمارات ونعمل مع عملاء داخل الإمارات والخليج وخارج المنطقة. أغلب المشاريع تُنفَّذ عن بعد عبر موجز واضح وملفات مشتركة وتواصل منتظم. نعمل بالعربية والإنجليزية.",
+        "founder_h": "المؤسس",
+        "founder": "أسّس H.M Media حسين ملحم، قائد وسائط متعددة وتقني إبداعي (Multimedia Lead & Creative Technologist) بخبرة تتجاوز 9 سنوات في الفيديو والموشن ديزاين والتصميم وهندسة البرمجيات، وبكالوريوس في هندسة البرمجيات.",
+        "founder_link": "الملف الشخصي والسيرة الذاتية لحسين",
+        "contact_h": "تواصل",
+        "reply": "نرد خلال 24 ساعة.",
+        "phone": "واتساب / هاتف",
+        "email": "البريد الإلكتروني",
+        "socials": "إنستغرام · فيسبوك · يوتيوب",
+        "source": "صفحة من نحن",
+    },
+}
