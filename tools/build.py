@@ -28,6 +28,8 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
+import service_pages  # tools/ is on sys.path when this script runs
+
 ROOT = Path(__file__).resolve().parent.parent
 
 # --------------------------------------------------------------------------- config
@@ -316,6 +318,15 @@ def head_block(lang: str, page: PageParser) -> str:
     return "\n".join(lines)
 
 
+def replace_block(source: str, name: str, block: str) -> str:
+    start_marker, end_marker = f"<!-- build:{name}", f"<!-- /build:{name} -->"
+    if start_marker not in source or end_marker not in source:
+        raise SystemExit(f"index.html is missing the build:{name} markers")
+    start = source.index(start_marker)
+    end = source.index(end_marker) + len(end_marker)
+    return source[:start] + block + source[end:]
+
+
 def replace_head(source: str, block: str) -> str:
     start = source.index(HEAD_START)
     end = source.index(HEAD_END) + len(HEAD_END)
@@ -360,6 +371,8 @@ def build_arabic(source: str, page_for_head: PageParser) -> str:
         for name in ("href", "src"):
             if name in attrs and to_arabic_url(attrs[name]) != attrs[name]:
                 raw = set_attr(raw, name, to_arabic_url(attrs[name]))
+        if "data-href-ar" in attrs:
+            raw = set_attr(raw, "href", attrs["data-href-ar"])
         if "lang-btn" in attrs.get("class", "").split():
             is_arabic_link = attrs.get("data-lang") == "ar"
             raw = raw.replace(' aria-current="true"', "")
@@ -384,7 +397,7 @@ def build_arabic(source: str, page_for_head: PageParser) -> str:
 
 
 # --------------------------------------------------------------------------- llms.txt / sitemap
-def llms_txt(page: PageParser) -> str:
+def llms_txt(page: PageParser, pages: list[dict]) -> str:
     cfg = LANGS["en"]
     lines = [
         f"# {BRAND}",
@@ -414,6 +427,9 @@ def llms_txt(page: PageParser) -> str:
             current = heading
         desc = f": {service['desc']['en']}" if service["desc"] else ""
         lines.append(f"- **{service['title']['en']}** (from {service['price']['en']}){desc}")
+    lines += ["", "## Service pages (English; the same pages exist in Arabic under /ar/)", ""]
+    for p in pages:
+        lines.append(f"- [{p['title']['en']}]({SITE}/services/{p['slug']}/): {p['description']['en']}")
     lines += ["", "## FAQ", ""]
     for faq in page.faqs:
         if faq["q"] and faq["a"]:
@@ -430,15 +446,20 @@ def llms_txt(page: PageParser) -> str:
     return "\n".join(lines)
 
 
-def sitemap_xml() -> str:
-    alternates = "".join(
-        f'\n    <xhtml:link rel="alternate" hreflang="{code}" href="{SITE}{path}"/>'
-        for code, path in (("en", "/"), ("ar", "/ar/"), ("x-default", "/"))
-    )
-    urls = "".join(
-        f"\n  <url>\n    <loc>{SITE}{LANGS[lang]['path']}</loc>{alternates}\n    <changefreq>monthly</changefreq>\n  </url>"
-        for lang in ("en", "ar")
-    )
+def sitemap_xml(pages: list[dict]) -> str:
+    def entry(en_path: str, ar_path: str, priority: str) -> str:
+        alternates = "".join(
+            f'\n    <xhtml:link rel="alternate" hreflang="{code}" href="{SITE}{path}"/>'
+            for code, path in (("en", en_path), ("ar", ar_path), ("x-default", en_path))
+        )
+        return "".join(
+            f"\n  <url>\n    <loc>{SITE}{path}</loc>{alternates}\n    <changefreq>monthly</changefreq>\n    <priority>{priority}</priority>\n  </url>"
+            for path in (en_path, ar_path)
+        )
+
+    urls = entry("/", "/ar/", "1.0")
+    for p in pages:
+        urls += entry(f"/services/{p['slug']}/", f"/ar/services/{p['slug']}/", "0.8")
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'
@@ -459,12 +480,31 @@ def main() -> int:
         print("build: no services or FAQs found in index.html; the markup changed?", file=sys.stderr)
         return 1
 
+    ctx = {
+        "page": page,
+        "SITE": SITE,
+        "BRAND": BRAND,
+        "ORG_ID": ORG_ID,
+        "WEBSITE_ID": WEBSITE_ID,
+        "WHATSAPP": WHATSAPP,
+        "EMAIL": EMAIL,
+        "FOUNDER": FOUNDER,
+        "AREA_SERVED": AREA_SERVED,
+        "OG_LOCALE": {"en": LANGS["en"]["og_locale"], "ar": LANGS["ar"]["og_locale"]},
+        "FONTS_URL": re.search(r'<link href="(https://fonts\.googleapis\.com/css2[^"]+)"', source).group(1),
+        "sprite": re.search(r'<svg width="0" height="0" style="position:absolute".*?</svg>', source, re.S).group(0),
+        "year": re.search(r"<span data-year>(\d{4})</span>", source).group(1),
+    }
+    pages, service_outputs = service_pages.render_all(ctx, parse_price)
+
+    source = replace_block(source, "service-links", service_pages.service_links_block(ctx, pages))
     english = replace_head(source, head_block("en", page))
     outputs = {
         index_path: english,
         ROOT / "ar" / "index.html": build_arabic(english, page),
-        ROOT / "llms.txt": llms_txt(page),
-        ROOT / "sitemap.xml": sitemap_xml(),
+        ROOT / "llms.txt": llms_txt(page, pages),
+        ROOT / "sitemap.xml": sitemap_xml(pages),
+        **{ROOT / rel: text for rel, text in service_outputs.items()},
     }
 
     stale = [path for path, text in outputs.items() if not path.exists() or path.read_text(encoding="utf-8") != text]
@@ -476,7 +516,7 @@ def main() -> int:
     for path, text in outputs.items():
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding="utf-8")
-    print(f"build: {len(services)} services, {len(faqs)} FAQs; wrote {len(stale)} changed file(s)")
+    print(f"build: {len(services)} services, {len(faqs)} FAQs, {len(pages)} service pages x 2 languages; wrote {len(stale)} changed file(s)")
     return 0
 
 
