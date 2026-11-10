@@ -722,6 +722,13 @@ ONE = {
 }
 
 # --------------------------------------------------------------------------- Work (portfolio)
+# Which filter each design sample belongs to (sample numbers follow tools/work_designs.json order).
+WORK_CATEGORIES = {
+    "product": [1, 2, 3, 4, 5, 6, 8, 9],
+    "campaign": [7, 10, 11, 12, 13, 14, 15],
+    "social": [16, 17, 18, 19, 20, 21, 22, 23],
+}
+
 WORK = {
     "en": {
         "nav": "Portfolio",
@@ -731,14 +738,12 @@ WORK = {
         "h1": ("Our", "Portfolio."),
         "intro": "Too big for one page. Tell us your field and we send the work that fits.",
         "cta": "Request our portfolio",
-        "fields_h": "Your field:",
-        "fields": ["AI video", "Motion graphics", "Branding", "Product visuals", "Social media", "Websites"],
+        "filters_label": "Filter the work",
+        "filters": [("all", "All"), ("product", "Product visuals"), ("campaign", "Campaigns"), ("social", "Social media"), ("video", "Video")],
         "wa_all": "Hi Hussein, I'd like to see your portfolio.\nSelected from: Portfolio page.\nMy field:",
-        "wa_field": "Hi Hussein, please send me your portfolio for: {field}.\nSelected from: Portfolio page.",
-        "youtube": "Watch on YouTube",
         "wall_label": "Samples of our work",
         "design_alt": "H.M Media design work, sample {n}",
-        "video_label": "Watch video {n} on YouTube",
+        "video_label": "Video sample {n}",
         "source": "Portfolio page",
     },
     "ar": {
@@ -749,14 +754,12 @@ WORK = {
         "h1": ("معرض", "أعمالنا."),
         "intro": "أكبر من أن تسعه صفحة واحدة. أخبرنا بمجالك ونرسل لك الأعمال المناسبة.",
         "cta": "اطلب معرض أعمالنا",
-        "fields_h": "مجالك:",
-        "fields": ["فيديو بالذكاء الاصطناعي", "موشن جرافيك", "هوية بصرية", "صور المنتجات", "سوشال ميديا", "مواقع إلكترونية"],
+        "filters_label": "تصفية الأعمال",
+        "filters": [("all", "الكل"), ("product", "صور المنتجات"), ("campaign", "الحملات"), ("social", "سوشال ميديا"), ("video", "فيديو")],
         "wa_all": "مرحباً حسين، أريد الاطلاع على معرض أعمالكم.\nالاختيار: صفحة أعمالنا.\nمجالي:",
-        "wa_field": "مرحباً حسين، أرجو إرسال معرض أعمالكم في مجال: {field}.\nالاختيار: صفحة أعمالنا.",
-        "youtube": "شاهد على يوتيوب",
         "wall_label": "نماذج من أعمالنا",
         "design_alt": "من أعمال التصميم لدى H.M Media، نموذج {n}",
-        "video_label": "شاهد الفيديو {n} على يوتيوب",
+        "video_label": "نموذج فيديو {n}",
         "source": "صفحة أعمالنا",
     },
 }
