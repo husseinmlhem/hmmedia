@@ -118,7 +118,11 @@ def service_links_block(ctx: dict, pages: list[dict]) -> str:
 def header_html(ctx: dict, lang: str, slug: str, alt_paths: dict | None = None) -> str:
     ui = sc.UI[lang]
     paths = alt_paths or {"en": path("en", slug), "ar": path("ar", slug)}
-    links = "\n".join(f'        <li><a href="{home_path(lang, anchor)}">{esc(label)}</a></li>' for anchor, label in ui["nav"])
+    links = "\n".join(
+        f'        <li class="nav-one"><a href="{home_path(lang, anchor)}" aria-label="H.M One"><img src="/assets/img/hm-one-logo.png" width="348" height="369" alt="H.M One"></a></li>'
+        if anchor == "one/" else f'        <li><a href="{home_path(lang, anchor)}">{esc(label)}</a></li>'
+        for anchor, label in ui["nav"]
+    )
     message = ui["wa_talk"].format(source=("زر ابدأ مشروعك" if lang == "ar" else "Start Project button"))
     en_current = ' class="lang-btn active" aria-current="true"' if lang == "en" else ' class="lang-btn"'
     ar_current = ' class="lang-btn active" aria-current="true"' if lang == "ar" else ' class="lang-btn"'
@@ -641,6 +645,32 @@ def breadcrumb_node(ctx: dict, lang: str, url: str, label: str) -> dict:
     }
 
 
+# Line icons (24x24, stroke) for the H.M One page. Every path carries pathLength="1" so the stroke can be drawn in with CSS.
+ONE_ICONS = {
+    "hr": '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.3"/><path d="M16.5 14.2c2.6.3 4.5 2.5 4.5 5.3"/>',
+    "attendance": '<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/><path d="M8.5 15l2.4 2.4 4.6-4.6"/>',
+    "payroll": '<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/>',
+    "facility": '<path d="M4 21V5.5A1.5 1.5 0 0 1 5.500 4h7A1.5 1.5 0 0 1 14 5.5V21"/><path d="M14 10h4.5A1.5 1.5 0 0 1 20 11.5V21M2.5 21h19"/><path d="M7.5 8h3M7.5 12h3M7.5 16h3"/>',
+    "assets": '<path d="M3 12.200V5a2 2 0 0 1 2-2h7.200a2 2 0 0 1 1.400.600l7 7a2 2 0 0 1 0 2.800l-7.200 7.200a2 2 0 0 1-2.800 0l-7-7A2 2 0 0 1 3 12.200z"/><circle cx="8" cy="8" r="1.500"/>',
+    "maintenance": '<path d="M14.500 6.200a4.200 4.200 0 0 0 5.300 5.300l-9.600 9.600a2.300 2.300 0 0 1-3.300-3.300z"/><path d="M14.500 6.200L17.300 3.400a4.200 4.200 0 0 0-5.600 5.600"/><path d="M19.800 11.500a4.200 4.200 0 0 0 .800-4.800L18 9.300"/>',
+    "procurement": '<path d="M2.500 4h2.700l2.300 11h10.300l2-8H6.300"/><circle cx="9" cy="19" r="1.500"/><circle cx="17" cy="19" r="1.500"/>',
+    "inventory": '<path d="M12 3l8 4.200v9.600L12 21l-8-4.200V7.200z"/><path d="M4 7.200l8 4.200 8-4.200M12 11.400V21"/><path d="M8 5.100l8 4.200"/>',
+    "finance": '<path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/><path d="M7 7.500l4-3 3 2 5-3.500"/>',
+    "lock": '<rect x="4.500" y="10.500" width="15" height="10" rx="2.500"/><path d="M8 10.500V7.500a4 4 0 0 1 8 0v3"/>',
+    "puzzle": '<path d="M9 4h3a2 2 0 1 1 4 0h3a1 1 0 0 1 1 1v4a2 2 0 1 0 0 4v6a1 1 0 0 1-1 1h-5a2 2 0 1 0-4 0H5a1 1 0 0 1-1-1v-5a2 2 0 1 0 0-4V5a1 1 0 0 1 1-1z"/>',
+    "globe": '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.800 2.500 2.800 15.500 0 18M12 3c-2.800 2.500-2.800 15.500 0 18"/>',
+    "shield": '<path d="M12 3l7.500 2.800v5.700c0 4.500-3.100 8-7.500 9.500-4.400-1.500-7.500-5-7.500-9.500V5.800z"/><path d="M8.800 12l2.300 2.300 4.200-4.300"/>',
+}
+
+
+def one_icon(name: str) -> str:
+    body = ONE_ICONS[name].replace("<path ", '<path pathLength="1" ').replace("<circle ", '<circle pathLength="1" ').replace("<rect ", '<rect pathLength="1" ')
+    return f'<svg class="one-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{body}</svg>'
+
+
+ONE_LOGO = '<img src="/assets/img/hm-one-logo.png" width="348" height="369" alt="H.M One">'
+
+
 def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
     ui = sc.UI[lang]
     o = sc.ONE[lang]
@@ -648,8 +678,7 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
     url = f"{SITE}{LANG_PREFIX[lang]}/one/"
     h1_a, h1_b = o["h1"]
     sol_a, sol_b = o["solutions_h"]
-    cus_a, cus_b = o["custom_h"]
-    how_a, how_b = ui["how_h"]
+    cus_a, cus_b = o["custom_short_h"]
     faq_a, faq_b = ui["faq_h"]
     wa_ready = qa(wa_link(ctx, o["wa_ready"]))
     wa_custom = qa(wa_link(ctx, o["wa_custom"]))
@@ -659,10 +688,21 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
       <a class="btn btn-ghost" href="{wa_custom}" target="_blank" rel="noopener">{esc(o['cta_custom'])}</a>
       {login}
     </div>"""
-    cards = "".join(f'<article class="card rel-card"><h3>{esc(s[lang][0])}</h3><p>{esc(s[lang][1])}</p></article>' for s in sc.ONE_SOLUTIONS)
+    count = len(sc.ONE_SOLUTIONS)
+    orbit = "".join(
+        f'<span class="orbit-item" style="--i:{i}" title="{qa(s[lang][0])}">{one_icon(s["icon"])}</span>'
+        for i, s in enumerate(sc.ONE_SOLUTIONS)
+    )
+    cards = "".join(
+        f'<a class="card sol rv" style="--d:{i % 3}" href="{qa(wa_link(ctx, o["wa_solution"].format(name=s[lang][0])))}" target="_blank" rel="noopener">'
+        f'<span class="sol-ic">{one_icon(s["icon"])}</span><h3>{esc(s[lang][0])}</h3><p>{esc(s["tags"][lang])}</p>'
+        f'<span class="sol-go" aria-hidden="true">→</span></a>'
+        for i, s in enumerate(sc.ONE_SOLUTIONS)
+    )
+    pills = "".join(f'<li class="pill rv" style="--d:{i}">{one_icon(icon)}<span>{esc(label)}</span></li>' for i, (icon, label) in enumerate(o["pills"]))
     steps = "".join(
-        f'<li class="card step"><span class="step-num">0{i}</span><h3 class="step-title">{esc(t)}</h3><p class="step-text">{esc(d)}</p></li>'
-        for i, (t, d) in enumerate(o["steps"], 1)
+        f'<li class="flow-step rv" style="--d:{i}"><span class="step-num">0{i + 1}</span><h3>{esc(t)}</h3></li>'
+        for i, (t, _d) in enumerate(o["steps"])
     )
     faq_items = "".join(
         f'<details class="faq-item"><summary><span>{esc(q)}</span><span class="faq-plus" aria-hidden="true"></span></summary><p class="faq-a">{esc(a)}</p></details>'
@@ -675,10 +715,11 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
         "description": o["description"],
+        "image": f"{SITE}/assets/img/hm-one-logo.png",
         "inLanguage": ["en", "ar"],
         "provider": {"@id": ctx["ORG_ID"]},
         "publisher": {"@id": ctx["ORG_ID"]},
-        "featureList": [s[lang][0] for s in sc.ONE_SOLUTIONS],
+        "featureList": [f"{s[lang][0]}: {s[lang][1]}" for s in sc.ONE_SOLUTIONS],
         "url": url,
     }
     graph = [
@@ -692,36 +733,46 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
     ]
     head = head_common(ctx, lang, title=o["title"], description=o["description"], en_path="/one/", ar_path="/ar/one/", graph=graph)
     main = f"""<main id="top">
-<section class="svc-hero">
-  <div class="container">
-    {crumbs_html(ctx, lang, o['label'])}
-    <span class="eyebrow">{esc(o['eyebrow'])}</span>
-    <h1 class="svc-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
-    <p class="svc-intro">{esc(o['intro'])}</p>
-    {buttons}
+<section class="svc-hero one-hero">
+  <div class="container one-hero-grid">
+    <div>
+      {crumbs_html(ctx, lang, o['label'])}
+      <span class="eyebrow">{esc(o['eyebrow'])}</span>
+      <h1 class="svc-h1"><span class="sr-only">H.M One: </span>{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
+      <p class="svc-intro">{esc(o['tagline'])}</p>
+      {buttons}
+    </div>
+    <div class="orbit" style="--n:{count}" aria-hidden="true">
+      <span class="orbit-ring"></span><span class="orbit-ring orbit-ring--2"></span>
+      <div class="orbit-spin">{orbit}</div>
+      <div class="orbit-core">{ONE_LOGO}</div>
+    </div>
   </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container"><ul class="pills">{pills}</ul></div>
 </section>
 
 <section class="section section--tight" id="solutions">
   <div class="container">
     <h2 class="svc-h2">{esc(sol_a)} <span class="grad">{esc(sol_b)}</span></h2>
-    <p class="svc-lead">{esc(o['solutions_lead'])}</p>
-    <div class="rel-grid one-grid">{cards}</div>
+    <p class="svc-lead">{esc(o['solutions_hint'])}</p>
+    <div class="sol-grid">{cards}</div>
   </div>
 </section>
 
 <section class="section section--tight" id="custom">
-  <div class="container svc-cols">
-    <div class="card svc-col"><h2>{esc(cus_a)} {esc(cus_b)}</h2><p class="svc-text">{esc(o['custom'])}</p><p class="svc-text"><a class="btn btn-accent btn-sm" href="{wa_custom}" target="_blank" rel="noopener">{esc(o['cta_custom'])}</a></p></div>
-    <div class="card svc-col"><h2>{esc(o['points_h'])}</h2>{tick_list(o['points'])}</div>
+  <div class="container">
+    <div class="card custom-band rv">
+      <div><h2 class="svc-h2">{esc(cus_a)} <span class="grad">{esc(cus_b)}</span></h2><p class="svc-lead">{esc(o['custom_short'])}</p></div>
+      <a class="btn btn-accent" href="{wa_custom}" target="_blank" rel="noopener"><span>{esc(o['cta_custom'])}</span> <span class="arr" aria-hidden="true">→</span></a>
+    </div>
   </div>
 </section>
 
 <section class="section section--tight" id="process">
-  <div class="container">
-    <h2 class="svc-h2">{esc(how_a)} <span class="grad">{esc(how_b)}</span></h2>
-    <ol class="steps">{steps}</ol>
-  </div>
+  <div class="container"><ol class="flow">{steps}</ol></div>
 </section>
 
 <section class="section section--tight" id="faq">
@@ -733,11 +784,15 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
 
 <section class="section section--tight" id="start">
   <div class="container">
-    <div class="card one-cta"><h2 class="svc-h2">{esc(o['label'])}</h2>{buttons}</div>
+    <div class="card one-cta"><div class="one-cta-logo">{ONE_LOGO.replace('alt="H.M One"', 'alt=""')}</div>{buttons}</div>
   </div>
 </section>
 </main>"""
     return page_shell(ctx, lang, head, "one", main, pages)
+
+
+WALL_ROW_HEIGHT = 240
+WALL_VIDEOS = 3  # one auto-playing video card per row
 
 
 def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
@@ -745,14 +800,34 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
     SITE = ctx["SITE"]
     url = f"{SITE}{LANG_PREFIX[lang]}/work/"
     h1_a, h1_b = w["h1"]
-    designs = "".join(
-        f'<a class="work-item" href="{d["full"]}" target="_blank" rel="noopener"><img src="{d["thumb"]}" width="{d["w"]}" height="{d["h"]}" loading="lazy" alt="{qa(w["design_alt"].format(n=i))}"></a>'
-        for i, d in enumerate(ctx["designs"], 1)
-    )
-    videos = "".join(
-        f'<a class="work-video" href="https://www.youtube.com/watch?v={vid}" target="_blank" rel="noopener" aria-label="{qa(w["video_label"].format(n=i))}">'
-        f'<img src="https://i.ytimg.com/vi/{vid}/hqdefault.jpg" width="480" height="360" loading="lazy" alt=""><span class="work-play" aria-hidden="true"><svg><use href="#i-play"/></svg></span></a>'
-        for i, vid in enumerate(ctx["videos"], 1)
+
+    def design_card(n: int, d: dict, hidden: bool) -> str:
+        width = round(WALL_ROW_HEIGHT * d["w"] / d["h"])
+        extra = ' tabindex="-1" aria-hidden="true"' if hidden else ""
+        alt = "" if hidden else qa(w["design_alt"].format(n=n))
+        return (f'<a class="wall-card" href="{d["full"]}" target="_blank" rel="noopener"{extra}>'
+                f'<img src="{d["thumb"]}" width="{width}" height="{WALL_ROW_HEIGHT}" loading="lazy" alt="{alt}"></a>')
+
+    def video_card(n: int, vid: str, hidden: bool) -> str:
+        extra = ' tabindex="-1" aria-hidden="true"' if hidden else f' aria-label="{qa(w["video_label"].format(n=n))}"'
+        return (f'<a class="wall-card wall-video" href="https://www.youtube.com/watch?v={vid}" target="_blank" rel="noopener" data-video="{vid}"{extra}>'
+                f'<img src="https://i.ytimg.com/vi/{vid}/hqdefault.jpg" width="{round(WALL_ROW_HEIGHT * 16 / 9)}" height="{WALL_ROW_HEIGHT}" loading="lazy" alt="">'
+                f'<span class="wall-live" aria-hidden="true"><svg><use href="#i-play"/></svg></span></a>')
+
+    designs = list(enumerate(ctx["designs"], 1))
+    rows = [designs[i::3] for i in range(3)]
+    rows_html = []
+    for r, items in enumerate(rows):
+        def cards(hidden: bool) -> str:
+            out = [design_card(n, d, hidden) for n, d in items]
+            if r < WALL_VIDEOS and r < len(ctx["videos"]):
+                out.insert(min(2, len(out)), video_card(r + 1, ctx["videos"][r], hidden))
+            return "".join(out)
+        rows_html.append(f'<div class="wall-row{" wall-row--rev" if r % 2 else ""}"><div class="wall-track" style="--t:{70 + r * 14}s">{cards(False)}{cards(True)}</div></div>')
+
+    chips = "".join(
+        f'<a class="chip" href="{qa(wa_link(ctx, w["wa_field"].format(field=field)))}" target="_blank" rel="noopener">{esc(field)}</a>'
+        for field in w["fields"]
     )
     graph = [
         {"@type": ["Organization", "ProfessionalService"], "@id": ctx["ORG_ID"], "name": ctx["BRAND"], "url": SITE + "/"},
@@ -762,31 +837,22 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
     ]
     head = head_common(ctx, lang, title=w["title"], description=w["description"], en_path="/work/", ar_path="/ar/work/", graph=graph)
     main = f"""<main id="top">
-<section class="svc-hero">
-  <div class="container">
-    {crumbs_html(ctx, lang, w['label'])}
-    <h1 class="svc-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
+<section class="svc-hero folio">
+  <div class="container folio-copy">
+    <h1 class="folio-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
     <p class="svc-intro">{esc(w['intro'])}</p>
+    <div class="svc-hero-cta">
+      <a class="btn btn-accent" href="{qa(wa_link(ctx, w['wa_all']))}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(w['cta'])}</span></a>
+      <a class="btn btn-ghost" href="{ctx['SOCIAL_LINKS'][2][1]}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-yt"/></svg> <span>{esc(w['youtube'])}</span></a>
+    </div>
+    <div class="chips"><span class="chips-label">{esc(w['fields_h'])}</span>{chips}</div>
+  </div>
+  <div class="wall" role="group" aria-label="{qa(w['wall_label'])}">
+    <div class="wall-plane">
+      {''.join(rows_html)}
+    </div>
   </div>
 </section>
-
-<section class="section section--tight" id="designs">
-  <div class="container">
-    <h2 class="svc-h2">{esc(w['designs_h'])}</h2>
-    <div class="work-grid">{designs}</div>
-  </div>
-</section>
-
-<section class="section section--tight" id="videos">
-  <div class="container">
-    <h2 class="svc-h2">{esc(w['videos_h'])}</h2>
-    <p class="svc-lead">{esc(w['videos_lead'])}</p>
-    <div class="work-videos">{videos}</div>
-    <p class="svc-text"><a class="text-link" href="{ctx['SOCIAL_LINKS'][2][1]}" target="_blank" rel="noopener">{esc(w['more'])} →</a></p>
-  </div>
-</section>
-
-{talk_html(ctx, lang, w['source'])}
 </main>"""
     return page_shell(ctx, lang, head, "work", main, pages)
 
