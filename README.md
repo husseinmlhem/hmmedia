@@ -36,3 +36,7 @@ Keep the business name, phone and address identical to the Google Business Profi
 English is served at `/` and Arabic at `/ar/`. The language switch navigates between the
 two, and both pages declare each other with `hreflang`. Old `/?lang=ar` links redirect to
 `/ar/`.
+
+## Bing and IndexNow
+
+`75940b3faad763cfcdc621f0a77714d5.txt` is the IndexNow ownership key (keep it in the site root). After a deploy, notify Bing of changed pages with a POST to `https://api.indexnow.org/indexnow` containing `host`, `key`, `keyLocation` (`https://h-m.agency/75940b3faad763cfcdc621f0a77714d5.txt`) and `urlList`.
