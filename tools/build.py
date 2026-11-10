@@ -437,6 +437,7 @@ def llms_txt(page: PageParser, pages: list[dict]) -> str:
     lines += ["", "## Service pages (English; the same pages exist in Arabic under /ar/)", ""]
     for p in pages:
         lines.append(f"- [{p['title']['en']}]({SITE}/services/{p['slug']}/): {p['description']['en']}")
+    lines += [f"- [About H.M Media]({SITE}/about/): Who we are, what we do, where we work and who founded the studio."]
     lines += ["", "## FAQ", ""]
     for faq in page.faqs:
         if faq["q"] and faq["a"]:
@@ -467,6 +468,7 @@ def sitemap_xml(pages: list[dict]) -> str:
     urls = entry("/", "/ar/", "1.0")
     for p in pages:
         urls += entry(f"/services/{p['slug']}/", f"/ar/services/{p['slug']}/", "0.8")
+    urls += entry("/about/", "/ar/about/", "0.6")
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'
@@ -495,6 +497,8 @@ def main() -> int:
         "WEBSITE_ID": WEBSITE_ID,
         "WHATSAPP": WHATSAPP,
         "EMAIL": EMAIL,
+        "PHONE_DISPLAY": PHONE_DISPLAY,
+        "SOCIAL_LINKS": [("Instagram", SAME_AS[0]), ("Facebook", SAME_AS[1]), ("YouTube", SAME_AS[2])],
         "FOUNDER": FOUNDER,
         "AREA_SERVED": AREA_SERVED,
         "OG_LOCALE": {"en": LANGS["en"]["og_locale"], "ar": LANGS["ar"]["og_locale"]},

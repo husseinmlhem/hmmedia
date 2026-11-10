@@ -115,8 +115,9 @@ def service_links_block(ctx: dict, pages: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def header_html(ctx: dict, lang: str, slug: str) -> str:
+def header_html(ctx: dict, lang: str, slug: str, alt_paths: dict | None = None) -> str:
     ui = sc.UI[lang]
+    paths = alt_paths or {"en": path("en", slug), "ar": path("ar", slug)}
     links = "\n".join(f'        <li><a href="{home_path(lang, anchor)}">{esc(label)}</a></li>' for anchor, label in ui["nav"])
     message = ui["wa_talk"].format(source=("زر ابدأ مشروعك" if lang == "ar" else "Start Project button"))
     en_current = ' class="lang-btn active" aria-current="true"' if lang == "en" else ' class="lang-btn"'
@@ -134,8 +135,8 @@ def header_html(ctx: dict, lang: str, slug: str) -> str:
     </nav>
     <div class="nav-actions">
       <div class="lang-switch" role="group" aria-label="{qa(ui['language'])}">
-        <a{en_current} href="{path('en', slug)}" hreflang="en" lang="en">EN</a>
-        <a{ar_current} href="{path('ar', slug)}" hreflang="ar" lang="ar" aria-label="العربية">ع</a>
+        <a{en_current} href="{paths['en']}" hreflang="en" lang="en">EN</a>
+        <a{ar_current} href="{paths['ar']}" hreflang="ar" lang="ar" aria-label="العربية">ع</a>
       </div>
       <a class="btn btn-accent btn-sm nav-cta" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener"><span>{esc(ui['start'])}</span> <span class="arr" aria-hidden="true">→</span></a>
       <button class="burger" type="button" id="burger" aria-controls="nav-links" aria-expanded="false" aria-label="{qa(ui['menu'])}"><span></span><span></span><span></span></button>
@@ -161,6 +162,7 @@ def footer_html(ctx: dict, lang: str, pages: list[dict]) -> str:
         <ul>
           <li><a href="{qa(wa_link(ctx, ui['wa_talk'].format(source='Footer' if lang == 'en' else 'أسفل الموقع')))}" target="_blank" rel="noopener">{esc(ui['whatsapp'])}</a></li>
           <li><a href="mailto:{ctx['EMAIL']}">{esc(ui['email'])}</a></li>
+          <li><a href="{LANG_PREFIX[lang]}/about/">{esc(sc.ABOUT[lang]['nav'])}</a></li>
         </ul>
       </div>
     </div>
@@ -201,6 +203,54 @@ def talk_html(ctx: dict, lang: str, source: str) -> str:
 
 
 # ------------------------------------------------------------------------------------ head + structured data
+def head_common(ctx: dict, lang: str, *, title: str, description: str, en_path: str, ar_path: str, graph: list) -> str:
+    """Shared <head> for the generated pages: meta, canonical, hreflang, Open Graph, icons and JSON-LD."""
+    SITE = ctx["SITE"]
+    url = SITE + (en_path if lang == "en" else ar_path)
+    other = "ar" if lang == "en" else "en"
+    other_url = SITE + (ar_path if lang == "en" else en_path)
+    og_image = f"{SITE}/assets/img/og-{lang}.jpg"
+    data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=2).replace("</", "<\\/")
+    lines = [
+        '<meta charset="UTF-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        f"<title>{esc(title)}</title>",
+        f'<meta name="description" content="{qa(description)}">',
+        '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">',
+        '<meta name="theme-color" content="#060706">',
+        f'<link rel="canonical" href="{url}">',
+        f'<link rel="alternate" hreflang="{lang}" href="{url}">',
+        f'<link rel="alternate" hreflang="{other}" href="{other_url}">',
+        f'<link rel="alternate" hreflang="x-default" href="{SITE + en_path}">',
+        '<meta property="og:type" content="website">',
+        f'<meta property="og:site_name" content="{ctx["BRAND"]}">',
+        f'<meta property="og:title" content="{qa(title)}">',
+        f'<meta property="og:description" content="{qa(description)}">',
+        f'<meta property="og:url" content="{url}">',
+        f'<meta property="og:locale" content="{ctx["OG_LOCALE"][lang]}">',
+        f'<meta property="og:locale:alternate" content="{ctx["OG_LOCALE"][other]}">',
+        f'<meta property="og:image" content="{og_image}">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        f'<meta name="twitter:title" content="{qa(title)}">',
+        f'<meta name="twitter:description" content="{qa(description)}">',
+        f'<meta name="twitter:image" content="{og_image}">',
+        '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
+        '<link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96">',
+        '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',
+        '<link rel="preconnect" href="https://fonts.googleapis.com">',
+        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
+        f'<link href="{ctx["FONTS_URL"]}" rel="stylesheet">',
+        '<link rel="stylesheet" href="/assets/css/style.css">',
+        '<script type="application/ld+json">',
+        data,
+        "</script>",
+        '<script src="/assets/js/service.js" defer></script>',
+    ]
+    return "\n".join(lines)
+
+
 def head_html(ctx: dict, lang: str, p: dict, faqs: list[dict]) -> str:
     SITE = ctx["SITE"]
     ui = sc.UI[lang]
@@ -277,45 +327,7 @@ def head_html(ctx: dict, lang: str, p: dict, faqs: list[dict]) -> str:
             "mainEntity": [{"@type": "Question", "name": f["q"][lang], "acceptedAnswer": {"@type": "Answer", "text": f["a"][lang]}} for f in faqs],
         },
     ]
-    data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=2).replace("</", "<\\/")
-    lines = [
-        '<meta charset="UTF-8">',
-        '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-        f"<title>{esc(title)}</title>",
-        f'<meta name="description" content="{qa(description)}">',
-        '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">',
-        '<meta name="theme-color" content="#060706">',
-        f'<link rel="canonical" href="{url}">',
-        f'<link rel="alternate" hreflang="{lang}" href="{url}">',
-        f'<link rel="alternate" hreflang="{other}" href="{SITE + path(other, p["slug"])}">',
-        f'<link rel="alternate" hreflang="x-default" href="{SITE + path("en", p["slug"])}">',
-        '<meta property="og:type" content="website">',
-        f'<meta property="og:site_name" content="{ctx["BRAND"]}">',
-        f'<meta property="og:title" content="{qa(title)}">',
-        f'<meta property="og:description" content="{qa(description)}">',
-        f'<meta property="og:url" content="{url}">',
-        f'<meta property="og:locale" content="{ctx["OG_LOCALE"][lang]}">',
-        f'<meta property="og:locale:alternate" content="{ctx["OG_LOCALE"][other]}">',
-        f'<meta property="og:image" content="{og_image}">',
-        '<meta property="og:image:width" content="1200">',
-        '<meta property="og:image:height" content="630">',
-        '<meta name="twitter:card" content="summary_large_image">',
-        f'<meta name="twitter:title" content="{qa(title)}">',
-        f'<meta name="twitter:description" content="{qa(description)}">',
-        f'<meta name="twitter:image" content="{og_image}">',
-        '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
-        '<link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96">',
-        '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',
-        '<link rel="preconnect" href="https://fonts.googleapis.com">',
-        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
-        f'<link href="{ctx["FONTS_URL"]}" rel="stylesheet">',
-        '<link rel="stylesheet" href="/assets/css/style.css">',
-        '<script type="application/ld+json">',
-        data,
-        "</script>",
-        '<script src="/assets/js/service.js" defer></script>',
-    ]
-    return "\n".join(lines)
+    return head_common(ctx, lang, title=title, description=description, en_path=path("en", p["slug"]), ar_path=path("ar", p["slug"]), graph=graph)
 
 
 # ------------------------------------------------------------------------------------ page body
@@ -467,6 +479,124 @@ def render_page(ctx: dict, lang: str, p: dict, pages: list[dict]) -> str:
 """
 
 
+def about_path(lang: str) -> str:
+    return f"{LANG_PREFIX[lang]}/about/"
+
+
+def render_about(ctx: dict, lang: str, pages: list[dict]) -> str:
+    ui = sc.UI[lang]
+    a = sc.ABOUT[lang]
+    SITE = ctx["SITE"]
+    url = SITE + about_path(lang)
+    founder = ctx["FOUNDER"]
+    h1_a, h1_b = a["h1"]
+    how_a, how_b = ui["how_h"]
+
+    def link_list(kind: str) -> str:
+        items = "".join(f'<li><a href="{path(lang, p["slug"])}">{esc(p["label"][lang])}</a></li>' for p in pages if p["kind"] == kind)
+        return f'<ul class="link-list">{items}</ul>'
+
+    steps = "".join(
+        f'<li class="card step"><span class="step-num">0{i}</span><h3 class="step-title">{esc(t)}</h3><p class="step-text">{esc(d)}</p></li>'
+        for i, (t, d) in enumerate(ui["steps"], 1)
+    )
+    wa = qa(wa_link(ctx, ui["wa_talk"].format(source=a["source"])))
+    contact = (
+        f'<li><a href="{wa}" target="_blank" rel="noopener">{esc(a["phone"])}: <bdi dir="ltr">{esc(ctx["PHONE_DISPLAY"])}</bdi></a></li>'
+        f'<li><a href="mailto:{ctx["EMAIL"]}">{esc(a["email"])}: <bdi dir="ltr">{ctx["EMAIL"]}</bdi></a></li>'
+        + "".join(f'<li><a href="{u}" target="_blank" rel="noopener">{esc(n)}</a></li>' for n, u in ctx["SOCIAL_LINKS"])
+    )
+
+    graph = [
+        {"@type": ["Organization", "ProfessionalService"], "@id": ctx["ORG_ID"], "name": ctx["BRAND"], "url": SITE + "/", "founder": {"@id": founder["id"]}},
+        {"@type": "Person", "@id": founder["id"], "name": founder["name"], "alternateName": founder["name_ar"], "url": founder["url"], "jobTitle": "Multimedia Lead & Creative Technologist"},
+        {
+            "@type": "AboutPage",
+            "@id": f"{url}#webpage",
+            "url": url,
+            "name": a["title"],
+            "description": a["description"],
+            "inLanguage": lang,
+            "isPartOf": {"@id": ctx["WEBSITE_ID"]},
+            "about": {"@id": ctx["ORG_ID"]},
+            "breadcrumb": {"@id": f"{url}#breadcrumb"},
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": f"{url}#breadcrumb",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": ctx["BRAND"], "item": SITE + home_path(lang)},
+                {"@type": "ListItem", "position": 2, "name": a["label"], "item": url},
+            ],
+        },
+    ]
+    head = head_common(ctx, lang, title=a["title"], description=a["description"], en_path=about_path("en"), ar_path=about_path("ar"), graph=graph)
+    return f"""<!DOCTYPE html>
+<html lang="{lang}" dir="{ui['dir']}">
+<head>
+{head}
+</head>
+<body>
+
+{ctx['sprite']}
+
+{header_html(ctx, lang, "about", alt_paths={"en": about_path("en"), "ar": about_path("ar")})}
+
+<main id="top">
+<section class="svc-hero">
+  <div class="container">
+    <nav class="crumbs" aria-label="{qa(ui['breadcrumb'])}">
+      <ol>
+        <li><a href="{home_path(lang)}">{ctx['BRAND']}</a></li>
+        <li aria-current="page">{esc(a['label'])}</li>
+      </ol>
+    </nav>
+    <span class="eyebrow">{esc(a['label'])}</span>
+    <h1 class="svc-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
+    <p class="svc-intro">{esc(a['intro'])}</p>
+    <div class="svc-hero-cta">
+      <a class="btn btn-accent" href="{wa}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(ui['talk_btn'])}</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container svc-cols">
+    <div class="card svc-col"><h2>{esc(a['ai_h'])}</h2>{link_list('ai')}</div>
+    <div class="card svc-col"><h2>{esc(a['agency_h'])}</h2>{link_list('group')}</div>
+  </div>
+</section>
+
+<section class="section section--tight" id="process">
+  <div class="container">
+    <h2 class="svc-h2">{esc(how_a)} <span class="grad">{esc(how_b)}</span></h2>
+    <ol class="steps">{steps}</ol>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container svc-cols">
+    <div class="card svc-col"><h2>{esc(a['where_h'])}</h2><p class="svc-text">{esc(a['where'])}</p></div>
+    <div class="card svc-col" id="founder"><h2>{esc(a['founder_h'])}</h2><p class="svc-text">{esc(a['founder'])}</p><p class="svc-text"><a class="text-link" href="{founder['url']}" target="_blank" rel="noopener">{esc(a['founder_link'])} →</a></p></div>
+  </div>
+</section>
+
+<section class="section section--tight" id="contact">
+  <div class="container">
+    <div class="card svc-col svc-col--wide"><h2>{esc(a['contact_h'])}</h2><ul class="link-list">{contact}</ul><p class="svc-text">{esc(a['reply'])}</p></div>
+  </div>
+</section>
+
+{talk_html(ctx, lang, a['source'])}
+</main>
+
+{footer_html(ctx, lang, pages)}
+
+</body>
+</html>
+"""
+
+
 def render_all(ctx: dict, parse_price) -> tuple[list[dict], dict]:
     """Returns (pages, {relative output path: html})."""
     global _PRICE_PARSER
@@ -476,4 +606,6 @@ def render_all(ctx: dict, parse_price) -> tuple[list[dict], dict]:
     for p in pages:
         for lang in ("en", "ar"):
             outputs[f"{LANG_PREFIX[lang].strip('/')}/services/{p['slug']}/index.html".lstrip("/")] = render_page(ctx, lang, p, pages)
+    for lang in ("en", "ar"):
+        outputs[f"{LANG_PREFIX[lang].strip('/')}/about/index.html".lstrip("/")] = render_about(ctx, lang, pages)
     return pages, outputs
