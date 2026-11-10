@@ -597,6 +597,200 @@ def render_about(ctx: dict, lang: str, pages: list[dict]) -> str:
 """
 
 
+def page_shell(ctx: dict, lang: str, head: str, slug: str, main: str, pages: list[dict]) -> str:
+    ui = sc.UI[lang]
+    alt = {"en": f"/{slug}/", "ar": f"/ar/{slug}/"}
+    return f"""<!DOCTYPE html>
+<html lang="{lang}" dir="{ui['dir']}">
+<head>
+{head}
+</head>
+<body>
+
+{ctx['sprite']}
+
+{header_html(ctx, lang, slug, alt_paths=alt)}
+
+{main}
+
+{footer_html(ctx, lang, pages)}
+
+</body>
+</html>
+"""
+
+
+def crumbs_html(ctx: dict, lang: str, label: str) -> str:
+    ui = sc.UI[lang]
+    return f"""<nav class="crumbs" aria-label="{qa(ui['breadcrumb'])}">
+      <ol>
+        <li><a href="{home_path(lang)}">{ctx['BRAND']}</a></li>
+        <li aria-current="page">{esc(label)}</li>
+      </ol>
+    </nav>"""
+
+
+def breadcrumb_node(ctx: dict, lang: str, url: str, label: str) -> dict:
+    return {
+        "@type": "BreadcrumbList",
+        "@id": f"{url}#breadcrumb",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": ctx["BRAND"], "item": ctx["SITE"] + home_path(lang)},
+            {"@type": "ListItem", "position": 2, "name": label, "item": url},
+        ],
+    }
+
+
+def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
+    ui = sc.UI[lang]
+    o = sc.ONE[lang]
+    SITE = ctx["SITE"]
+    url = f"{SITE}{LANG_PREFIX[lang]}/one/"
+    h1_a, h1_b = o["h1"]
+    sol_a, sol_b = o["solutions_h"]
+    cus_a, cus_b = o["custom_h"]
+    how_a, how_b = ui["how_h"]
+    faq_a, faq_b = ui["faq_h"]
+    wa_ready = qa(wa_link(ctx, o["wa_ready"]))
+    wa_custom = qa(wa_link(ctx, o["wa_custom"]))
+    login = f'<a class="btn btn-ghost" href="{sc.ONE_APP_URL}">{esc(o["cta_login"])}</a>' if sc.ONE_APP_URL else ""
+    buttons = f"""<div class="svc-hero-cta">
+      <a class="btn btn-accent" href="{wa_ready}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(o['cta_ready'])}</span></a>
+      <a class="btn btn-ghost" href="{wa_custom}" target="_blank" rel="noopener">{esc(o['cta_custom'])}</a>
+      {login}
+    </div>"""
+    cards = "".join(f'<article class="card rel-card"><h3>{esc(s[lang][0])}</h3><p>{esc(s[lang][1])}</p></article>' for s in sc.ONE_SOLUTIONS)
+    steps = "".join(
+        f'<li class="card step"><span class="step-num">0{i}</span><h3 class="step-title">{esc(t)}</h3><p class="step-text">{esc(d)}</p></li>'
+        for i, (t, d) in enumerate(o["steps"], 1)
+    )
+    faq_items = "".join(
+        f'<details class="faq-item"><summary><span>{esc(q)}</span><span class="faq-plus" aria-hidden="true"></span></summary><p class="faq-a">{esc(a)}</p></details>'
+        for q, a in o["faq"]
+    )
+    app = {
+        "@type": "SoftwareApplication",
+        "@id": f"{SITE}/one/#software",
+        "name": "H.M One",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": o["description"],
+        "inLanguage": ["en", "ar"],
+        "provider": {"@id": ctx["ORG_ID"]},
+        "publisher": {"@id": ctx["ORG_ID"]},
+        "featureList": [s[lang][0] for s in sc.ONE_SOLUTIONS],
+        "url": url,
+    }
+    graph = [
+        {"@type": ["Organization", "ProfessionalService"], "@id": ctx["ORG_ID"], "name": ctx["BRAND"], "url": SITE + "/"},
+        app,
+        {"@type": "WebPage", "@id": f"{url}#webpage", "url": url, "name": o["title"], "description": o["description"], "inLanguage": lang,
+         "isPartOf": {"@id": ctx["WEBSITE_ID"]}, "about": {"@id": app["@id"]}, "breadcrumb": {"@id": f"{url}#breadcrumb"}},
+        breadcrumb_node(ctx, lang, url, o["label"]),
+        {"@type": "FAQPage", "@id": f"{url}#faq", "inLanguage": lang,
+         "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in o["faq"]]},
+    ]
+    head = head_common(ctx, lang, title=o["title"], description=o["description"], en_path="/one/", ar_path="/ar/one/", graph=graph)
+    main = f"""<main id="top">
+<section class="svc-hero">
+  <div class="container">
+    {crumbs_html(ctx, lang, o['label'])}
+    <span class="eyebrow">{esc(o['eyebrow'])}</span>
+    <h1 class="svc-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
+    <p class="svc-intro">{esc(o['intro'])}</p>
+    {buttons}
+  </div>
+</section>
+
+<section class="section section--tight" id="solutions">
+  <div class="container">
+    <h2 class="svc-h2">{esc(sol_a)} <span class="grad">{esc(sol_b)}</span></h2>
+    <p class="svc-lead">{esc(o['solutions_lead'])}</p>
+    <div class="rel-grid one-grid">{cards}</div>
+  </div>
+</section>
+
+<section class="section section--tight" id="custom">
+  <div class="container svc-cols">
+    <div class="card svc-col"><h2>{esc(cus_a)} {esc(cus_b)}</h2><p class="svc-text">{esc(o['custom'])}</p><p class="svc-text"><a class="btn btn-accent btn-sm" href="{wa_custom}" target="_blank" rel="noopener">{esc(o['cta_custom'])}</a></p></div>
+    <div class="card svc-col"><h2>{esc(o['points_h'])}</h2>{tick_list(o['points'])}</div>
+  </div>
+</section>
+
+<section class="section section--tight" id="process">
+  <div class="container">
+    <h2 class="svc-h2">{esc(how_a)} <span class="grad">{esc(how_b)}</span></h2>
+    <ol class="steps">{steps}</ol>
+  </div>
+</section>
+
+<section class="section section--tight" id="faq">
+  <div class="container">
+    <h2 class="svc-h2">{esc(faq_a)} <span class="grad">{esc(faq_b)}</span></h2>
+    <div class="faq-list svc-faq">{faq_items}</div>
+  </div>
+</section>
+
+<section class="section section--tight" id="start">
+  <div class="container">
+    <div class="card one-cta"><h2 class="svc-h2">{esc(o['label'])}</h2>{buttons}</div>
+  </div>
+</section>
+</main>"""
+    return page_shell(ctx, lang, head, "one", main, pages)
+
+
+def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
+    w = sc.WORK[lang]
+    SITE = ctx["SITE"]
+    url = f"{SITE}{LANG_PREFIX[lang]}/work/"
+    h1_a, h1_b = w["h1"]
+    designs = "".join(
+        f'<a class="work-item" href="{d["full"]}" target="_blank" rel="noopener"><img src="{d["thumb"]}" width="{d["w"]}" height="{d["h"]}" loading="lazy" alt="{qa(w["design_alt"].format(n=i))}"></a>'
+        for i, d in enumerate(ctx["designs"], 1)
+    )
+    videos = "".join(
+        f'<a class="work-video" href="https://www.youtube.com/watch?v={vid}" target="_blank" rel="noopener" aria-label="{qa(w["video_label"].format(n=i))}">'
+        f'<img src="https://i.ytimg.com/vi/{vid}/hqdefault.jpg" width="480" height="360" loading="lazy" alt=""><span class="work-play" aria-hidden="true"><svg><use href="#i-play"/></svg></span></a>'
+        for i, vid in enumerate(ctx["videos"], 1)
+    )
+    graph = [
+        {"@type": ["Organization", "ProfessionalService"], "@id": ctx["ORG_ID"], "name": ctx["BRAND"], "url": SITE + "/"},
+        {"@type": "CollectionPage", "@id": f"{url}#webpage", "url": url, "name": w["title"], "description": w["description"], "inLanguage": lang,
+         "isPartOf": {"@id": ctx["WEBSITE_ID"]}, "about": {"@id": ctx["ORG_ID"]}, "breadcrumb": {"@id": f"{url}#breadcrumb"}},
+        breadcrumb_node(ctx, lang, url, w["label"]),
+    ]
+    head = head_common(ctx, lang, title=w["title"], description=w["description"], en_path="/work/", ar_path="/ar/work/", graph=graph)
+    main = f"""<main id="top">
+<section class="svc-hero">
+  <div class="container">
+    {crumbs_html(ctx, lang, w['label'])}
+    <h1 class="svc-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
+    <p class="svc-intro">{esc(w['intro'])}</p>
+  </div>
+</section>
+
+<section class="section section--tight" id="designs">
+  <div class="container">
+    <h2 class="svc-h2">{esc(w['designs_h'])}</h2>
+    <div class="work-grid">{designs}</div>
+  </div>
+</section>
+
+<section class="section section--tight" id="videos">
+  <div class="container">
+    <h2 class="svc-h2">{esc(w['videos_h'])}</h2>
+    <p class="svc-lead">{esc(w['videos_lead'])}</p>
+    <div class="work-videos">{videos}</div>
+    <p class="svc-text"><a class="text-link" href="{ctx['SOCIAL_LINKS'][2][1]}" target="_blank" rel="noopener">{esc(w['more'])} →</a></p>
+  </div>
+</section>
+
+{talk_html(ctx, lang, w['source'])}
+</main>"""
+    return page_shell(ctx, lang, head, "work", main, pages)
+
+
 def render_all(ctx: dict, parse_price) -> tuple[list[dict], dict]:
     """Returns (pages, {relative output path: html})."""
     global _PRICE_PARSER
@@ -608,4 +802,6 @@ def render_all(ctx: dict, parse_price) -> tuple[list[dict], dict]:
             outputs[f"{LANG_PREFIX[lang].strip('/')}/services/{p['slug']}/index.html".lstrip("/")] = render_page(ctx, lang, p, pages)
     for lang in ("en", "ar"):
         outputs[f"{LANG_PREFIX[lang].strip('/')}/about/index.html".lstrip("/")] = render_about(ctx, lang, pages)
+        outputs[f"{LANG_PREFIX[lang].strip('/')}/one/index.html".lstrip("/")] = render_one(ctx, lang, pages)
+        outputs[f"{LANG_PREFIX[lang].strip('/')}/work/index.html".lstrip("/")] = render_work(ctx, lang, pages)
     return pages, outputs

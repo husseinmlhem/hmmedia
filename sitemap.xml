@@ -177,6 +177,38 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://h-m.agency/one/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/work/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/work/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/work/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/work/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/work/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/work/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/work/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/work/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://h-m.agency/about/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/about/"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/about/"/>
