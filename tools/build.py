@@ -438,7 +438,7 @@ def llms_txt(page: PageParser, pages: list[dict]) -> str:
     for p in pages:
         lines.append(f"- [{p['title']['en']}]({SITE}/services/{p['slug']}/): {p['description']['en']}")
     lines += [f"- [About H.M Media]({SITE}/about/): Who we are, what we do, where we work and who founded the studio."]
-    lines += [f"- [Work]({SITE}/work/): Selected designs, product visuals, videos and motion graphics."]
+    lines += [f"- [Portfolio]({SITE}/work/): Designs, product visuals, videos and motion graphics; request the portfolio for your field."]
     one = service_pages.sc.ONE["en"]
     lines += ["", "## H.M One: business software", "", f"{one['intro']} Page: {SITE}/one/ (Arabic: {SITE}/ar/one/).", "", "Solutions available today:", ""]
     lines += [f"- **{s['en'][0]}**: {s['en'][1]}" for s in service_pages.sc.ONE_SOLUTIONS]
