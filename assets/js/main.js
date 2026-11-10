@@ -4,7 +4,9 @@
 
   const WA_NUMBER = '971542882950';
   const FRAME_COUNT = 48;
-  const FRAME_DIR = 'frames/';
+  // Site root, derived from this script's URL so paths work from both / and /ar/.
+  const SITE_ROOT = new URL('../../', document.currentScript.src).href;
+  const FRAME_DIR = `${SITE_ROOT}frames/`;
 
   // Example requests typed into the AI studio box, one per result panel.
   const DEMOS = [
@@ -21,35 +23,39 @@
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  let lang = 'en';
+  // The page language is fixed by its URL: / is English, /ar/ is Arabic.
+  const lang = document.documentElement.lang === 'ar' ? 'ar' : 'en';
   const t = (en, ar) => (lang === 'ar' ? ar : en);
   const waHref = (message) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
   const openWhatsApp = (message) => window.open(waHref(message), '_blank', 'noopener');
 
   /* ---------------- Language ---------------- */
-  function applyLang(next) {
-    lang = next === 'ar' ? 'ar' : 'en';
-    const root = document.documentElement;
-    root.lang = lang;
-    root.dir = lang === 'ar' ? 'rtl' : 'ltr';
-
+  // Fills in the language-dependent attributes that are not plain text content.
+  function applyLang() {
     $$('[data-en]').forEach((el) => {
       const text = el.dataset[lang];
-      if (text != null) el.textContent = text;
+      if (text != null && el.textContent !== text) el.textContent = text;
     });
     $$('[data-ph-en]').forEach((el) => { el.placeholder = t(el.dataset.phEn, el.dataset.phAr); });
     $$('[data-aria-en]').forEach((el) => el.setAttribute('aria-label', t(el.dataset.ariaEn, el.dataset.ariaAr)));
     $$('.lang-btn').forEach((btn) => {
       const active = btn.dataset.lang === lang;
       btn.classList.toggle('active', active);
-      btn.setAttribute('aria-pressed', String(active));
+      if (active) btn.setAttribute('aria-current', 'true');
+      else btn.removeAttribute('aria-current');
     });
-
-    try { localStorage.setItem('hm-lang', lang); } catch (e) { /* storage unavailable */ }
 
     updateWhatsAppLinks();
     buildServiceOptions();
     studio.restart();
+  }
+
+  // Switching language is a navigation to the other language's URL (same section).
+  function switchLang(next) {
+    const target = next === 'ar' ? 'ar' : 'en';
+    try { localStorage.setItem('hm-lang', target); } catch (e) { /* storage unavailable */ }
+    if (target === lang) return;
+    location.href = `${SITE_ROOT}${target === 'ar' ? 'ar/' : ''}${location.hash}`;
   }
 
   /* ---------------- WhatsApp links ---------------- */
@@ -92,7 +98,10 @@
     $$('#nav-links a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
 
-    $$('.lang-btn').forEach((btn) => btn.addEventListener('click', () => applyLang(btn.dataset.lang)));
+    $$('.lang-btn').forEach((btn) => btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchLang(btn.dataset.lang);
+    }));
   }
 
   /* ---------------- AI studio (hero) ---------------- */
@@ -406,19 +415,11 @@
   }
 
   /* ---------------- Init ---------------- */
-  function initialLang() {
-    try {
-      return new URLSearchParams(location.search).get('lang') || localStorage.getItem('hm-lang') || 'en';
-    } catch (e) {
-      return 'en';
-    }
-  }
-
   $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   initMarquee();
   initNav();
   initForm();
-  applyLang(initialLang());
+  applyLang();
   initReveal();
   initSpotlight();
   initReel();
