@@ -801,18 +801,21 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
     url = f"{SITE}{LANG_PREFIX[lang]}/work/"
     h1_a, h1_b = w["h1"]
 
+    category = {n: key for key, numbers in sc.WORK_CATEGORIES.items() for n in numbers}
+
+    # The cards are a showcase only: they are not links.
     def design_card(n: int, d: dict, hidden: bool) -> str:
         width = round(WALL_ROW_HEIGHT * d["w"] / d["h"])
-        extra = ' tabindex="-1" aria-hidden="true"' if hidden else ""
+        extra = ' aria-hidden="true"' if hidden else ""
         alt = "" if hidden else qa(w["design_alt"].format(n=n))
-        return (f'<a class="wall-card" href="{d["full"]}" target="_blank" rel="noopener"{extra}>'
-                f'<img src="{d["thumb"]}" width="{width}" height="{WALL_ROW_HEIGHT}" loading="lazy" alt="{alt}"></a>')
+        return (f'<div class="wall-card" data-cat="{category[n]}"{extra}>'
+                f'<img src="{d["thumb"]}" width="{width}" height="{WALL_ROW_HEIGHT}" loading="lazy" alt="{alt}"></div>')
 
     def video_card(n: int, vid: str, hidden: bool) -> str:
-        extra = ' tabindex="-1" aria-hidden="true"' if hidden else f' aria-label="{qa(w["video_label"].format(n=n))}"'
-        return (f'<a class="wall-card wall-video" href="https://www.youtube.com/watch?v={vid}" target="_blank" rel="noopener" data-video="{vid}"{extra}>'
+        extra = ' aria-hidden="true"' if hidden else f' role="img" aria-label="{qa(w["video_label"].format(n=n))}"'
+        return (f'<div class="wall-card wall-video" data-cat="video" data-video="{vid}"{extra}>'
                 f'<img src="https://i.ytimg.com/vi/{vid}/hqdefault.jpg" width="{round(WALL_ROW_HEIGHT * 16 / 9)}" height="{WALL_ROW_HEIGHT}" loading="lazy" alt="">'
-                f'<span class="wall-live" aria-hidden="true"><svg><use href="#i-play"/></svg></span></a>')
+                f'<span class="wall-live" aria-hidden="true"><svg><use href="#i-play"/></svg></span></div>')
 
     designs = list(enumerate(ctx["designs"], 1))
     rows = [designs[i::3] for i in range(3)]
@@ -826,8 +829,8 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
         rows_html.append(f'<div class="wall-row{" wall-row--rev" if r % 2 else ""}"><div class="wall-track" style="--t:{70 + r * 14}s">{cards(False)}{cards(True)}</div></div>')
 
     chips = "".join(
-        f'<a class="chip" href="{qa(wa_link(ctx, w["wa_field"].format(field=field)))}" target="_blank" rel="noopener">{esc(field)}</a>'
-        for field in w["fields"]
+        f'<button class="chip{" active" if key == "all" else ""}" type="button" data-filter="{key}" aria-pressed="{"true" if key == "all" else "false"}">{esc(label)}</button>'
+        for key, label in w["filters"]
     )
     graph = [
         {"@type": ["Organization", "ProfessionalService"], "@id": ctx["ORG_ID"], "name": ctx["BRAND"], "url": SITE + "/"},
@@ -841,16 +844,16 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
   <div class="container folio-copy">
     <h1 class="folio-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
     <p class="svc-intro">{esc(w['intro'])}</p>
-    <div class="svc-hero-cta">
-      <a class="btn btn-accent" href="{qa(wa_link(ctx, w['wa_all']))}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(w['cta'])}</span></a>
-      <a class="btn btn-ghost" href="{ctx['SOCIAL_LINKS'][2][1]}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-yt"/></svg> <span>{esc(w['youtube'])}</span></a>
-    </div>
-    <div class="chips"><span class="chips-label">{esc(w['fields_h'])}</span>{chips}</div>
+    <div class="chips" id="wall-filters" role="group" aria-label="{qa(w['filters_label'])}" hidden>{chips}</div>
   </div>
   <div class="wall" role="group" aria-label="{qa(w['wall_label'])}">
     <div class="wall-plane">
       {''.join(rows_html)}
     </div>
+    <a class="wall-cta" href="{qa(wa_link(ctx, w['wa_all']))}" target="_blank" rel="noopener">
+      <span class="wall-cta-ring" aria-hidden="true"></span><span class="wall-cta-ring" aria-hidden="true"></span>
+      <svg class="ic"><use href="#i-wa"/></svg> <span>{esc(w['cta'])}</span> <span class="arr" aria-hidden="true">→</span>
+    </a>
   </div>
 </section>
 </main>"""
