@@ -39,6 +39,12 @@ PHONE = "+971542882950"
 PHONE_DISPLAY = "+971 54 288 2950"
 EMAIL = "hussein.mlhem@gmail.com"
 WHATSAPP = "https://wa.me/971542882950"
+# Search Console ownership tokens (HTML tag method). Both of Hussein's properties are listed so either one
+# verifies from this page; Google matches the token that belongs to the property being verified.
+GOOGLE_SITE_VERIFICATION = [
+    "p1dN-pAnd_uaDlS1zDJjBBCozwS9A4ok2NTFrNBxS84",
+    "Muw8tr1qfiJPAY5Y4Z7QwBBppxvmBv8Hs4DA0Wm3d48",
+]
 ORG_ID = f"{SITE}/#organization"
 WEBSITE_ID = f"{SITE}/#website"
 FOUNDER = {
@@ -288,6 +294,7 @@ def head_block(lang: str, page: PageParser) -> str:
         f'<meta name="description" content="{attr(cfg["description"])}">',
         '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">',
         '<meta name="theme-color" content="#060706">',
+        *[f'<meta name="google-site-verification" content="{token}">' for token in GOOGLE_SITE_VERIFICATION],
         f'<link rel="canonical" href="{url}">',
         f'<link rel="alternate" hreflang="en" href="{SITE}/">',
         f'<link rel="alternate" hreflang="ar" href="{SITE}/ar/">',
