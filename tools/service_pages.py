@@ -6,13 +6,22 @@ and shared FAQ answers come from index.html (passed in through `ctx`).
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import json
+import pathlib
 import urllib.parse
 
 import service_content as sc
 
 LANG_PREFIX = {"en": "", "ar": "/ar"}
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+
+
+def asset_version(relative: str) -> str:
+    """'assets/css/style.css' -> 'assets/css/style.css?v=<content hash>', so an updated file is never served from cache."""
+    digest = hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()[:10]
+    return f"{relative}?v={digest}"
 
 
 def esc(text: str) -> str:
@@ -153,6 +162,7 @@ def footer_html(ctx: dict, lang: str, pages: list[dict]) -> str:
     ui = sc.UI[lang]
     links = "\n".join(f'      <li><a href="{path(lang, p["slug"])}">{esc(link_label(p, lang))}</a></li>' for p in pages)
     tag_a, tag_b = ui["footer_tag"]
+    social = "\n".join(f'          <li><a href="{u}" target="_blank" rel="noopener">{esc(n)}</a></li>' for n, u in ctx["SOCIAL_LINKS"])
     return f"""<footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -162,11 +172,25 @@ def footer_html(ctx: dict, lang: str, pages: list[dict]) -> str:
         <p class="footer-loc">{esc(ui['footer_loc'])}</p>
       </div>
       <div>
+        <h3 class="footer-h">{esc(ui['footer_explore'])}</h3>
+        <ul>
+          <li><a href="{LANG_PREFIX[lang]}/work/">{esc(sc.WORK[lang]['nav'])}</a></li>
+          <li><a href="{LANG_PREFIX[lang]}/one/">H.M One</a></li>
+          <li><a href="{LANG_PREFIX[lang]}/about/">{esc(sc.ABOUT[lang]['nav'])}</a></li>
+          <li><a href="{home_path(lang, '#faq')}">{esc(ui['footer_faq'])}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-h">{esc(ui['footer_follow'])}</h3>
+        <ul>
+{social}
+        </ul>
+      </div>
+      <div>
         <h3 class="footer-h">{esc(ui['footer_contact'])}</h3>
         <ul>
           <li><a href="{qa(wa_link(ctx, ui['wa_talk'].format(source='Footer' if lang == 'en' else 'أسفل الموقع')))}" target="_blank" rel="noopener">{esc(ui['whatsapp'])}</a></li>
           <li><a href="mailto:{ctx['EMAIL']}">{esc(ui['email'])}</a></li>
-          <li><a href="{LANG_PREFIX[lang]}/about/">{esc(sc.ABOUT[lang]['nav'])}</a></li>
         </ul>
       </div>
     </div>
@@ -246,11 +270,11 @@ def head_common(ctx: dict, lang: str, *, title: str, description: str, en_path: 
         '<link rel="preconnect" href="https://fonts.googleapis.com">',
         '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
         f'<link href="{ctx["FONTS_URL"]}" rel="stylesheet">',
-        '<link rel="stylesheet" href="/assets/css/style.css">',
+        f'<link rel="stylesheet" href="/{asset_version("assets/css/style.css")}">',
         '<script type="application/ld+json">',
         data,
         "</script>",
-        '<script src="/assets/js/service.js" defer></script>',
+        f'<script src="/{asset_version("assets/js/service.js")}" defer></script>',
     ]
     return "\n".join(lines)
 

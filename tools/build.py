@@ -488,6 +488,9 @@ def main() -> int:
     check = "--check" in sys.argv[1:]
     index_path = ROOT / "index.html"
     source = index_path.read_text(encoding="utf-8")
+    # Stamp the stylesheet and script with a content hash so browsers never show a new page with an old cached file.
+    source = re.sub(r'(assets/(?:css/style\.css|js/main\.js))(?:\?v=[0-9a-f]+)?"',
+                    lambda m: f'{service_pages.asset_version(m.group(1))}"', source)
 
     page = PageParser(source)
     services = [s for s in page.services if s["title"] and s["price"]]
