@@ -10,6 +10,11 @@ Static site for [h-m.agency](https://h-m.agency/), served by GitHub Pages from `
   not edit it by hand.
 - `llms.txt`, `sitemap.xml` and the SEO block in the `<head>` of `index.html` (between the
   `build:head` markers) are generated too.
+- **Service pages**: `services/<slug>/` (English) and `ar/services/<slug>/` (Arabic) are generated too: one page
+  per AI service plus one per agency category (design, video, marketing, web). Names, prices and shared FAQ
+  answers are read from `index.html`; the extra wording is in `tools/service_content.py` and the page
+  template is `tools/service_pages.py`. To add a page, add an entry to `tools/service_content.py` and rerun the build.
+  Keep the copy to what the home page already says about the service.
 
 ## After changing any text, price, service or FAQ
 

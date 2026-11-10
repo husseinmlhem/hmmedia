@@ -48,6 +48,19 @@ H.M Media is an AI creative studio and creative agency founded by Hussein Mlhem 
 - **Website / Landing Page** (from AED 2,999)
 - **Online Store Setup** (from AED 3,499)
 
+## Service pages (English; the same pages exist in Arabic under /ar/)
+
+- [AI Product Photography & Visuals](https://h-m.agency/services/ai-product-visuals/): AI product photos and campaign visuals without a photoshoot, from AED 499. H.M Media creates them for brands across the UAE, GCC and the Middle East.
+- [AI Video Ads & AI Avatars (Arabic & English)](https://h-m.agency/services/ai-video-ads/): AI video ads, presenters and UGC-style clips in Arabic or English, from AED 799. H.M Media produces them for brands across the UAE, GCC and the Middle East.
+- [CGI & 3D Product Ads and Animations](https://h-m.agency/services/cgi-3d-product-ads/): 3D product animations and CGI scenes for ads, from AED 1,999. H.M Media creates them for brands across the UAE, GCC and the Middle East.
+- [AI Chatbots & WhatsApp Agents for Business](https://h-m.agency/services/ai-chatbots-whatsapp-agents/): AI chatbots and WhatsApp agents that answer customers, capture leads and book appointments 24/7, from AED 1,499. Built by H.M Media for businesses in the UAE, GCC and the Middle East.
+- [Custom AI Apps & Smart Websites](https://h-m.agency/services/ai-apps-smart-websites/): Custom AI tools, web apps and websites with AI built in, from AED 3,999. H.M Media designs and builds them for businesses across the UAE, GCC and the Middle East.
+- [AI Automation for Business Workflows](https://h-m.agency/services/ai-automation/): AI automation that connects your tools so leads, bookings and content run on autopilot, from AED 999. H.M Media serves businesses across the UAE, GCC and the Middle East.
+- [Design Services: Social, Logo, Presentation & Print](https://h-m.agency/services/design/): Social media designs, logo and brand look, presentations and company profiles, print and event designs, from AED 199. H.M Media serves brands across the UAE, GCC and the Middle East.
+- [Video Production & Motion Graphics](https://h-m.agency/services/video-and-motion/): Reels and short videos, explainer videos, logo animation, ad video scripts and photo and video shoot days, from AED 299. H.M Media serves brands across the UAE, GCC and the Middle East.
+- [Social Media Management, Ads & Local SEO](https://h-m.agency/services/marketing-and-growth/): Monthly social media management, sponsored ads, Google Business and local SEO, Arabic and English copywriting, and social media audits, from AED 299. H.M Media serves brands across the UAE, GCC and the Middle East.
+- [Website, Landing Page & Online Store Setup](https://h-m.agency/services/web-and-ecommerce/): Websites, landing pages and online store setup, from AED 2,999. H.M Media builds them for brands across the UAE, GCC and the Middle East.
+
 ## FAQ
 
 ### Can you build a custom AI app or chatbot for my business?

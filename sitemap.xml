@@ -6,6 +6,7 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/"/>
     <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://h-m.agency/ar/</loc>
@@ -13,5 +14,166 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/"/>
     <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/ai-product-visuals/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-product-visuals/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-product-visuals/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-product-visuals/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/ai-product-visuals/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-product-visuals/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-product-visuals/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-product-visuals/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/ai-video-ads/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-video-ads/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-video-ads/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-video-ads/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/ai-video-ads/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-video-ads/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-video-ads/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-video-ads/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/cgi-3d-product-ads/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/cgi-3d-product-ads/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/cgi-3d-product-ads/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/cgi-3d-product-ads/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/cgi-3d-product-ads/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/cgi-3d-product-ads/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/cgi-3d-product-ads/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/cgi-3d-product-ads/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/ai-chatbots-whatsapp-agents/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-chatbots-whatsapp-agents/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-chatbots-whatsapp-agents/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-chatbots-whatsapp-agents/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/ai-chatbots-whatsapp-agents/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-chatbots-whatsapp-agents/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-chatbots-whatsapp-agents/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-chatbots-whatsapp-agents/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/ai-apps-smart-websites/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-apps-smart-websites/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-apps-smart-websites/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-apps-smart-websites/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/ai-apps-smart-websites/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-apps-smart-websites/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-apps-smart-websites/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-apps-smart-websites/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/ai-automation/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-automation/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-automation/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-automation/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/ai-automation/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/ai-automation/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/ai-automation/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/ai-automation/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/design/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/design/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/design/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/design/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/design/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/design/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/design/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/design/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/video-and-motion/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/video-and-motion/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/video-and-motion/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/video-and-motion/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/video-and-motion/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/video-and-motion/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/video-and-motion/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/video-and-motion/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/marketing-and-growth/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/marketing-and-growth/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/marketing-and-growth/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/marketing-and-growth/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/marketing-and-growth/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/marketing-and-growth/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/marketing-and-growth/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/marketing-and-growth/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/services/web-and-ecommerce/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/web-and-ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/web-and-ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/web-and-ecommerce/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/web-and-ecommerce/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/web-and-ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/web-and-ecommerce/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/web-and-ecommerce/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
