@@ -78,6 +78,7 @@ Solutions available today:
 - [Procurement](https://h-m.agency/one/procurement/): Suppliers, purchase requests, supplier quotations, purchase orders and goods receipt, with approval on requests and orders.
 - [Inventory & Spare Parts](https://h-m.agency/one/inventory/): Items, warehouses and a stock movement ledger; balances per item and warehouse come from posted movements.
 - [Finance & Expenses](https://h-m.agency/one/finance/): Itemized VAT invoices, credit notes and expense claims with approval, plus payments, allocations, receipts and reversals.
+- [Retail POS](https://h-m.agency/one/retail/): Sell by barcode on phone or laptop, with stock, customer debts, suppliers, expenses and live profit in two currencies.
 - [Shared Platform](https://h-m.agency/one/platform/): Company workspace, users and roles, approvals, notifications, reports, guides and support, subscription screens, Arabic and English.
 
 Custom Solutions are built on request. Pricing is quoted per company; request it on WhatsApp.
