@@ -740,9 +740,9 @@ html[lang="ar"] .rel-card .more { transform: scaleX(-1); }
 /* ---------- H.M One logo in the navigation (last item) ---------- */
 .nav-links { align-items: center; }
 .nav-one a { display: block; transition: transform 0.25s var(--ease), filter 0.25s; }
-.nav-one img { width: auto; height: 50px; }
+.nav-one img { width: auto; height: 46px; }
 .nav-one a:hover { transform: scale(1.08) rotate(-2deg); filter: drop-shadow(0 0 14px rgba(var(--accent-rgb), 0.55)); }
-.one-teaser-logo img { width: clamp(96px, 12vw, 140px); height: auto; }
+.one-teaser-logo img { width: clamp(150px, 18vw, 220px); height: auto; }
 .one-teaser-logo + div { flex: 1 1 380px; }
 
 /* ---------- H.M One page ---------- */
@@ -787,7 +787,7 @@ html[lang="ar"] .rel-card .more { transform: scaleX(-1); }
 .flow::before { content: ''; position: absolute; top: 22px; inset-inline: 22px; height: 2px; background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.15)); background-size: 200% 100%; animation: shimmer 4s linear infinite; }
 .flow-step { position: relative; }
 .flow-step h3 { margin-top: 16px; font-size: 18px; font-weight: 600; }
-.one-cta-logo img { width: 120px; height: auto; margin: 0 auto 6px; animation: floaty 5s ease-in-out infinite; }
+.one-cta-logo img { width: 210px; height: auto; margin: 0 auto 6px; animation: floaty 5s ease-in-out infinite; }
 
 /* ---------- Portfolio page: a moving wall of work ---------- */
 .folio { min-height: 100svh; padding-bottom: 0; display: flex; flex-direction: column; }
@@ -825,7 +825,7 @@ html[lang="ar"] .folio-h1 { letter-spacing: 0; line-height: 1.25; }
 @keyframes live { to { box-shadow: 0 0 0 14px rgba(var(--accent-rgb), 0); } }
 
 @media (max-width: 1024px) {
-  .nav-one img { height: 64px; margin: 6px 14px; }
+  .nav-one img { height: 44px; margin: 10px 14px; }
   .one-hero-grid { grid-template-columns: 1fr; }
   .sol-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -917,7 +917,7 @@ html[lang="ar"] .looking { letter-spacing: 0; }
 .one-hero { padding-bottom: 0; }
 .one-hero-copy { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .one-hero-copy .crumbs { align-self: stretch; text-align: start; }
-.one-hero-logo img { width: clamp(110px, 12vw, 150px); height: auto; margin-bottom: 8px; filter: drop-shadow(0 0 30px rgba(var(--accent-rgb), 0.45)); animation: floaty 5s ease-in-out infinite; }
+.one-hero-logo img { width: clamp(190px, 22vw, 300px); height: auto; margin-bottom: 8px; filter: drop-shadow(0 0 30px rgba(var(--accent-rgb), 0.45)); animation: floaty 5s ease-in-out infinite; }
 .one-hero .svc-h1 { max-width: none; font-size: clamp(38px, 6.4vw, 84px); }
 .one-hero .svc-intro { margin-inline: auto; }
 .one-hero .svc-hero-cta { justify-content: center; }
@@ -966,3 +966,19 @@ html[lang="ar"] .looking { letter-spacing: 0; }
 .sol--link .sol-ic .one-ic { width: 24px; height: 24px; }
 .sol--link h3 { font-size: 16px; }
 @media (max-width: 560px) { .sol-hero-head { gap: 14px; } .sol-ic--xl { width: 64px; height: 64px; border-radius: 18px; } .sol-ic--xl .one-ic { width: 32px; height: 32px; } }
+
+/* ---------- H.M One: the customer portal (the only Log in on the site besides the footer link) ---------- */
+.portal { position: relative; padding: 2px; border-radius: 30px; overflow: hidden; isolation: isolate; }
+.portal::before { content: ''; position: absolute; inset: -80%; z-index: -2; background: conic-gradient(from 0deg, transparent 0 58%, var(--accent-hi) 72%, #fff 76%, var(--accent) 80%, transparent 92%); animation: orbit 6s linear infinite; }
+.portal-in { position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(20px, 4vw, 48px); padding: clamp(28px, 5vw, 60px); border-radius: 28px; background: radial-gradient(60% 120% at 12% 50%, rgba(var(--accent-rgb), 0.28), transparent 60%), radial-gradient(40% 100% at 100% 0%, rgba(var(--accent-rgb), 0.14), transparent 70%), #070a08; overflow: hidden; }
+.portal-gate { position: relative; width: clamp(110px, 14vw, 170px); aspect-ratio: 1; display: grid; place-items: center; }
+.portal-gate i { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid rgba(var(--accent-rgb), 0.75); animation: gate 3.6s ease-out infinite; }
+.portal-gate i:nth-child(2) { animation-delay: 1.2s; }
+.portal-gate i:nth-child(3) { animation-delay: 2.4s; }
+.portal-gate span { position: relative; display: grid; place-items: center; width: 56%; aspect-ratio: 1; border-radius: 50%; color: var(--on-accent); background: radial-gradient(circle at 35% 30%, var(--accent-hi), var(--accent) 55%, var(--accent-deep)); box-shadow: 0 0 60px rgba(var(--accent-rgb), 0.9), inset 0 2px 0 rgba(255, 255, 255, 0.5); animation: floaty 5s ease-in-out infinite; }
+.portal-gate .ic { width: 42%; height: 42%; }
+@keyframes gate { 0% { transform: scale(0.5); opacity: 0; } 25% { opacity: 1; } 100% { transform: scale(1.25); opacity: 0; } }
+.portal-copy .svc-h2 { margin-top: 8px; font-size: clamp(28px, 4vw, 52px); }
+.portal-btn { height: 64px; padding-inline: 34px; font-size: 18px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25) inset, 0 0 60px rgba(var(--accent-rgb), 0.7); }
+@media (max-width: 860px) { .portal-in { grid-template-columns: 1fr; justify-items: center; text-align: center; } .portal-copy .eyebrow { justify-content: center; } .portal-btn { width: 100%; justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .portal::before, .portal-gate i, .portal-gate span { animation: none; } .portal-gate i { opacity: 0.5; } }
