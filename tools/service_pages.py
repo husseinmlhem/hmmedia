@@ -166,6 +166,9 @@ def header_html(ctx: dict, lang: str, slug: str, alt_paths: dict | None = None) 
     message = ui["wa_talk"].format(source=("زر ابدأ مشروعك" if lang == "ar" else "Start Project button"))
     en_current = ' class="lang-btn active" aria-current="true"' if lang == "en" else ' class="lang-btn"'
     ar_current = ' class="lang-btn active" aria-current="true"' if lang == "ar" else ' class="lang-btn"'
+    cta = f'<a class="btn btn-accent btn-sm nav-cta" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener"><span>{esc(ui["start"])}</span> <span class="arr" aria-hidden="true">→</span></a>'
+    if slug == "one" and sc.ONE_APP_URL:
+        cta = f'<a class="btn btn-accent btn-sm nav-cta nav-cta--keep" href="{sc.ONE_APP_URL}">{LOGIN_ICON} <span>{esc(sc.ONE[lang]["cta_login"])}</span></a>'
     return f"""<header class="nav" id="nav">
   <div class="container nav-inner">
     <a href="{home_path(lang)}" class="brand" aria-label="H.M Media">
@@ -182,7 +185,7 @@ def header_html(ctx: dict, lang: str, slug: str, alt_paths: dict | None = None) 
         <a{en_current} href="{paths['en']}" hreflang="en" lang="en">EN</a>
         <a{ar_current} href="{paths['ar']}" hreflang="ar" lang="ar" aria-label="العربية">ع</a>
       </div>
-      <a class="btn btn-accent btn-sm nav-cta" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener"><span>{esc(ui['start'])}</span> <span class="arr" aria-hidden="true">→</span></a>
+      {cta}
       <button class="burger" type="button" id="burger" aria-controls="nav-links" aria-expanded="false" aria-label="{qa(ui['menu'])}"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -723,6 +726,17 @@ def one_icon(name: str) -> str:
     return f'<svg class="one-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{body}</svg>'
 
 
+LOGIN_ICON = ('<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+              '<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l4-4-4-4M14 12H4"/></svg>')
+# Real screens of the platform (taken from a demo workspace with sample data): file name, English name, Arabic name.
+ONE_SCREENS = [
+    ("workspace", "Company workspace", "مساحة عمل الشركة"),
+    ("hr", "People map", "خريطة الموظفين"),
+    ("reports", "Executive reports", "التقارير التنفيذية"),
+    ("finance", "Finance and billing", "المالية والفوترة"),
+    ("operations-work-orders", "Work orders", "أوامر العمل"),
+]
+
 ONE_LOGO = '<img src="/assets/img/hm-one-logo.png" width="348" height="369" alt="H.M One">'
 
 
@@ -737,17 +751,23 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
     faq_a, faq_b = ui["faq_h"]
     wa_ready = qa(wa_link(ctx, o["wa_ready"]))
     wa_custom = qa(wa_link(ctx, o["wa_custom"]))
-    login = f'<a class="btn btn-ghost" href="{sc.ONE_APP_URL}">{esc(o["cta_login"])}</a>' if sc.ONE_APP_URL else ""
-    buttons = f"""<div class="svc-hero-cta">
-      <a class="btn btn-accent" href="{wa_ready}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(o['cta_ready'])}</span></a>
-      <a class="btn btn-ghost" href="{wa_custom}" target="_blank" rel="noopener">{esc(o['cta_custom'])}</a>
-      {login}
+    if sc.ONE_APP_URL:
+        buttons = f"""<div class="svc-hero-cta">
+      <a class="btn btn-accent btn-lg" href="{sc.ONE_APP_URL}">{LOGIN_ICON} <span>{esc(o['cta_login'])}</span></a>
+      <a class="btn btn-ghost btn-lg" href="{wa_ready}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(o['cta_ready'])}</span></a>
     </div>"""
-    count = len(sc.ONE_SOLUTIONS)
-    orbit = "".join(
-        f'<span class="orbit-item" style="--i:{i}" title="{qa(s[lang][0])}">{one_icon(s["icon"])}</span>'
-        for i, s in enumerate(sc.ONE_SOLUTIONS)
+    else:
+        buttons = f"""<div class="svc-hero-cta">
+      <a class="btn btn-accent btn-lg" href="{wa_ready}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(o['cta_ready'])}</span></a>
+      <a class="btn btn-ghost btn-lg" href="{wa_custom}" target="_blank" rel="noopener">{esc(o['cta_custom'])}</a>
+    </div>"""
+    name_at = 1 if lang == "en" else 2
+    screens = "".join(
+        f'<figure class="screen"><img src="/assets/one/{shot[0]}.webp" width="1600" height="1000" loading="lazy" alt="{qa(o["screen_alt"].format(name=shot[name_at]))}">'
+        f'<figcaption>{esc(shot[name_at])}</figcaption></figure>'
+        for shot in ONE_SCREENS
     )
+    scr_a, scr_b = o["screens_h"]
     cards = "".join(
         f'<a class="card sol rv" style="--d:{i % 3}" href="{qa(wa_link(ctx, o["wa_solution"].format(name=s[lang][0])))}" target="_blank" rel="noopener">'
         f'<span class="sol-ic">{one_icon(s["icon"])}</span><h3>{esc(s[lang][0])}</h3><p>{esc(s["tags"][lang])}</p>'
@@ -755,10 +775,6 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
         for i, s in enumerate(sc.ONE_SOLUTIONS)
     )
     pills = "".join(f'<li class="pill rv" style="--d:{i}">{one_icon(icon)}<span>{esc(label)}</span></li>' for i, (icon, label) in enumerate(o["pills"]))
-    steps = "".join(
-        f'<li class="flow-step rv" style="--d:{i}"><span class="step-num">0{i + 1}</span><h3>{esc(t)}</h3></li>'
-        for i, (t, _d) in enumerate(o["steps"])
-    )
     faq_items = "".join(
         f'<details class="faq-item"><summary><span>{esc(q)}</span><span class="faq-plus" aria-hidden="true"></span></summary><p class="faq-a">{esc(a)}</p></details>'
         for q, a in o["faq"]
@@ -789,24 +805,28 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
     head = head_common(ctx, lang, title=o["title"], description=o["description"], en_path="/one/", ar_path="/ar/one/", graph=graph)
     main = f"""<main id="top">
 <section class="svc-hero one-hero">
-  <div class="container one-hero-grid">
-    <div>
-      {crumbs_html(ctx, lang, o['label'])}
-      <span class="eyebrow">{esc(o['eyebrow'])}</span>
-      <h1 class="svc-h1"><span class="sr-only">H.M One: </span>{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
-      <p class="svc-intro">{esc(o['tagline'])}</p>
-      {buttons}
-    </div>
-    <div class="orbit" style="--n:{count}" aria-hidden="true">
-      <span class="orbit-ring"></span><span class="orbit-ring orbit-ring--2"></span>
-      <div class="orbit-spin">{orbit}</div>
-      <div class="orbit-core">{ONE_LOGO}</div>
+  <div class="container one-hero-copy">
+    {crumbs_html(ctx, lang, o['label'])}
+    <div class="one-hero-logo">{ONE_LOGO}</div>
+    <h1 class="svc-h1"><span class="sr-only">H.M One: </span>{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
+    <p class="svc-intro">{esc(o['tagline'])}</p>
+    {buttons}
+  </div>
+  <div class="container">
+    <div class="mockup" aria-hidden="true">
+      <div class="mockup-bar"><i></i><i></i><i></i><span>one.h-m.agency</span></div>
+      <img src="/assets/one/operations.webp" width="1600" height="1000" alt="" fetchpriority="high">
     </div>
   </div>
 </section>
 
 <section class="section section--tight">
   <div class="container"><ul class="pills">{pills}</ul></div>
+</section>
+
+<section class="section section--tight" id="screens">
+  <div class="container"><h2 class="svc-h2">{esc(scr_a)} <span class="grad">{esc(scr_b)}</span></h2></div>
+  <div class="screens" role="group" aria-label="{qa(o['screens_label'])}" tabindex="0">{screens}</div>
 </section>
 
 <section class="section section--tight" id="solutions">
@@ -824,10 +844,6 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
       <a class="btn btn-accent" href="{wa_custom}" target="_blank" rel="noopener"><span>{esc(o['cta_custom'])}</span> <span class="arr" aria-hidden="true">→</span></a>
     </div>
   </div>
-</section>
-
-<section class="section section--tight" id="process">
-  <div class="container"><ol class="flow">{steps}</ol></div>
 </section>
 
 <section class="section section--tight" id="faq">
