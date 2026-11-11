@@ -56,7 +56,6 @@ FOUNDER = {
 SAME_AS = [
     "https://www.instagram.com/h.m.gcc/",
     "https://www.facebook.com/h.m.mediaco",
-    "https://www.youtube.com/playlist?list=PLqqrYKCZFlioU3ZsRjw3uf1_qfNR9sRE5",
 ]
 # Matches the Google Business Profile; keep these two in sync with that listing.
 ADDRESS = {"@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE"}
@@ -453,7 +452,6 @@ def llms_txt(page: PageParser, pages: list[dict]) -> str:
         f"- Founder: {FOUNDER['name']}, Multimedia Lead & Creative Technologist ({FOUNDER['url']})",
         f"- Instagram: {SAME_AS[0]}",
         f"- Facebook: {SAME_AS[1]}",
-        f"- Video portfolio: {SAME_AS[2]}",
         "",
     ]
     return "\n".join(lines)
@@ -510,7 +508,7 @@ def main() -> int:
         "PHONE_DISPLAY": PHONE_DISPLAY,
         "designs": json.loads((ROOT / "tools" / "work_designs.json").read_text(encoding="utf-8")),
         "videos": [line.split("v=")[1].strip() for line in (ROOT / "portfolio-videos.txt").read_text(encoding="utf-8").splitlines() if "v=" in line],
-        "SOCIAL_LINKS": [("Instagram", SAME_AS[0]), ("Facebook", SAME_AS[1]), ("YouTube", SAME_AS[2])],
+        "SOCIAL_LINKS": [("Instagram", SAME_AS[0]), ("Facebook", SAME_AS[1])],
         "FOUNDER": FOUNDER,
         "AREA_SERVED": AREA_SERVED,
         "OG_LOCALE": {"en": LANGS["en"]["og_locale"], "ar": LANGS["ar"]["og_locale"]},
