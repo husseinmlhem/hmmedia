@@ -1032,3 +1032,9 @@ a.link-card:hover { transform: translateY(-4px); border-color: rgba(var(--accent
   .bar-track { grid-column: 1 / -1; grid-row: 2; }
 }
 @media (prefers-reduced-motion: reduce) { .mockup--side, .flowline-node, .flowline::before { animation: none !important; } .fx .bar.rv .bar-track i { transform: none; } }
+
+/* ---------- Log in: pinned in the top bar of the H.M One pages, and in the home page band ---------- */
+.nav-login { border-color: rgba(var(--accent-rgb), 0.6); color: var(--accent-hi); box-shadow: 0 0 22px -6px rgba(var(--accent-rgb), 0.8); }
+.nav-login:hover { background: rgba(var(--accent-rgb), 0.14); border-color: var(--accent); }
+.one-teaser-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 480px) { .nav-login span { display: none; } .nav-login { width: 38px; padding: 0; justify-content: center; } }

@@ -167,6 +167,9 @@ def header_html(ctx: dict, lang: str, slug: str, alt_paths: dict | None = None) 
     en_current = ' class="lang-btn active" aria-current="true"' if lang == "en" else ' class="lang-btn"'
     ar_current = ' class="lang-btn active" aria-current="true"' if lang == "ar" else ' class="lang-btn"'
     cta = f'<a class="btn btn-accent btn-sm nav-cta" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener"><span>{esc(ui["start"])}</span> <span class="arr" aria-hidden="true">→</span></a>'
+    if slug.split("/")[0] == "one" and sc.ONE_APP_URL:
+        # The top bar is fixed, so on the H.M One pages Log in stays in view; "Start a project" remains the main button.
+        cta = f'<a class="btn btn-ghost btn-sm nav-login" href="{sc.ONE_APP_URL}" aria-label="{qa(sc.ONE[lang]["cta_login"])}">{LOGIN_ICON} <span>{esc(sc.ONE[lang]["cta_login"])}</span></a>\n      {cta}'
     return f"""<header class="nav" id="nav">
   <div class="container nav-inner">
     <a href="{home_path(lang)}" class="brand" aria-label="H.M Media">
