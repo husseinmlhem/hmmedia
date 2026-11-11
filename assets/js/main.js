@@ -107,6 +107,7 @@
   /* ---------------- AI studio (hero) ---------------- */
   const studio = (() => {
     const form = $('#prompt-form');
+    if (!form) return { restart() {} }; // the page has no studio box
     const input = $('#prompt-input');
     const stage = $('#result-stage');
     const chips = $$('.pchip');
@@ -414,6 +415,52 @@
     new ResizeObserver(() => { sizeCanvas(); draw(current); }).observe(canvas);
   }
 
+  /* ---------------- "All services & prices" panel ---------------- */
+  function initMore() {
+    const panel = $('#more');
+    const button = $('#more-btn');
+    if (!panel || !button) return;
+    const setOpen = (open) => {
+      panel.classList.toggle('open', open);
+      button.setAttribute('aria-expanded', String(open));
+    };
+    button.addEventListener('click', () => {
+      const open = !panel.classList.contains('open');
+      setOpen(open);
+      if (open) panel.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    });
+    // A link to something inside the closed panel (#faq, #ai, a price) opens it first.
+    const reveal = (hash, smooth) => {
+      if (!hash || hash.length < 2) return false;
+      let target = null;
+      try { target = panel.querySelector(hash); } catch (err) { return false; }
+      if (!target) return false;
+      setOpen(true);
+      target.scrollIntoView({ behavior: smooth && !reduceMotion ? 'smooth' : 'auto', block: 'start' });
+      return true;
+    };
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest && e.target.closest('a[href^="#"]');
+      if (link && reveal(link.getAttribute('href'), true)) e.preventDefault();
+    });
+    window.addEventListener('hashchange', () => reveal(location.hash, false));
+    reveal(location.hash, false);
+  }
+
+  /* ---------------- Hero slides ---------------- */
+  function initSlides() {
+    const slides = $$('.hero-slides img');
+    if (slides.length < 2) return;
+    let index = 0;
+    slides[0].classList.add('on');
+    if (reduceMotion) return;
+    setInterval(() => {
+      slides[index].classList.remove('on');
+      index = (index + 1) % slides.length;
+      slides[index].classList.add('on');
+    }, 5200);
+  }
+
   /* ---------------- Init ---------------- */
   $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   initMarquee();
@@ -423,4 +470,6 @@
   initReveal();
   initSpotlight();
   initReel();
+  initMore();
+  initSlides();
 })();

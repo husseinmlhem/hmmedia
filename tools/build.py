@@ -519,6 +519,7 @@ def main() -> int:
     pages, service_outputs = service_pages.render_all(ctx, parse_price)
 
     source = replace_block(source, "service-links", service_pages.service_links_block(ctx, pages))
+    source = replace_block(source, "home-wall", service_pages.home_wall_block(ctx))
     english = replace_head(source, head_block("en", page))
     outputs = {
         index_path: english,
