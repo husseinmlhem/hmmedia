@@ -683,6 +683,12 @@ ONE = {
         "portal_eyebrow": "Already a customer",
         "portal_h": ("Your workspace", "is waiting."),
         "all_solutions": "All Solutions",
+        "flow_h": ("How it", "flows."),
+        "areas_h": ("Functions", "by area."),
+        "stat_functions": "functions",
+        "stat_areas": "areas",
+        "stat_roles": "roles",
+        "stat_langs": "languages",
         "screens_h": ("See it", "working."),
         "screens_label": "Screens from the platform",
         "screen_alt": "H.M One platform screen: {name}",
@@ -747,6 +753,12 @@ ONE = {
         "portal_eyebrow": "لعملائنا الحاليين",
         "portal_h": ("مساحة عملك", "بانتظارك."),
         "all_solutions": "كل الحلول",
+        "flow_h": ("كيف يسير", "العمل."),
+        "areas_h": ("الوظائف", "حسب القسم."),
+        "stat_functions": "وظيفة",
+        "stat_areas": "أقسام",
+        "stat_roles": "أدوار",
+        "stat_langs": "لغتان",
         "screens_h": ("شاهدها", "تعمل."),
         "screens_label": "شاشات من المنصة",
         "screen_alt": "شاشة من منصة H.M One: {name}",
@@ -756,6 +768,51 @@ ONE = {
         "home_h": ("H.M One:", "برمجيات لإدارة شركتك."),
         "home_lead": "الموارد البشرية والرواتب وإدارة المرافق والمشتريات والمخزون والمالية في منصة واحدة مترابطة. اختر الحلول التي تحتاجها، أو اطلب منا بناء حل مخصص.",
         "home_cta": "تعرّف على H.M One",
+    },
+}
+
+# Visual material for the page of each Solution. "flow" is the path a record takes through the Solution (only steps
+# the platform performs today). "screens" are real screens: (file in assets/one, English caption, Arabic caption).
+ONE_VISUALS = {
+    "hr": {
+        "flow": [("Add employee", "إضافة موظف"), ("360° record", "سجل 360°"), ("Contracts & documents", "العقود والوثائق"), ("Requests & leave", "الطلبات والإجازات"), ("Offboarding", "إنهاء الخدمة"), ("End of service", "مستحقات نهاية الخدمة")],
+        "screens": [("hr", "People map", "خريطة الموظفين"), ("hr-employees", "Employee directory", "دليل الموظفين"), ("hr-employee-records", "Employee 360° record", "سجل الموظف 360°"), ("hr-lifecycle", "Onboarding and transitions", "التعيين والانتقالات"), ("hr-leaves", "Leave management", "إدارة الإجازات")],
+    },
+    "attendance": {
+        "flow": [("Clock in", "تسجيل الحضور"), ("Daily record", "السجل اليومي"), ("Import & correct", "الاستيراد والتصحيح"), ("Leave request", "طلب إجازة"), ("Approval", "الموافقة"), ("Excel export", "تصدير Excel")],
+        "screens": [("hr-attendance", "Attendance", "الحضور"), ("hr-leaves", "Leave management", "إدارة الإجازات")],
+    },
+    "payroll": {
+        "flow": [("Open period", "فتح الفترة"), ("Readiness check", "فحص الجاهزية"), ("Calculate", "الاحتساب"), ("Approve", "الاعتماد"), ("Mark paid", "تأكيد الدفع"), ("Payslips", "قسائم الرواتب")],
+        "screens": [("hr-payroll", "Payroll periods", "فترات الرواتب")],
+    },
+    "facility": {
+        "flow": [("Client", "العميل"), ("Property & units", "العقار والوحدات"), ("Work order", "أمر العمل"), ("Assign team", "إسناد الفريق"), ("Log work & cost", "تسجيل العمل والتكلفة"), ("Collect payment", "تحصيل الدفعة")],
+        "screens": [("operations", "Operations overview", "نظرة عامة على العمليات"), ("operations-work-orders", "Work orders", "أوامر العمل"), ("operations-properties", "Properties and units", "العقارات والوحدات"), ("operations-clients", "Clients", "العملاء"), ("payments", "Payments and receipts", "الدفعات والإيصالات")],
+    },
+    "assets": {
+        "flow": [("Register asset", "تسجيل الأصل"), ("Tag & serial", "الوسم والرقم التسلسلي"), ("Assign", "الإسناد"), ("Return", "الإرجاع"), ("History", "السجل")],
+        "screens": [("assets", "Assets and assignments", "الأصول والعهد")],
+    },
+    "maintenance": {
+        "flow": [("Create plan", "إنشاء خطة"), ("Link asset", "ربط الأصل"), ("Set recurrence", "تحديد التكرار"), ("Due date", "تاريخ الاستحقاق"), ("Work order", "أمر العمل")],
+        "screens": [("maintenance", "Preventive maintenance", "الصيانة الوقائية")],
+    },
+    "procurement": {
+        "flow": [("Purchase request", "طلب شراء"), ("Approval", "الموافقة"), ("Supplier quotations", "عروض الموردين"), ("Purchase order", "أمر الشراء"), ("Receive goods", "استلام البضاعة")],
+        "screens": [("procurement", "Procurement and suppliers", "المشتريات والموردون")],
+    },
+    "inventory": {
+        "flow": [("Items", "الأصناف"), ("Warehouses", "المستودعات"), ("Receive", "استلام"), ("Issue & transfer", "صرف ونقل"), ("Adjust", "تسوية"), ("Balances", "الأرصدة")],
+        "screens": [("inventory", "Inventory and warehouses", "المخزون والمستودعات")],
+    },
+    "finance": {
+        "flow": [("Create invoice", "إنشاء فاتورة"), ("Approve", "الاعتماد"), ("Issue", "الإصدار"), ("Record payment", "تسجيل الدفعة"), ("Receipt", "الإيصال"), ("Excel & print", "Excel والطباعة")],
+        "screens": [("finance", "Finance and billing", "المالية والفوترة"), ("payments", "Payments and receipts", "الدفعات والإيصالات")],
+    },
+    "platform": {
+        "flow": [("Company workspace", "مساحة عمل الشركة"), ("Users & roles", "المستخدمون والأدوار"), ("Activate Solutions", "تفعيل الحلول"), ("Approvals", "الموافقات"), ("Reports", "التقارير")],
+        "screens": [("workspace", "Company workspace", "مساحة عمل الشركة"), ("approvals", "Approvals inbox", "صندوق الموافقات"), ("reports", "Executive reports", "التقارير التنفيذية"), ("access-control", "Users and access", "المستخدمون والصلاحيات")],
     },
 }
 

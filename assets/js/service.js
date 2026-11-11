@@ -35,6 +35,26 @@
     revealed.forEach((el) => io.observe(el));
   }
 
+  // Numbers count up the first time they are seen.
+  const counters = document.querySelectorAll('[data-count]');
+  if (counters.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        cio.unobserve(entry.target);
+        const end = Number(entry.target.dataset.count);
+        const started = performance.now();
+        const tick = (now) => {
+          const t = Math.min(1, (now - started) / 900);
+          entry.target.textContent = String(Math.round(end * (1 - Math.pow(1 - t, 3))));
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.4 });
+    counters.forEach((el) => cio.observe(el));
+  }
+
   // Portfolio video cards: load a muted, looping YouTube player when the card scrolls into view.
   // The thumbnail stays visible until the player reports that it is really playing.
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

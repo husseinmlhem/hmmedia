@@ -926,8 +926,46 @@ def render_one_solution(ctx: dict, lang: str, sol: dict, pages: list[dict]) -> s
         f'<ul class="tick-list">{"".join(f"<li>{esc(item[lang])}</li>" for item in g["items"])}</ul></section>'
         for i, g in enumerate(sol["groups"], 1)
     )
+    visual = sc.ONE_VISUALS[sol["slug"]]
+    at = 0 if lang == "en" else 1
+    flow_a, flow_b = o["flow_h"]
+    area_a, area_b = o["areas_h"]
+    scr_a, scr_b = o["screens_h"]
+    hero_shot = visual["screens"][0]
+    steps = "".join(
+        f'<li class="flowline-step rv" style="--d:{i}"><span class="flowline-node">{i + 1}</span><span class="flowline-label">{esc(step[at])}</span></li>'
+        for i, step in enumerate(visual["flow"])
+    )
+    stats = "".join(
+        f'<li class="stat rv" style="--d:{i}"><b data-count="{value}">{value}</b><span>{esc(label)}</span></li>'
+        for i, (value, label) in enumerate([(count, o["stat_functions"]), (len(sol["groups"]), o["stat_areas"]), (len(sol["roles"]), o["stat_roles"]), (2, o["stat_langs"])])
+        if value
+    )
+    largest = max(len(g["items"]) for g in sol["groups"])
+    bars = "".join(
+        f'<li class="bar rv" style="--d:{i % 6}"><a href="#g{i}"><span class="bar-label">{esc(g["title"][lang])}</span>'
+        f'<span class="bar-track"><i style="--w:{round(100 * len(g["items"]) / largest)}%"></i></span><b>{len(g["items"])}</b></a></li>'
+        for i, g in enumerate(sol["groups"], 1)
+    )
+    screens = "".join(
+        f'<figure class="screen"><img src="/assets/one/{shot[0]}.webp" width="1600" height="1000" loading="lazy" alt="{qa(o["screen_alt"].format(name=shot[1 + at]))}">'
+        f'<figcaption>{esc(shot[1 + at])}</figcaption></figure>'
+        for shot in visual["screens"]
+    )
+    # "Works with" lines start with the other Solution's name: turn those into linked cards with that Solution's icon.
+    by_name = {other["name"][lang]: other for other in ONE_FEATURES}
+    links = ""
+    for w in sol["works_with"]:
+        head, _, tail = w[lang].partition(":")
+        other = by_name.get(head.strip())
+        if other and tail:
+            links += (f'<a class="card link-card rv" href="{solution_path(lang, other)}"><span class="sol-ic">{solution_icon(other)}</span>'
+                      f'<span><b>{esc(other["name"][lang])}</b><small>{esc(tail.strip())}</small></span></a>')
+        else:
+            links += f'<div class="card link-card rv"><span class="sol-ic">{one_icon("puzzle")}</span><span><b>{esc(head.strip())}</b><small>{esc(tail.strip())}</small></span></div>'
+    roles = "".join(f'<li>{one_icon("hr")}<span>{esc(r[lang])}</span></li>' for r in sol["roles"])
     extra = ""
-    if sol["roles"]:
+    if False and sol["roles"]:
         extra += f'<div class="card svc-col"><h2>{esc(o["roles_h"])}</h2><ul class="role-list">{"".join(f"<li>{esc(r[lang])}</li>" for r in sol["roles"])}</ul></div>'
     if sol["works_with"]:
         extra += f'<div class="card svc-col"><h2>{esc(o["works_h"])}</h2>{tick_list([w[lang] for w in sol["works_with"]])}</div>'
@@ -962,28 +1000,57 @@ def render_one_solution(ctx: dict, lang: str, sol: dict, pages: list[dict]) -> s
         <li aria-current="page">{esc(name)}</li>
       </ol>
     </nav>
-    <div class="sol-hero-head">
-      <span class="sol-ic sol-ic--xl">{solution_icon(sol)}</span>
+    <div class="sol-hero-grid">
       <div>
-        <span class="eyebrow">H.M One · {esc(o['functions_count'].format(n=count))}</span>
-        <h1 class="svc-h1">{esc(name)}</h1>
+        <div class="sol-hero-head">
+          <span class="sol-ic sol-ic--xl">{solution_icon(sol)}</span>
+          <div>
+            <span class="eyebrow">H.M One · {esc(o['functions_count'].format(n=count))}</span>
+            <h1 class="svc-h1">{esc(name)}</h1>
+          </div>
+        </div>
+        <p class="svc-intro">{esc(summary)}</p>
+        <ul class="pills pills--start">{highlights}</ul>
+        {buttons}
+      </div>
+      <div class="mockup mockup--side" aria-hidden="true">
+        <div class="mockup-bar"><i></i><i></i><i></i><span>one.h-m.agency</span></div>
+        <img src="/assets/one/{hero_shot[0]}.webp" width="1600" height="1000" alt="" fetchpriority="high">
       </div>
     </div>
-    <p class="svc-intro">{esc(summary)}</p>
-    <ul class="pills pills--start">{highlights}</ul>
-    {buttons}
+    <ul class="stats">{stats}</ul>
+  </div>
+</section>
+
+<section class="section section--tight" id="flow">
+  <div class="container">
+    <h2 class="svc-h2">{esc(flow_a)} <span class="grad">{esc(flow_b)}</span></h2>
+    <ol class="flowline" style="--n:{len(visual['flow'])}">{steps}</ol>
+  </div>
+</section>
+
+<section class="section section--tight" id="screens">
+  <div class="container"><h2 class="svc-h2">{esc(scr_a)} <span class="grad">{esc(scr_b)}</span></h2></div>
+  <div class="screens{' screens--few' if len(visual['screens']) < 3 else ''}" role="group" aria-label="{qa(o['screens_label'])}" tabindex="0">{screens}</div>
+</section>
+
+<section class="section section--tight" id="areas">
+  <div class="container">
+    <h2 class="svc-h2">{esc(area_a)} <span class="grad">{esc(area_b)}</span></h2>
+    <ul class="bars">{bars}</ul>
   </div>
 </section>
 
 <section class="section section--tight" id="functions">
   <div class="container">
     <h2 class="svc-h2">{esc(fn_a)} <span class="grad">{esc(fn_b)}</span></h2>
-    <ul class="fn-jump">{jump}</ul>
     <div class="fn-grid">{groups}</div>
   </div>
 </section>
 
-{f'<section class="section section--tight"><div class="container svc-cols">{extra}</div></section>' if extra else ''}
+{f'<section class="section section--tight" id="roles"><div class="container"><h2 class="svc-h2">{esc(o["roles_h"])}</h2><ul class="role-cards">{roles}</ul></div></section>' if roles else ''}
+
+{f'<section class="section section--tight" id="works-with"><div class="container"><h2 class="svc-h2">{esc(o["works_h"])}</h2><div class="link-grid">{links}</div></div></section>' if links else ''}
 
 <section class="section section--tight" id="other">
   <div class="container">
