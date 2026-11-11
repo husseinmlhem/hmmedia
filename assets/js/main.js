@@ -458,7 +458,7 @@
       slides[index].classList.remove('on');
       index = (index + 1) % slides.length;
       slides[index].classList.add('on');
-    }, 5200);
+    }, 4200);
   }
 
   /* ---------------- Init ---------------- */
