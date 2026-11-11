@@ -440,7 +440,7 @@ def llms_txt(page: PageParser, pages: list[dict]) -> str:
     lines += [f"- [Portfolio]({SITE}/work/): Designs, product visuals, videos and motion graphics; request the portfolio for your field."]
     one = service_pages.sc.ONE["en"]
     lines += ["", "## H.M One: business software", "", f"{one['intro']} Page: {SITE}/one/ (Arabic: {SITE}/ar/one/).", "", "Solutions available today:", ""]
-    lines += [f"- **{s['en'][0]}**: {s['en'][1]}" for s in service_pages.sc.ONE_SOLUTIONS]
+    lines += [f"- [{sol['name']['en']}]({SITE}/one/{sol['slug']}/): {sol['summary']['en']}" for sol in service_pages.ONE_FEATURES]
     lines += ["", "Custom Solutions are built on request. Pricing is quoted per company; request it on WhatsApp."]
     lines += ["", "## FAQ", ""]
     for faq in page.faqs:
@@ -472,6 +472,8 @@ def sitemap_xml(pages: list[dict]) -> str:
     for p in pages:
         urls += entry(f"/services/{p['slug']}/", f"/ar/services/{p['slug']}/", "0.8")
     urls += entry("/one/", "/ar/one/", "0.9")
+    for sol in service_pages.ONE_FEATURES:
+        urls += entry(f"/one/{sol['slug']}/", f"/ar/one/{sol['slug']}/", "0.8")
     urls += entry("/work/", "/ar/work/", "0.7")
     urls += entry("/about/", "/ar/about/", "0.6")
     return (

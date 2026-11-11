@@ -167,7 +167,7 @@ def header_html(ctx: dict, lang: str, slug: str, alt_paths: dict | None = None) 
     en_current = ' class="lang-btn active" aria-current="true"' if lang == "en" else ' class="lang-btn"'
     ar_current = ' class="lang-btn active" aria-current="true"' if lang == "ar" else ' class="lang-btn"'
     cta = f'<a class="btn btn-accent btn-sm nav-cta" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener"><span>{esc(ui["start"])}</span> <span class="arr" aria-hidden="true">→</span></a>'
-    if slug == "one" and sc.ONE_APP_URL:
+    if slug.split("/")[0] == "one" and sc.ONE_APP_URL:
         cta = f'<a class="btn btn-accent btn-sm nav-cta nav-cta--keep" href="{sc.ONE_APP_URL}">{LOGIN_ICON} <span>{esc(sc.ONE[lang]["cta_login"])}</span></a>'
     return f"""<header class="nav" id="nav">
   <div class="container nav-inner">
@@ -726,6 +726,24 @@ def one_icon(name: str) -> str:
     return f'<svg class="one-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{body}</svg>'
 
 
+# Every Solution and every function it performs, extracted from the platform's code (see tools/one_features.json).
+# "limits" in that file (partial or setup-required work) are deliberately not published as features.
+ONE_FEATURES = json.loads((ROOT / "tools" / "one_features.json").read_text(encoding="utf-8"))["solutions"]
+ONE_SOLUTION_ICON = {"platform": "shield"}
+
+
+def solution_icon(sol: dict) -> str:
+    return one_icon(ONE_SOLUTION_ICON.get(sol["slug"], sol["slug"]))
+
+
+def solution_count(sol: dict) -> int:
+    return sum(len(g["items"]) for g in sol["groups"])
+
+
+def solution_path(lang: str, sol: dict) -> str:
+    return f"{LANG_PREFIX[lang]}/one/{sol['slug']}/"
+
+
 LOGIN_ICON = ('<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
               '<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l4-4-4-4M14 12H4"/></svg>')
 # Real screens of the platform (taken from a demo workspace with sample data): file name, English name, Arabic name.
@@ -769,10 +787,12 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
     )
     scr_a, scr_b = o["screens_h"]
     cards = "".join(
-        f'<a class="card sol rv" style="--d:{i % 3}" href="{qa(wa_link(ctx, o["wa_solution"].format(name=s[lang][0])))}" target="_blank" rel="noopener">'
-        f'<span class="sol-ic">{one_icon(s["icon"])}</span><h3>{esc(s[lang][0])}</h3><p>{esc(s["tags"][lang])}</p>'
-        f'<span class="sol-go" aria-hidden="true">→</span></a>'
-        for i, s in enumerate(sc.ONE_SOLUTIONS)
+        f'<article class="card sol rv" style="--d:{i % 3}">'
+        f'<span class="sol-ic">{solution_icon(sol)}</span><h3>{esc(sol["name"][lang])}</h3>'
+        f'<ul class="sol-list">{"".join(f"<li>{esc(h[lang])}</li>" for h in sol["highlights"])}</ul>'
+        f'<a class="sol-more" href="{solution_path(lang, sol)}"><span>{esc(o["all_functions"].format(n=solution_count(sol)))}</span> <span class="arr" aria-hidden="true">→</span></a>'
+        f'</article>'
+        for i, sol in enumerate(ONE_FEATURES)
     )
     pills = "".join(f'<li class="pill rv" style="--d:{i}">{one_icon(icon)}<span>{esc(label)}</span></li>' for i, (icon, label) in enumerate(o["pills"]))
     faq_items = "".join(
@@ -790,7 +810,7 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
         "inLanguage": ["en", "ar"],
         "provider": {"@id": ctx["ORG_ID"]},
         "publisher": {"@id": ctx["ORG_ID"]},
-        "featureList": [f"{s[lang][0]}: {s[lang][1]}" for s in sc.ONE_SOLUTIONS],
+        "featureList": [f"{sol['name'][lang]}: {sol['summary'][lang]}" for sol in ONE_FEATURES],
         "url": url,
     }
     graph = [
@@ -860,6 +880,108 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
 </section>
 </main>"""
     return page_shell(ctx, lang, head, "one", main, pages)
+
+
+def render_one_solution(ctx: dict, lang: str, sol: dict, pages: list[dict]) -> str:
+    """A page for one Solution: every function it performs, grouped the way the product groups them."""
+    ui = sc.UI[lang]
+    o = sc.ONE[lang]
+    SITE = ctx["SITE"]
+    slug = f"one/{sol['slug']}"
+    en_path, ar_path = f"/{slug}/", f"/ar/{slug}/"
+    url = SITE + (en_path if lang == "en" else ar_path)
+    one_url = f"{SITE}{LANG_PREFIX[lang]}/one/"
+    name = sol["name"][lang]
+    summary = sol["summary"][lang]
+    count = solution_count(sol)
+    fn_a, fn_b = o["functions_h"]
+    oth_a, oth_b = o["others_h"]
+    wa = qa(wa_link(ctx, o["wa_solution_page"].format(name=name)))
+    login = f'<a class="btn btn-ghost btn-lg" href="{sc.ONE_APP_URL}">{LOGIN_ICON} <span>{esc(o["cta_login"])}</span></a>' if sc.ONE_APP_URL else ""
+    buttons = f"""<div class="svc-hero-cta">
+      <a class="btn btn-accent btn-lg" href="{wa}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(o['sol_request'])}</span></a>
+      {login}
+    </div>"""
+    highlights = "".join(f'<li class="pill">{esc(h[lang])}</li>' for h in sol["highlights"])
+    jump = "".join(f'<li><a href="#g{i}">{esc(g["title"][lang])} <small>{len(g["items"])}</small></a></li>' for i, g in enumerate(sol["groups"], 1))
+    groups = "".join(
+        f'<section class="card fn-group rv" id="g{i}"><h3>{esc(g["title"][lang])} <small>{len(g["items"])}</small></h3>'
+        f'<ul class="tick-list">{"".join(f"<li>{esc(item[lang])}</li>" for item in g["items"])}</ul></section>'
+        for i, g in enumerate(sol["groups"], 1)
+    )
+    extra = ""
+    if sol["roles"]:
+        extra += f'<div class="card svc-col"><h2>{esc(o["roles_h"])}</h2><ul class="role-list">{"".join(f"<li>{esc(r[lang])}</li>" for r in sol["roles"])}</ul></div>'
+    if sol["works_with"]:
+        extra += f'<div class="card svc-col"><h2>{esc(o["works_h"])}</h2>{tick_list([w[lang] for w in sol["works_with"]])}</div>'
+    others = "".join(
+        f'<a class="card sol sol--link" href="{solution_path(lang, other)}"><span class="sol-ic">{solution_icon(other)}</span>'
+        f'<h3>{esc(other["name"][lang])}</h3><p>{esc(o["functions_count"].format(n=solution_count(other)))}</p></a>'
+        for other in ONE_FEATURES if other["slug"] != sol["slug"]
+    )
+    app_id = f"{SITE}/one/#software"
+    graph = [
+        {"@type": ["Organization", "ProfessionalService"], "@id": ctx["ORG_ID"], "name": ctx["BRAND"], "url": SITE + "/"},
+        {"@type": "SoftwareApplication", "@id": f"{url}#software", "name": f"H.M One: {name}", "applicationCategory": "BusinessApplication",
+         "operatingSystem": "Web", "description": summary, "inLanguage": ["en", "ar"], "url": url,
+         "isPartOf": {"@id": app_id}, "provider": {"@id": ctx["ORG_ID"]},
+         "featureList": [item[lang] for g in sol["groups"] for item in g["items"]]},
+        {"@type": "WebPage", "@id": f"{url}#webpage", "url": url, "name": o["sol_title"].format(name=name), "description": summary, "inLanguage": lang,
+         "isPartOf": {"@id": ctx["WEBSITE_ID"]}, "about": {"@id": f"{url}#software"}, "breadcrumb": {"@id": f"{url}#breadcrumb"}},
+        {"@type": "BreadcrumbList", "@id": f"{url}#breadcrumb", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": ctx["BRAND"], "item": SITE + home_path(lang)},
+            {"@type": "ListItem", "position": 2, "name": "H.M One", "item": one_url},
+            {"@type": "ListItem", "position": 3, "name": name, "item": url},
+        ]},
+    ]
+    head = head_common(ctx, lang, title=o["sol_title"].format(name=name), description=summary, en_path=en_path, ar_path=ar_path, graph=graph)
+    main = f"""<main id="top">
+<section class="svc-hero sol-hero">
+  <div class="container">
+    <nav class="crumbs" aria-label="{qa(ui['breadcrumb'])}">
+      <ol>
+        <li><a href="{home_path(lang)}">{ctx['BRAND']}</a></li>
+        <li><a href="{LANG_PREFIX[lang]}/one/">H.M One</a></li>
+        <li aria-current="page">{esc(name)}</li>
+      </ol>
+    </nav>
+    <div class="sol-hero-head">
+      <span class="sol-ic sol-ic--xl">{solution_icon(sol)}</span>
+      <div>
+        <span class="eyebrow">H.M One · {esc(o['functions_count'].format(n=count))}</span>
+        <h1 class="svc-h1">{esc(name)}</h1>
+      </div>
+    </div>
+    <p class="svc-intro">{esc(summary)}</p>
+    <ul class="pills pills--start">{highlights}</ul>
+    {buttons}
+  </div>
+</section>
+
+<section class="section section--tight" id="functions">
+  <div class="container">
+    <h2 class="svc-h2">{esc(fn_a)} <span class="grad">{esc(fn_b)}</span></h2>
+    <ul class="fn-jump">{jump}</ul>
+    <div class="fn-grid">{groups}</div>
+  </div>
+</section>
+
+{f'<section class="section section--tight"><div class="container svc-cols">{extra}</div></section>' if extra else ''}
+
+<section class="section section--tight" id="other">
+  <div class="container">
+    <h2 class="svc-h2">{esc(oth_a)} <span class="grad">{esc(oth_b)}</span></h2>
+    <div class="sol-grid sol-grid--small">{others}</div>
+  </div>
+</section>
+
+<section class="section section--tight" id="start">
+  <div class="container">
+    <div class="card one-cta"><div class="one-cta-logo">{ONE_LOGO.replace('alt="H.M One"', 'alt=""')}</div>{buttons}</div>
+  </div>
+</section>
+</main>"""
+    return page_shell(ctx, lang, head, slug, main, pages)
 
 
 WALL_ROW_HEIGHT = 240
@@ -953,5 +1075,7 @@ def render_all(ctx: dict, parse_price) -> tuple[list[dict], dict]:
     for lang in ("en", "ar"):
         outputs[f"{LANG_PREFIX[lang].strip('/')}/about/index.html".lstrip("/")] = render_about(ctx, lang, pages)
         outputs[f"{LANG_PREFIX[lang].strip('/')}/one/index.html".lstrip("/")] = render_one(ctx, lang, pages)
+        for sol in ONE_FEATURES:
+            outputs[f"{LANG_PREFIX[lang].strip('/')}/one/{sol['slug']}/index.html".lstrip("/")] = render_one_solution(ctx, lang, sol, pages)
         outputs[f"{LANG_PREFIX[lang].strip('/')}/work/index.html".lstrip("/")] = render_work(ctx, lang, pages)
     return pages, outputs

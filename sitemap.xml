@@ -193,6 +193,166 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://h-m.agency/one/hr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/hr/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/hr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/hr/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/hr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/hr/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/hr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/hr/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/one/attendance/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/attendance/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/attendance/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/attendance/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/attendance/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/attendance/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/attendance/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/attendance/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/one/payroll/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/payroll/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/payroll/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/payroll/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/payroll/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/payroll/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/payroll/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/payroll/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/one/facility/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/facility/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/facility/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/facility/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/facility/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/facility/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/facility/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/facility/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/one/assets/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/assets/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/assets/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/assets/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/assets/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/assets/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/assets/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/assets/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/one/maintenance/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/maintenance/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/maintenance/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/maintenance/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/maintenance/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/maintenance/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/maintenance/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/maintenance/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/one/procurement/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/procurement/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/procurement/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/procurement/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/procurement/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/procurement/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/procurement/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/procurement/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/one/inventory/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/inventory/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/inventory/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/inventory/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/inventory/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/inventory/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/inventory/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/inventory/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/one/finance/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/finance/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/finance/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/finance/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/finance/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/finance/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/finance/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/finance/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/one/platform/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/platform/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/platform/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/platform/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/one/platform/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/platform/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/platform/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/one/platform/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://h-m.agency/work/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/work/"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/work/"/>
