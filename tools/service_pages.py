@@ -167,9 +167,6 @@ def header_html(ctx: dict, lang: str, slug: str, alt_paths: dict | None = None) 
     en_current = ' class="lang-btn active" aria-current="true"' if lang == "en" else ' class="lang-btn"'
     ar_current = ' class="lang-btn active" aria-current="true"' if lang == "ar" else ' class="lang-btn"'
     cta = f'<a class="btn btn-accent btn-sm nav-cta" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener"><span>{esc(ui["start"])}</span> <span class="arr" aria-hidden="true">→</span></a>'
-    if slug.split("/")[0] == "one" and sc.ONE_APP_URL:
-        # The top bar is fixed, so on the H.M One pages Log in stays in view; "Start a project" remains the main button.
-        cta = f'<a class="btn btn-ghost btn-sm nav-login" href="{sc.ONE_APP_URL}" aria-label="{qa(sc.ONE[lang]["cta_login"])}">{LOGIN_ICON} <span>{esc(sc.ONE[lang]["cta_login"])}</span></a>\n      {cta}'
     return f"""<header class="nav" id="nav">
   <div class="container nav-inner">
     <a href="{home_path(lang)}" class="brand" aria-label="H.M Media">
@@ -760,6 +757,14 @@ ONE_SCREENS = [
 ONE_LOGO = '<img src="/assets/img/hm-one-logo.svg" width="1014" height="614" alt="H.M One">'
 
 
+def quiet_login(lang: str) -> str:
+    """A small text link for existing customers, kept away from the main buttons."""
+    if not sc.ONE_APP_URL:
+        return ""
+    o = sc.ONE[lang]
+    return f'<a class="quiet-login" href="{sc.ONE_APP_URL}">{esc(o["quiet_login"])} <span class="arr" aria-hidden="true">→</span></a>'
+
+
 def portal_html(lang: str) -> str:
     """The customer entrance to the platform: shown only on the H.M One page, once the platform has an address."""
     if not sc.ONE_APP_URL:
@@ -845,7 +850,7 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
     main = f"""<main id="top">
 <section class="svc-hero one-hero">
   <div class="container one-hero-copy">
-    {crumbs_html(ctx, lang, o['label'])}
+    <div class="crumbs-row">{crumbs_html(ctx, lang, o['label'])}{quiet_login(lang)}</div>
     <div class="one-hero-logo">{ONE_LOGO}</div>
     <h1 class="svc-h1"><span class="sr-only">H.M One: </span>{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
     <p class="svc-intro">{esc(o['tagline'])}</p>
@@ -996,13 +1001,13 @@ def render_one_solution(ctx: dict, lang: str, sol: dict, pages: list[dict]) -> s
     main = f"""<main id="top">
 <section class="svc-hero sol-hero">
   <div class="container">
-    <nav class="crumbs" aria-label="{qa(ui['breadcrumb'])}">
+    <div class="crumbs-row"><nav class="crumbs" aria-label="{qa(ui['breadcrumb'])}">
       <ol>
         <li><a href="{home_path(lang)}">{ctx['BRAND']}</a></li>
         <li><a href="{LANG_PREFIX[lang]}/one/">H.M One</a></li>
         <li aria-current="page">{esc(name)}</li>
       </ol>
-    </nav>
+    </nav>{quiet_login(lang)}</div>
     <div class="sol-hero-grid">
       <div>
         <div class="sol-hero-head">
