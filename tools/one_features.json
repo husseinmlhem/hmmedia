@@ -1,0 +1,2930 @@
+{
+  "catalog_notes": [
+    "The platform catalog (platform_solutions) holds 17 Solutions: 10 are 'available', 1 is 'setup_required', 1 is 'on_request' and 5 are 'coming_soon'.",
+    "All nine site slugs match an available catalog Solution: hr=hr-management, attendance=attendance-leave, payroll=payroll-workforce, facility=facility-management, assets=asset-management, maintenance=preventive-maintenance, procurement=procurement, inventory=inventory-spares, finance=finance-expenses.",
+    "Missing from the site: 'Work Orders & Maintenance' (work-orders-maintenance) is a tenth available catalog Solution. It maps to the same 'facilities' module as Facility Management and opens the same screens, so it is a second catalog entry for the same functions rather than extra functions.",
+    "Missing from the site: 'UAE eInvoicing' (uae-einvoicing) is a separate catalog Solution with status setup_required. Only a sandbox connector exists; it must not be presented as available.",
+    "Missing from the site: 'Custom Solutions' (on_request) and five coming_soon entries with no working screens: Property Management, Fleet Management, CRM & Sales, Projects & Tasks, Advanced Reports & Analytics.",
+    "Name difference: the catalog calls the payroll Solution 'Payroll & Workforce' (الرواتب والقوى العاملة); the site calls it 'Payroll'.",
+    "Grouping difference: the leave screens are gated by the HR module, not the attendance module. Attendance & Leave includes the HR and attendance modules, and Payroll includes the HR and payroll modules, so both also open the HR screens. Leave functions are therefore listed under both hr and attendance.",
+    "Grouping difference: the Owner/Client Portal is a technical module (client-portal) with no catalog Solution row. docs/PRODUCT_STATUS.md lists it as available; it is listed here under facility.",
+    "Grouping difference: the workspace launcher shows only four tiles (Human Resources, Facilities Management, Finance & Procurement, Owner Portal). Assets, Preventive Maintenance, Procurement, Inventory and Payments are menu items inside the Facilities sidebar, each gated by its own module.",
+    "Dependency: the preventive-maintenance module depends on the assets module, and generated work orders are worked on in the Work Orders screen, which needs the facilities module.",
+    "Facility Management is documented as including basic invoicing, but the invoice creation screen is gated by the finance module; only the Payments screen is gated by the shared 'finance.basic_payments' entitlement.",
+    "Customer quotations for work orders sit on the Finance screen and need both the finance and procurement modules.",
+    "The docs still use the name 'MIRFAQ One'; the running product name comes from config/branding.php ('H.M One')."
+  ],
+  "solutions": [
+    {
+      "slug": "hr",
+      "name": {
+        "en": "HR Management",
+        "ar": "إدارة الموارد البشرية"
+      },
+      "summary": {
+        "en": "Employee records, organization chart, contracts, documents, leave, requests, onboarding, offboarding and end-of-service estimates.",
+        "ar": "ملفات الموظفين والهيكل التنظيمي والعقود والوثائق والإجازات والطلبات والتهيئة والمغادرة وتقديرات نهاية الخدمة."
+      },
+      "highlights": [
+        {
+          "en": "Employee directory and records",
+          "ar": "دليل الموظفين وملفاتهم"
+        },
+        {
+          "en": "Interactive organization chart",
+          "ar": "هيكل تنظيمي تفاعلي"
+        },
+        {
+          "en": "Contracts and versioned documents",
+          "ar": "عقود ووثائق بإصدارات"
+        },
+        {
+          "en": "Leave requests and balances",
+          "ar": "طلبات الإجازات وأرصدتها"
+        },
+        {
+          "en": "Onboarding and offboarding checklists",
+          "ar": "قوائم مهام التهيئة والمغادرة"
+        },
+        {
+          "en": "End-of-service estimates",
+          "ar": "تقديرات نهاية الخدمة"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Organization chart",
+            "ar": "الهيكل التنظيمي"
+          },
+          "items": [
+            {
+              "en": "View an interactive map of employees and departments",
+              "ar": "عرض خريطة تفاعلية للموظفين والإدارات"
+            },
+            {
+              "en": "Switch between the employee tree and the department tree",
+              "ar": "التبديل بين شجرة الموظفين وشجرة الأقسام"
+            },
+            {
+              "en": "Browse as an interactive map or as navigation cards",
+              "ar": "التصفح بالخريطة التفاعلية أو ببطاقات التنقّل"
+            },
+            {
+              "en": "Search by name, number, job title or department",
+              "ar": "البحث بالاسم أو الرقم أو المسمى أو الإدارة"
+            },
+            {
+              "en": "Expand, collapse, zoom and use the minimap",
+              "ar": "توسيع الشجرة وطيّها وتكبيرها واستخدام الخريطة المصغرة"
+            },
+            {
+              "en": "Open the chart in fullscreen",
+              "ar": "عرض الهيكل بملء الشاشة"
+            },
+            {
+              "en": "See direct reports and team size per manager",
+              "ar": "عرض التابعين المباشرين وحجم الفريق لكل مدير"
+            },
+            {
+              "en": "Add a department or section from the map",
+              "ar": "إضافة إدارة أو قسم من داخل الخريطة"
+            },
+            {
+              "en": "Start a new employee record from the map",
+              "ar": "بدء ملف موظف جديد من الخريطة"
+            },
+            {
+              "en": "Change a reporting line by drag and drop",
+              "ar": "تغيير التبعية الإدارية بالسحب والإفلات"
+            },
+            {
+              "en": "Review the change and record a reason before saving",
+              "ar": "مراجعة التغيير وتسجيل سببه قبل الحفظ"
+            },
+            {
+              "en": "Moves that create a management loop are blocked",
+              "ar": "منع النقل الذي يُنشئ دائرة إدارية"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Employee directory",
+            "ar": "دليل الموظفين"
+          },
+          "items": [
+            {
+              "en": "Add an employee with number, name, photo and contact details",
+              "ar": "إضافة موظف برقمه واسمه وصورته وبيانات الاتصال"
+            },
+            {
+              "en": "Set department, job title, direct manager and employment type",
+              "ar": "تحديد القسم والمسمى الوظيفي والمدير المباشر ونوع التوظيف"
+            },
+            {
+              "en": "Record Emirates ID, passport, visa and bank details",
+              "ar": "تسجيل الهوية الإماراتية والجواز والإقامة وبيانات البنك"
+            },
+            {
+              "en": "Record contract type, dates, basic salary and allowances",
+              "ar": "تسجيل نوع العقد وتواريخه والراتب الأساسي والبدلات"
+            },
+            {
+              "en": "Search employees by name or employee number",
+              "ar": "البحث عن الموظفين بالاسم أو الرقم الوظيفي"
+            },
+            {
+              "en": "See each employee's status, department and manager",
+              "ar": "عرض حالة كل موظف وقسمه ومديره"
+            },
+            {
+              "en": "Show basic salary only to users with compensation permission",
+              "ar": "إظهار الراتب الأساسي لأصحاب صلاحية التعويضات فقط"
+            },
+            {
+              "en": "Export the employee list to Excel",
+              "ar": "تصدير قائمة الموظفين إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Employee 360° record",
+            "ar": "ملف الموظف 360°"
+          },
+          "items": [
+            {
+              "en": "View employment phase, manager, department and login status",
+              "ar": "عرض الحالة الوظيفية والمدير والإدارة وحالة حساب الدخول"
+            },
+            {
+              "en": "Edit name, contact, department, job title and photo",
+              "ar": "تعديل الاسم وبيانات الاتصال والقسم والمسمى والصورة"
+            },
+            {
+              "en": "Change the manager with a reason kept in the audit log",
+              "ar": "تغيير المدير مع سبب يُحفظ في سجل التدقيق"
+            },
+            {
+              "en": "Update identity and bank data under a separate permission",
+              "ar": "تحديث بيانات الهوية والبنك بصلاحية مستقلة"
+            },
+            {
+              "en": "Issue a new contract version; the previous one is kept",
+              "ar": "إصدار نسخة عقد جديدة مع حفظ السابقة"
+            },
+            {
+              "en": "View contract history",
+              "ar": "عرض سجل العقود"
+            },
+            {
+              "en": "Upload a document with category, number, issue and expiry dates",
+              "ar": "رفع وثيقة بتصنيفها ورقمها وتاريخي الإصدار والانتهاء"
+            },
+            {
+              "en": "Replace a document with a new version; old versions remain",
+              "ar": "استبدال الوثيقة بنسخة جديدة مع بقاء النسخ السابقة"
+            },
+            {
+              "en": "Mark a document as verified or unverified",
+              "ar": "تحديد الوثيقة كمتحقق منها أو إلغاء التحقق"
+            },
+            {
+              "en": "Download employee documents",
+              "ar": "تنزيل وثائق الموظف"
+            },
+            {
+              "en": "See documents expiring within 60 days",
+              "ar": "عرض الوثائق التي تنتهي خلال 60 يوماً"
+            },
+            {
+              "en": "See leave balances, latest attendance and latest leave request",
+              "ar": "عرض أرصدة الإجازات وآخر حضور وآخر طلب إجازة"
+            },
+            {
+              "en": "See direct reports count and the active process",
+              "ar": "عرض عدد التابعين المباشرين والإجراء الجاري"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Onboarding and offboarding",
+            "ar": "التعيين والتنقل والمغادرة"
+          },
+          "items": [
+            {
+              "en": "Start onboarding from the employee record with start and effective dates",
+              "ar": "بدء التهيئة الوظيفية من ملف الموظف بتاريخي البدء والمباشرة"
+            },
+            {
+              "en": "Onboarding creates a task checklist",
+              "ar": "إنشاء قائمة مهام عند بدء التهيئة"
+            },
+            {
+              "en": "Start offboarding with departure type, reason and last working day",
+              "ar": "بدء إجراءات المغادرة بنوعها وسببها وآخر يوم عمل"
+            },
+            {
+              "en": "Record notice period dates or waive the notice",
+              "ar": "تسجيل تواريخ فترة الإشعار أو الإعفاء منها"
+            },
+            {
+              "en": "Choose a replacement manager for direct reports",
+              "ar": "اختيار مدير بديل للتابعين المباشرين"
+            },
+            {
+              "en": "Require handover, asset return or approval before closing",
+              "ar": "اشتراط التسليم أو إعادة الأصول أو الموافقة قبل الإغلاق"
+            },
+            {
+              "en": "Assign HR, payroll and IT owners to the process",
+              "ar": "تعيين مسؤولي الموارد البشرية والرواتب وتقنية المعلومات للعملية"
+            },
+            {
+              "en": "Track all processes and their checklist progress in one screen",
+              "ar": "متابعة جميع العمليات وتقدم قوائم مهامها في شاشة واحدة"
+            },
+            {
+              "en": "Mark checklist tasks as completed",
+              "ar": "تحديد مهام القائمة كمكتملة"
+            },
+            {
+              "en": "Approve completion when approval is required",
+              "ar": "الموافقة على الإكمال عند اشتراطها"
+            },
+            {
+              "en": "Activate the employee when onboarding is complete",
+              "ar": "تفعيل الموظف عند اكتمال التهيئة"
+            },
+            {
+              "en": "Complete offboarding on or after the last working day",
+              "ar": "إكمال المغادرة في آخر يوم عمل أو بعده"
+            },
+            {
+              "en": "See counts of onboarding, notice, clearance and overdue processes",
+              "ar": "عرض أعداد حالات التهيئة والإشعار وإخلاء الطرف والمتأخرة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "End of service",
+            "ar": "نهاية الخدمة"
+          },
+          "items": [
+            {
+              "en": "Estimate end-of-service from end date, basic wage and unpaid days",
+              "ar": "تقدير نهاية الخدمة من تاريخ الانتهاء والراتب الأساسي وأيام الغياب"
+            },
+            {
+              "en": "Each estimate keeps its inputs and the policy used",
+              "ar": "احتفاظ كل تقدير بمدخلاته والسياسة المستخدمة"
+            },
+            {
+              "en": "Create a final settlement and send it for approval",
+              "ar": "إنشاء تسوية نهائية وإرسالها لمسار الاعتماد"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Leave management",
+            "ar": "إدارة الإجازات"
+          },
+          "items": [
+            {
+              "en": "Submit a leave request for yourself",
+              "ar": "تقديم طلب إجازة لنفسك"
+            },
+            {
+              "en": "Submit up to ten separate leave requests in one go",
+              "ar": "إرسال حتى عشرة طلبات إجازة مستقلة دفعة واحدة"
+            },
+            {
+              "en": "Request a half day, morning or afternoon",
+              "ar": "طلب نصف يوم صباحاً أو مساءً"
+            },
+            {
+              "en": "See the balance before and after the request",
+              "ar": "عرض الرصيد قبل الطلب وبعده"
+            },
+            {
+              "en": "Name a colleague for task handover",
+              "ar": "تحديد زميل لتسليم المهام"
+            },
+            {
+              "en": "Attach a supporting document to a request",
+              "ar": "إرفاق مستند داعم بالطلب"
+            },
+            {
+              "en": "Add a reason and contact details during leave",
+              "ar": "إضافة السبب ووسيلة التواصل أثناء الإجازة"
+            },
+            {
+              "en": "Save a draft; drafts autosave every 20 seconds",
+              "ar": "حفظ مسودة، مع حفظ تلقائي كل 20 ثانية"
+            },
+            {
+              "en": "Restore or discard a saved draft",
+              "ar": "استعادة المسودة المحفوظة أو تجاهلها"
+            },
+            {
+              "en": "Send each request through the approval workflow",
+              "ar": "إرسال كل طلب إلى مسار الموافقات"
+            },
+            {
+              "en": "Search leave records by employee and filter by status",
+              "ar": "البحث في سجل الإجازات حسب الموظف والتصفية حسب الحالة"
+            },
+            {
+              "en": "Download attachments of a leave request",
+              "ar": "تنزيل مرفقات طلب الإجازة"
+            },
+            {
+              "en": "Export leave requests to Excel",
+              "ar": "تصدير طلبات الإجازة إلى Excel"
+            },
+            {
+              "en": "Create and edit leave types with Arabic and English names",
+              "ar": "إنشاء أنواع الإجازات وتعديلها باسم عربي وإنجليزي"
+            },
+            {
+              "en": "Set default balance, paid or unpaid, and carry-forward limit",
+              "ar": "تحديد الرصيد الافتراضي ومدفوعة أو غير مدفوعة وحد الترحيل"
+            },
+            {
+              "en": "Require an attachment for a leave type",
+              "ar": "اشتراط مرفق لنوع الإجازة"
+            },
+            {
+              "en": "Activate or deactivate a leave type",
+              "ar": "تفعيل نوع الإجازة أو تعطيله"
+            },
+            {
+              "en": "HR submits a leave request on behalf of any employee",
+              "ar": "تقديم الموارد البشرية طلب إجازة نيابة عن أي موظف"
+            },
+            {
+              "en": "Delegate a user to submit leave for a specific employee",
+              "ar": "تفويض مستخدم بتقديم الإجازات عن موظف محدد"
+            },
+            {
+              "en": "Set a start and end date for a delegation",
+              "ar": "تحديد تاريخ بداية ونهاية للتفويض"
+            },
+            {
+              "en": "Enable or disable an existing delegation",
+              "ar": "تفعيل تفويض قائم أو إيقافه"
+            },
+            {
+              "en": "View counts of pending, approved and draft requests",
+              "ar": "عرض أعداد الطلبات المعلقة والمعتمدة والمسودات"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Employee self-service",
+            "ar": "مساحتي"
+          },
+          "items": [
+            {
+              "en": "See own requests that are awaiting a decision",
+              "ar": "عرض الطلبات الشخصية التي تنتظر القرار"
+            },
+            {
+              "en": "View own leave balances for the current year",
+              "ar": "عرض أرصدة الإجازات الشخصية للسنة الحالية"
+            },
+            {
+              "en": "Request a personal loan, salary advance or emergency loan",
+              "ar": "طلب قرض شخصي أو سلفة راتب أو قرض طارئ"
+            },
+            {
+              "en": "Set loan amount, number of installments and first deduction date",
+              "ar": "تحديد مبلغ القرض وعدد الأقساط وتاريخ أول استقطاع"
+            },
+            {
+              "en": "Request a certificate, bank letter, data update or equipment",
+              "ar": "طلب شهادة أو خطاب بنك أو تحديث بيانات أو عهدة"
+            },
+            {
+              "en": "Preview the request letter or download it as Word",
+              "ar": "معاينة خطاب الطلب أو تنزيله بصيغة Word"
+            },
+            {
+              "en": "Follow the status of own leave, loans and requests",
+              "ar": "متابعة حالة الإجازات والقروض والطلبات الشخصية"
+            },
+            {
+              "en": "Open the organization chart in a view-only mode",
+              "ar": "فتح الهيكل التنظيمي للعرض فقط"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "HR manager",
+          "ar": "مدير الموارد البشرية"
+        },
+        {
+          "en": "Team manager",
+          "ar": "مدير فريق"
+        },
+        {
+          "en": "Employee",
+          "ar": "موظف"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "Attendance: clock in and out from the employee workspace",
+          "ar": "الحضور والانصراف: تسجيل الحضور والانصراف من مساحة الموظف"
+        },
+        {
+          "en": "Payroll: contracts and approved loans feed payroll calculation",
+          "ar": "الرواتب: العقود والقروض المعتمدة تدخل في احتساب الرواتب"
+        },
+        {
+          "en": "Approvals: leave, loans, requests and settlements use the shared approvals inbox",
+          "ar": "الموافقات: الإجازات والقروض والطلبات والتسويات تمر عبر صندوق الموافقات"
+        },
+        {
+          "en": "Facility Management: employees are assigned to work orders and properties",
+          "ar": "إدارة المرافق: إسناد الموظفين إلى أوامر العمل والعقارات"
+        },
+        {
+          "en": "Asset Management: assets are assigned to employees",
+          "ar": "إدارة الأصول: إسناد الأصول إلى الموظفين"
+        },
+        {
+          "en": "Reports: workforce by department and expiring documents",
+          "ar": "التقارير: القوة العاملة حسب القسم والوثائق قريبة الانتهاء"
+        }
+      ],
+      "limits": [
+        {
+          "en": "Recruitment and performance management are not built.",
+          "ar": "التوظيف وتقييم الأداء غير منفذين."
+        },
+        {
+          "en": "End-of-service is an estimate that needs human review; it covers full-time foreign employees under the traditional scheme only.",
+          "ar": "حساب نهاية الخدمة تقديري ويحتاج مراجعة بشرية، ويغطي الموظف الأجنبي بدوام كامل ضمن النظام التقليدي فقط."
+        },
+        {
+          "en": "End-of-service estimates have an export route but no export button on the screen.",
+          "ar": "تصدير تقديرات نهاية الخدمة موجود كمسار دون زر في الشاشة."
+        },
+        {
+          "en": "Bulk employee import from a file has no screen.",
+          "ar": "لا توجد شاشة لاستيراد الموظفين من ملف."
+        },
+        {
+          "en": "Approval emails are sent only when the email option is enabled in the hosting environment.",
+          "ar": "بريد الموافقات يُرسل فقط عند تفعيل خيار البريد في بيئة الاستضافة."
+        },
+        {
+          "en": "Leave balances are created when onboarding is completed.",
+          "ar": "تُنشأ أرصدة الإجازات عند اكتمال التهيئة الوظيفية."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "resources/views/pages/⚡organization-chart.blade.php",
+        "resources/views/pages/⚡employees.blade.php",
+        "resources/views/pages/⚡employee-records.blade.php",
+        "resources/views/pages/⚡hr-lifecycle.blade.php",
+        "resources/views/pages/⚡hr-portal.blade.php",
+        "resources/views/pages/⚡leave-management.blade.php",
+        "app/Actions/HR/StartEmployeeLifecycle.php",
+        "app/Actions/HR/CalculateEndOfService.php",
+        "app/Actions/HR/CreateFinalSettlement.php",
+        "app/Actions/HR/StoreEmployeeDocument.php",
+        "app/Actions/HR/ChangeEmployeeManager.php",
+        "app/Http/Controllers/DataExportController.php",
+        "docs/PRODUCT_STATUS.md"
+      ]
+    },
+    {
+      "slug": "attendance",
+      "name": {
+        "en": "Attendance & Leave",
+        "ar": "الحضور والإجازات"
+      },
+      "summary": {
+        "en": "Clock in and out, monthly attendance records, fingerprint file import, public holidays and leave requests.",
+        "ar": "تسجيل الحضور والانصراف وسجلات الدوام الشهرية واستيراد ملفات البصمة والعطل الرسمية وطلبات الإجازات."
+      },
+      "highlights": [
+        {
+          "en": "Clock in and out",
+          "ar": "تسجيل الحضور والانصراف"
+        },
+        {
+          "en": "Monthly attendance log",
+          "ar": "سجل الدوام الشهري"
+        },
+        {
+          "en": "Fingerprint file import",
+          "ar": "استيراد ملف البصمة"
+        },
+        {
+          "en": "Manual records and holidays",
+          "ar": "سجلات يدوية وعطل رسمية"
+        },
+        {
+          "en": "Leave requests and types",
+          "ar": "طلبات الإجازات وأنواعها"
+        },
+        {
+          "en": "Attendance Excel export",
+          "ar": "تصدير الحضور إلى Excel"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "My attendance",
+            "ar": "حضوري"
+          },
+          "items": [
+            {
+              "en": "Clock in with one click",
+              "ar": "تسجيل الحضور بضغطة واحدة"
+            },
+            {
+              "en": "Clock out and get the day's worked hours",
+              "ar": "تسجيل الانصراف واحتساب ساعات اليوم"
+            },
+            {
+              "en": "See today's clock-in and clock-out times",
+              "ar": "عرض وقت الحضور والانصراف لليوم"
+            },
+            {
+              "en": "View own monthly attendance log",
+              "ar": "عرض سجل الحضور الشهري الشخصي"
+            },
+            {
+              "en": "See attendance days, hours and late minutes this month",
+              "ar": "عرض أيام الحضور والساعات ودقائق التأخير لهذا الشهر"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Attendance administration",
+            "ar": "إدارة الحضور"
+          },
+          "items": [
+            {
+              "en": "View all employees' records for a selected month",
+              "ar": "عرض سجلات جميع الموظفين لشهر محدد"
+            },
+            {
+              "en": "Open one employee's records from the 360° record",
+              "ar": "فتح سجلات موظف محدد من ملف 360°"
+            },
+            {
+              "en": "See hours, overtime, late minutes and status per day",
+              "ar": "عرض الساعات والإضافي ودقائق التأخير والحالة لكل يوم"
+            },
+            {
+              "en": "Add or correct a record manually",
+              "ar": "إضافة سجل يدوي أو تصحيحه"
+            },
+            {
+              "en": "Set status: present, absent, leave, remote or sick",
+              "ar": "تحديد الحالة: حاضر أو غائب أو إجازة أو عن بعد أو مرضي"
+            },
+            {
+              "en": "Import fingerprint device data from Excel or CSV",
+              "ar": "استيراد بيانات جهاز البصمة من Excel أو CSV"
+            },
+            {
+              "en": "Import daily summaries or in/out punch events",
+              "ar": "استيراد ملخص يومي أو حركات بصمة دخول وخروج"
+            },
+            {
+              "en": "Download a ready Excel import template",
+              "ar": "تحميل قالب Excel جاهز للاستيراد"
+            },
+            {
+              "en": "See how many rows were imported and skipped",
+              "ar": "عرض عدد السجلات المستوردة والسطور المتجاوزة"
+            },
+            {
+              "en": "Add a public holiday with start and end dates",
+              "ar": "إضافة عطلة رسمية بتاريخي البداية والنهاية"
+            },
+            {
+              "en": "Export a month's attendance to Excel",
+              "ar": "تصدير حضور الشهر إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Leave management",
+            "ar": "إدارة الإجازات"
+          },
+          "items": [
+            {
+              "en": "Submit a leave request for yourself",
+              "ar": "تقديم طلب إجازة لنفسك"
+            },
+            {
+              "en": "Submit up to ten separate leave requests in one go",
+              "ar": "إرسال حتى عشرة طلبات إجازة مستقلة دفعة واحدة"
+            },
+            {
+              "en": "Request a half day, morning or afternoon",
+              "ar": "طلب نصف يوم صباحاً أو مساءً"
+            },
+            {
+              "en": "See the balance before and after the request",
+              "ar": "عرض الرصيد قبل الطلب وبعده"
+            },
+            {
+              "en": "Name a colleague for task handover",
+              "ar": "تحديد زميل لتسليم المهام"
+            },
+            {
+              "en": "Attach a supporting document to a request",
+              "ar": "إرفاق مستند داعم بالطلب"
+            },
+            {
+              "en": "Add a reason and contact details during leave",
+              "ar": "إضافة السبب ووسيلة التواصل أثناء الإجازة"
+            },
+            {
+              "en": "Save a draft; drafts autosave every 20 seconds",
+              "ar": "حفظ مسودة، مع حفظ تلقائي كل 20 ثانية"
+            },
+            {
+              "en": "Restore or discard a saved draft",
+              "ar": "استعادة المسودة المحفوظة أو تجاهلها"
+            },
+            {
+              "en": "Send each request through the approval workflow",
+              "ar": "إرسال كل طلب إلى مسار الموافقات"
+            },
+            {
+              "en": "Search leave records by employee and filter by status",
+              "ar": "البحث في سجل الإجازات حسب الموظف والتصفية حسب الحالة"
+            },
+            {
+              "en": "Download attachments of a leave request",
+              "ar": "تنزيل مرفقات طلب الإجازة"
+            },
+            {
+              "en": "Export leave requests to Excel",
+              "ar": "تصدير طلبات الإجازة إلى Excel"
+            },
+            {
+              "en": "Create and edit leave types with Arabic and English names",
+              "ar": "إنشاء أنواع الإجازات وتعديلها باسم عربي وإنجليزي"
+            },
+            {
+              "en": "Set default balance, paid or unpaid, and carry-forward limit",
+              "ar": "تحديد الرصيد الافتراضي ومدفوعة أو غير مدفوعة وحد الترحيل"
+            },
+            {
+              "en": "Require an attachment for a leave type",
+              "ar": "اشتراط مرفق لنوع الإجازة"
+            },
+            {
+              "en": "Activate or deactivate a leave type",
+              "ar": "تفعيل نوع الإجازة أو تعطيله"
+            },
+            {
+              "en": "HR submits a leave request on behalf of any employee",
+              "ar": "تقديم الموارد البشرية طلب إجازة نيابة عن أي موظف"
+            },
+            {
+              "en": "Delegate a user to submit leave for a specific employee",
+              "ar": "تفويض مستخدم بتقديم الإجازات عن موظف محدد"
+            },
+            {
+              "en": "Set a start and end date for a delegation",
+              "ar": "تحديد تاريخ بداية ونهاية للتفويض"
+            },
+            {
+              "en": "Enable or disable an existing delegation",
+              "ar": "تفعيل تفويض قائم أو إيقافه"
+            },
+            {
+              "en": "View counts of pending, approved and draft requests",
+              "ar": "عرض أعداد الطلبات المعلقة والمعتمدة والمسودات"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "HR manager",
+          "ar": "مدير الموارد البشرية"
+        },
+        {
+          "en": "Team manager",
+          "ar": "مدير فريق"
+        },
+        {
+          "en": "Employee",
+          "ar": "موظف"
+        },
+        {
+          "en": "Field technician",
+          "ar": "فني ميداني"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "HR Management: uses the same employee records and includes the HR screens",
+          "ar": "إدارة الموارد البشرية: يستخدم ملفات الموظفين نفسها ويتضمن شاشات الموارد البشرية"
+        },
+        {
+          "en": "Approvals: leave requests go through the shared approvals inbox",
+          "ar": "الموافقات: طلبات الإجازة تمر عبر صندوق الموافقات"
+        },
+        {
+          "en": "Payroll: the readiness check counts employees without attendance and pending leave",
+          "ar": "الرواتب: فحص الجاهزية يعدّ الموظفين دون حضور والإجازات المعلقة"
+        },
+        {
+          "en": "Reports: leave by type and by status for a date range",
+          "ar": "التقارير: الإجازات حسب النوع والحالة لفترة محددة"
+        }
+      ],
+      "limits": [
+        {
+          "en": "Direct connection to a fingerprint device is not built; data comes from file import.",
+          "ar": "الاتصال المباشر بجهاز البصمة غير منفذ؛ البيانات تدخل عبر استيراد الملفات."
+        },
+        {
+          "en": "There is no screen to create or edit work schedules or shift assignments.",
+          "ar": "لا توجد شاشة لإنشاء جداول الدوام أو توزيع الورديات أو تعديلها."
+        },
+        {
+          "en": "Clock-in has no location or device check.",
+          "ar": "تسجيل الحضور لا يتضمن تحققاً من الموقع أو الجهاز."
+        },
+        {
+          "en": "Late minutes and overtime are calculated against the one active work schedule of the company.",
+          "ar": "يُحتسب التأخير والإضافي وفق جدول الدوام الفعّال الوحيد للشركة."
+        },
+        {
+          "en": "The leave screens open with the HR module, which this Solution includes.",
+          "ar": "شاشات الإجازات تعمل ضمن وحدة الموارد البشرية المضمنة في هذا الحل."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "resources/views/pages/⚡attendance.blade.php",
+        "resources/views/pages/⚡hr-portal.blade.php",
+        "resources/views/pages/⚡leave-management.blade.php",
+        "app/Actions/HR/ClockAttendance.php",
+        "app/Actions/Attendance/ImportAttendanceSpreadsheet.php",
+        "app/Actions/HR/SubmitLeaveRequestBatch.php",
+        "app/Actions/HR/SaveLeaveType.php",
+        "app/Actions/HR/SaveLeaveSubmissionDelegation.php",
+        "database/migrations/2026_08_14_210000_create_saas_catalog_tables.php",
+        "resources/views/pages/⚡company-integrations.blade.php"
+      ]
+    },
+    {
+      "slug": "payroll",
+      "name": {
+        "en": "Payroll",
+        "ar": "الرواتب"
+      },
+      "summary": {
+        "en": "Monthly payroll periods calculated from contracts, allowances and loan installments, with approval, payment marking and payslips.",
+        "ar": "دورات رواتب شهرية تُحتسب من العقود والبدلات وأقساط القروض، مع الاعتماد وتسجيل الدفع وقسائم الرواتب."
+      },
+      "highlights": [
+        {
+          "en": "Monthly payroll periods",
+          "ar": "دورات رواتب شهرية"
+        },
+        {
+          "en": "Calculation from contracts",
+          "ar": "احتساب من العقود"
+        },
+        {
+          "en": "Loan installment deduction",
+          "ar": "استقطاع أقساط القروض"
+        },
+        {
+          "en": "Separate approval step",
+          "ar": "خطوة اعتماد مستقلة"
+        },
+        {
+          "en": "Payslip preview and Excel",
+          "ar": "معاينة القسيمة وExcel"
+        },
+        {
+          "en": "Readiness check",
+          "ar": "فحص الجاهزية"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Payroll periods",
+            "ar": "دورات الرواتب"
+          },
+          "items": [
+            {
+              "en": "Create a payroll period for a month with a payment date",
+              "ar": "إنشاء دورة رواتب لشهر مع تاريخ الدفع"
+            },
+            {
+              "en": "Calculate payslips from active contracts, allowances and loan installments",
+              "ar": "احتساب القسائم من العقود الفعالة والبدلات وأقساط القروض"
+            },
+            {
+              "en": "Recalculate a period before it is approved",
+              "ar": "إعادة احتساب الدورة قبل اعتمادها"
+            },
+            {
+              "en": "Approve a calculated period",
+              "ar": "اعتماد الدورة المحتسبة"
+            },
+            {
+              "en": "The person who calculated a period cannot approve it",
+              "ar": "من احتسب الدورة لا يستطيع اعتمادها"
+            },
+            {
+              "en": "Mark an approved period as paid",
+              "ar": "تسجيل دفع الدورة المعتمدة"
+            },
+            {
+              "en": "Marking paid settles loan installments and closes repaid loans",
+              "ar": "تسجيل الدفع يسدد أقساط القروض ويغلق القروض المسددة"
+            },
+            {
+              "en": "See employee count and net total per period",
+              "ar": "عرض عدد الموظفين وإجمالي الصافي لكل دورة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Readiness check",
+            "ar": "فحص الجاهزية"
+          },
+          "items": [
+            {
+              "en": "See employees in scope for the period",
+              "ar": "عرض الموظفين ضمن الدورة"
+            },
+            {
+              "en": "See employees without an active contract",
+              "ar": "عرض الموظفين دون عقد فعّال"
+            },
+            {
+              "en": "See employees without attendance in the period",
+              "ar": "عرض الموظفين دون حضور مسجل في الفترة"
+            },
+            {
+              "en": "See pending leave requests in the period",
+              "ar": "عرض الإجازات المعلقة في الفترة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Payslips",
+            "ar": "قسائم الرواتب"
+          },
+          "items": [
+            {
+              "en": "List payslips with basic, allowances, loans, gross and net",
+              "ar": "عرض القسائم بالأساسي والبدلات والقروض والإجمالي والصافي"
+            },
+            {
+              "en": "Preview and print a payslip",
+              "ar": "معاينة قسيمة الراتب وطباعتها"
+            },
+            {
+              "en": "Download a payslip as Excel",
+              "ar": "تنزيل قسيمة الراتب بصيغة Excel"
+            },
+            {
+              "en": "Export all payslips to Excel",
+              "ar": "تصدير جميع القسائم إلى Excel"
+            },
+            {
+              "en": "Employees see only their own payslips",
+              "ar": "يرى الموظف قسائمه فقط"
+            },
+            {
+              "en": "Employee workspace shows the latest net salary",
+              "ar": "عرض آخر راتب صافٍ في مساحة الموظف"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "HR manager",
+          "ar": "مدير الموارد البشرية"
+        },
+        {
+          "en": "Finance manager",
+          "ar": "المدير المالي"
+        },
+        {
+          "en": "Employee",
+          "ar": "موظف"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "HR Management: salary and allowances come from the employee contract",
+          "ar": "إدارة الموارد البشرية: الراتب والبدلات من عقد الموظف"
+        },
+        {
+          "en": "HR Management: approved employee loans create the installment schedule",
+          "ar": "إدارة الموارد البشرية: القروض المعتمدة تُنشئ جدول الأقساط"
+        },
+        {
+          "en": "Attendance: shown in the readiness check only",
+          "ar": "الحضور: يظهر في فحص الجاهزية فقط"
+        }
+      ],
+      "limits": [
+        {
+          "en": "Attendance, lateness, overtime, other deductions and partial-month proration are not calculated automatically; they need human review.",
+          "ar": "الحضور والتأخير والإضافي والاستقطاعات الأخرى والتجزئة الشهرية لا تُحتسب آلياً وتحتاج مراجعة بشرية."
+        },
+        {
+          "en": "Bank salary file (WPS/SIF) is not built.",
+          "ar": "ملف الرواتب البنكي (WPS/SIF) غير منفذ."
+        },
+        {
+          "en": "Marking a period as paid is a manual record; no bank transfer is made.",
+          "ar": "تسجيل الدفع قيد يدوي ولا يُنفّذ تحويلاً بنكياً."
+        },
+        {
+          "en": "Payroll approval is a button on the payroll screen, not a request in the approvals inbox.",
+          "ar": "اعتماد الرواتب زر في شاشة الرواتب وليس طلباً في صندوق الموافقات."
+        },
+        {
+          "en": "This Solution includes the HR module; the HR screens come with it.",
+          "ar": "هذا الحل يتضمن وحدة الموارد البشرية وشاشاتها."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "resources/views/pages/⚡payroll.blade.php",
+        "app/Actions/Payroll/ProcessPayrollPeriod.php",
+        "app/Actions/HR/CreateEmployeeLoanSchedule.php",
+        "app/Actions/Approvals/DecideApprovalRequest.php",
+        "app/Http/Controllers/BusinessDocumentController.php",
+        "resources/views/pages/⚡hr-portal.blade.php",
+        "docs/PRODUCT_STATUS.md"
+      ]
+    },
+    {
+      "slug": "facility",
+      "name": {
+        "en": "Facility Management",
+        "ar": "إدارة المرافق"
+      },
+      "summary": {
+        "en": "Clients, properties, units and work orders with team assignment, work logs, cost tracking and payment collection.",
+        "ar": "العملاء والعقارات والوحدات وأوامر العمل مع إسناد الفريق وسجل التنفيذ ومتابعة التكلفة وتحصيل المدفوعات."
+      },
+      "highlights": [
+        {
+          "en": "Client register",
+          "ar": "سجل العملاء"
+        },
+        {
+          "en": "Properties and units",
+          "ar": "العقارات والوحدات"
+        },
+        {
+          "en": "Work orders",
+          "ar": "أوامر العمل"
+        },
+        {
+          "en": "Team assignment",
+          "ar": "إسناد الفريق"
+        },
+        {
+          "en": "Work logs and cost",
+          "ar": "سجل التنفيذ والتكلفة"
+        },
+        {
+          "en": "Payments and receipts",
+          "ar": "المدفوعات والإيصالات"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Operations overview",
+            "ar": "نظرة عامة"
+          },
+          "items": [
+            {
+              "en": "See open and urgent work orders",
+              "ar": "عرض أوامر العمل المفتوحة والطارئة"
+            },
+            {
+              "en": "See pending approvals, managed properties, clients and active employees",
+              "ar": "عرض الموافقات المعلقة والعقارات المدارة والعملاء والموظفين النشطين"
+            },
+            {
+              "en": "See the latest work orders with progress",
+              "ar": "عرض أحدث أوامر العمل مع نسبة الإنجاز"
+            },
+            {
+              "en": "See requests awaiting approval",
+              "ar": "عرض الطلبات قيد الموافقة"
+            },
+            {
+              "en": "See the approved invoice total",
+              "ar": "عرض إجمالي الفواتير المعتمدة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Clients",
+            "ar": "العملاء"
+          },
+          "items": [
+            {
+              "en": "Add a client with code, name and contact person",
+              "ar": "إضافة عميل برمزه واسمه ومسؤول التواصل"
+            },
+            {
+              "en": "Edit client details",
+              "ar": "تعديل بيانات العميل"
+            },
+            {
+              "en": "Record legal name, counterparty type, TRN and billing address",
+              "ar": "تسجيل الاسم القانوني ونوع الجهة والرقم الضريبي وعنوان الفوترة"
+            },
+            {
+              "en": "Activate or deactivate a client",
+              "ar": "تفعيل العميل أو تعطيله"
+            },
+            {
+              "en": "Search clients by name or code",
+              "ar": "البحث عن العملاء بالاسم أو الرمز"
+            },
+            {
+              "en": "See the number of properties per client",
+              "ar": "عرض عدد العقارات لكل عميل"
+            },
+            {
+              "en": "Export clients to Excel",
+              "ar": "تصدير العملاء إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Properties and units",
+            "ar": "العقارات والوحدات"
+          },
+          "items": [
+            {
+              "en": "Add a property linked to a client",
+              "ar": "إضافة عقار مرتبط بعميل"
+            },
+            {
+              "en": "Set property type, city, address and facility manager",
+              "ar": "تحديد نوع العقار والمدينة والعنوان ومدير المرفق"
+            },
+            {
+              "en": "Record the management contract start and end dates",
+              "ar": "تسجيل بداية عقد الإدارة ونهايته"
+            },
+            {
+              "en": "Add units to a property",
+              "ar": "إضافة وحدات إلى العقار"
+            },
+            {
+              "en": "Search properties by name or code",
+              "ar": "البحث عن العقارات بالاسم أو الرمز"
+            },
+            {
+              "en": "See unit and work order counts per property",
+              "ar": "عرض عدد الوحدات وأوامر العمل لكل عقار"
+            },
+            {
+              "en": "Export properties to Excel",
+              "ar": "تصدير العقارات إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Work orders",
+            "ar": "أوامر العمل"
+          },
+          "items": [
+            {
+              "en": "Create a work order for a client and property",
+              "ar": "إنشاء أمر عمل لعميل وعقار"
+            },
+            {
+              "en": "Set priority, category, estimated cost, schedule and due time",
+              "ar": "تحديد الأولوية والتصنيف والتكلفة المتوقعة وموعد التنفيذ والموعد النهائي"
+            },
+            {
+              "en": "Assign an employee as technician, team lead or supervisor",
+              "ar": "إسناد موظف كفني أو قائد فريق أو مشرف"
+            },
+            {
+              "en": "Add instructions to an assignment",
+              "ar": "إضافة تعليمات للإسناد"
+            },
+            {
+              "en": "Log work done with date, hours and material cost",
+              "ar": "تسجيل العمل المنفذ بالتاريخ والساعات وتكلفة المواد"
+            },
+            {
+              "en": "Update the progress percentage from a work log",
+              "ar": "تحديث نسبة الإنجاز من سجل التنفيذ"
+            },
+            {
+              "en": "Actual cost adds up from logged material costs",
+              "ar": "تجميع التكلفة الفعلية من تكاليف المواد المسجلة"
+            },
+            {
+              "en": "Start, put on hold, complete and close a work order",
+              "ar": "بدء أمر العمل وتعليقه وإكماله وإغلاقه"
+            },
+            {
+              "en": "Search work orders and filter by status",
+              "ar": "البحث في أوامر العمل والتصفية حسب الحالة"
+            },
+            {
+              "en": "See assignees, log count and cost per order",
+              "ar": "عرض المكلفين وعدد السجلات والتكلفة لكل أمر"
+            },
+            {
+              "en": "Export work orders to Excel",
+              "ar": "تصدير أوامر العمل إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Payments and receipts",
+            "ar": "المدفوعات والإيصالات"
+          },
+          "items": [
+            {
+              "en": "Record an incoming payment from a client",
+              "ar": "تسجيل دفعة واردة من عميل"
+            },
+            {
+              "en": "Allocate the payment to an invoice or leave it unallocated",
+              "ar": "تخصيص الدفعة على فاتورة أو تركها دون تخصيص"
+            },
+            {
+              "en": "Choose method: bank transfer, cash, card, cheque or other",
+              "ar": "اختيار الطريقة: تحويل بنكي أو نقدي أو بطاقة أو شيك أو أخرى"
+            },
+            {
+              "en": "A final receipt is issued when the payment is confirmed",
+              "ar": "إصدار إيصال نهائي عند تأكيد الدفعة"
+            },
+            {
+              "en": "Reverse a payment with a reason; nothing is deleted",
+              "ar": "عكس الدفعة مع سبب دون حذف أي سجل"
+            },
+            {
+              "en": "See confirmed collections and reversed payments",
+              "ar": "عرض التحصيلات المؤكدة والدفعات المعكوسة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Owner portal",
+            "ar": "بوابة المالك"
+          },
+          "items": [
+            {
+              "en": "Client user sees only their own properties and units",
+              "ar": "يرى مستخدم العميل عقاراته ووحداته فقط"
+            },
+            {
+              "en": "Client user follows their work orders and progress",
+              "ar": "يتابع مستخدم العميل أوامر العمل ونسبة الإنجاز"
+            },
+            {
+              "en": "Client user adds a unit to their own property",
+              "ar": "يضيف مستخدم العميل وحدة إلى عقاره"
+            },
+            {
+              "en": "Client user previews, prints or downloads their invoices",
+              "ar": "يعاين مستخدم العميل فواتيره ويطبعها أو ينزلها"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "Facility manager",
+          "ar": "مدير المرافق"
+        },
+        {
+          "en": "Field technician",
+          "ar": "فني ميداني"
+        },
+        {
+          "en": "Property owner (client)",
+          "ar": "مالك عقار (عميل)"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "HR Management: employees are the technicians and facility managers",
+          "ar": "إدارة الموارد البشرية: الموظفون هم الفنيون ومديرو المرافق"
+        },
+        {
+          "en": "Finance & Expenses: invoices, expenses and quotations can reference a work order",
+          "ar": "المالية والمصروفات: ربط الفواتير والمصروفات وعروض الأسعار بأمر عمل"
+        },
+        {
+          "en": "Preventive Maintenance: due plans generate work orders",
+          "ar": "الصيانة الوقائية: الخطط المستحقة تولّد أوامر عمل"
+        },
+        {
+          "en": "Asset Management: assets can be assigned to a property",
+          "ar": "إدارة الأصول: إسناد الأصول إلى عقار"
+        },
+        {
+          "en": "Reports: work order counts, statuses, hours and CSV export",
+          "ar": "التقارير: أعداد أوامر العمل وحالاتها وساعات العمل وتصدير CSV"
+        }
+      ],
+      "limits": [
+        {
+          "en": "The invoice creation screen belongs to Finance & Expenses; without it only the payments screen is available here.",
+          "ar": "شاشة إنشاء الفواتير تابعة لحل المالية والمصروفات؛ وبدونه تتوفر هنا شاشة المدفوعات فقط."
+        },
+        {
+          "en": "Lease contracts, tenants, rent collection and occupancy are not built.",
+          "ar": "عقود الإيجار والمستأجرون وتحصيل الإيجارات والإشغال غير منفذة."
+        },
+        {
+          "en": "Properties and units cannot be edited or deactivated from the screen after creation.",
+          "ar": "لا يمكن تعديل العقارات والوحدات أو تعطيلها من الشاشة بعد إنشائها."
+        },
+        {
+          "en": "The owner portal needs the Client Portal module enabled for the company; clients cannot raise new requests or pay online.",
+          "ar": "بوابة المالك تتطلب تفعيل وحدة بوابة العملاء للشركة؛ ولا يستطيع العميل إنشاء طلبات جديدة أو الدفع إلكترونياً."
+        },
+        {
+          "en": "Work orders have no file or photo attachments on the screen.",
+          "ar": "لا توجد مرفقات أو صور لأوامر العمل في الشاشة."
+        },
+        {
+          "en": "The payments list has an export route but no export button.",
+          "ar": "تصدير المدفوعات موجود كمسار دون زر في الشاشة."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "resources/views/pages/⚡dashboard.blade.php",
+        "resources/views/pages/⚡clients.blade.php",
+        "resources/views/pages/⚡properties.blade.php",
+        "resources/views/pages/⚡work-orders.blade.php",
+        "resources/views/pages/⚡payments.blade.php",
+        "resources/views/pages/⚡client-portal.blade.php",
+        "app/Actions/WorkOrders/UpdateWorkOrderStatus.php",
+        "app/Actions/Finance/RecordPayment.php",
+        "app/Actions/Finance/ReversePayment.php",
+        "app/Models/User.php",
+        "database/migrations/2026_08_14_220600_activate_phase_two_catalog.php"
+      ]
+    },
+    {
+      "slug": "assets",
+      "name": {
+        "en": "Asset Management",
+        "ar": "إدارة الأصول"
+      },
+      "summary": {
+        "en": "A register of equipment and devices with tag, serial number, purchase data and assignment to employees or properties.",
+        "ar": "سجل للمعدات والأجهزة برقم العهدة والرقم التسلسلي وبيانات الشراء والإسناد إلى الموظفين أو العقارات."
+      },
+      "highlights": [
+        {
+          "en": "Asset register",
+          "ar": "سجل الأصول"
+        },
+        {
+          "en": "Tag and serial number",
+          "ar": "رقم العهدة والتسلسلي"
+        },
+        {
+          "en": "Assign to employee",
+          "ar": "إسناد إلى موظف"
+        },
+        {
+          "en": "Assign to property",
+          "ar": "إسناد إلى عقار"
+        },
+        {
+          "en": "Purchase and supplier data",
+          "ar": "بيانات الشراء والمورد"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Asset register",
+            "ar": "سجل الأصول"
+          },
+          "items": [
+            {
+              "en": "Add an asset with name and category",
+              "ar": "إضافة أصل باسمه وفئته"
+            },
+            {
+              "en": "Categories: equipment, vehicle, IT and furniture",
+              "ar": "الفئات: معدات ومركبة وتقنية وأثاث"
+            },
+            {
+              "en": "Record asset tag, serial number, manufacturer and model",
+              "ar": "تسجيل رقم العهدة والرقم التسلسلي والشركة المصنعة والطراز"
+            },
+            {
+              "en": "Record supplier, purchase date and purchase cost",
+              "ar": "تسجيل المورد وتاريخ الشراء وتكلفته"
+            },
+            {
+              "en": "Search assets by name, code or tag",
+              "ar": "البحث عن الأصول بالاسم أو الرمز أو رقم العهدة"
+            },
+            {
+              "en": "See total assets, assets under warranty and assets needing attention",
+              "ar": "عرض إجمالي الأصول وما تحت الضمان وما يحتاج متابعة"
+            },
+            {
+              "en": "See condition, status and current custodian per asset",
+              "ar": "عرض حالة كل أصل ووضعه ومسؤول العهدة الحالي"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Assignment",
+            "ar": "الإسناد"
+          },
+          "items": [
+            {
+              "en": "Assign an asset to an employee",
+              "ar": "إسناد الأصل إلى موظف"
+            },
+            {
+              "en": "Assign an asset to a property",
+              "ar": "إسناد الأصل إلى عقار"
+            },
+            {
+              "en": "Add a note to the assignment",
+              "ar": "إضافة ملاحظة للإسناد"
+            },
+            {
+              "en": "Reassigning ends the previous assignment and keeps its record",
+              "ar": "إعادة الإسناد تنهي الإسناد السابق وتحفظ سجله"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "Facility manager",
+          "ar": "مدير المرافق"
+        },
+        {
+          "en": "HR manager",
+          "ar": "مدير الموارد البشرية"
+        },
+        {
+          "en": "Field technician",
+          "ar": "فني ميداني"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "Preventive Maintenance: maintenance plans are created per asset",
+          "ar": "الصيانة الوقائية: تُنشأ خطط الصيانة لكل أصل"
+        },
+        {
+          "en": "HR Management: assets are assigned to employee records",
+          "ar": "إدارة الموارد البشرية: إسناد الأصول إلى ملفات الموظفين"
+        },
+        {
+          "en": "Facility Management: assets are assigned to properties",
+          "ar": "إدارة المرافق: إسناد الأصول إلى العقارات"
+        },
+        {
+          "en": "Procurement: the supplier comes from the shared supplier register",
+          "ar": "المشتريات: المورد من سجل الموردين الموحد"
+        }
+      ],
+      "limits": [
+        {
+          "en": "Assets cannot be edited, retired or deleted from the screen after creation.",
+          "ar": "لا يمكن تعديل الأصل أو إخراجه من الخدمة أو حذفه من الشاشة بعد إنشائه."
+        },
+        {
+          "en": "Warranty date and condition are shown but cannot be entered on the add form.",
+          "ar": "تاريخ الضمان وحالة الأصل يُعرضان لكن لا يمكن إدخالهما في نموذج الإضافة."
+        },
+        {
+          "en": "There is no screen for asset documents or for assignment history.",
+          "ar": "لا توجد شاشة لمستندات الأصل أو لسجل الإسنادات."
+        },
+        {
+          "en": "QR or barcode scanning and depreciation are not built.",
+          "ar": "قراءة QR أو الباركود والاستهلاك المحاسبي غير منفذة."
+        },
+        {
+          "en": "The asset list has an export route but no export button.",
+          "ar": "تصدير الأصول موجود كمسار دون زر في الشاشة."
+        },
+        {
+          "en": "The menu link appears in the Facilities sidebar; the workspace launcher has no separate Assets tile.",
+          "ar": "رابط القائمة يظهر ضمن شريط المرافق؛ ولا توجد بطاقة مستقلة للأصول في مبدّل الحلول."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "resources/views/pages/⚡assets.blade.php",
+        "app/Actions/Assets/CreateAsset.php",
+        "app/Actions/Assets/AssignAsset.php",
+        "app/Models/Asset.php",
+        "app/Models/AssetAssignment.php",
+        "resources/views/layouts/app/sidebar.blade.php",
+        "app/Http/Controllers/DataExportController.php",
+        "docs/PRODUCT_STATUS.md"
+      ]
+    },
+    {
+      "slug": "maintenance",
+      "name": {
+        "en": "Preventive Maintenance",
+        "ar": "الصيانة الوقائية"
+      },
+      "summary": {
+        "en": "Recurring maintenance plans per asset that generate one work order for each due date.",
+        "ar": "خطط صيانة دورية لكل أصل تولّد أمر عمل واحداً لكل موعد مستحق."
+      },
+      "highlights": [
+        {
+          "en": "Recurring maintenance plans",
+          "ar": "خطط صيانة دورية"
+        },
+        {
+          "en": "Plans linked to assets",
+          "ar": "خطط مرتبطة بالأصول"
+        },
+        {
+          "en": "Work order generation",
+          "ar": "توليد أوامر العمل"
+        },
+        {
+          "en": "Due date tracking",
+          "ar": "متابعة مواعيد الاستحقاق"
+        },
+        {
+          "en": "Generated work history",
+          "ar": "سجل الأعمال المولدة"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Maintenance plans",
+            "ar": "خطط الصيانة"
+          },
+          "items": [
+            {
+              "en": "Create a plan for an asset",
+              "ar": "إنشاء خطة صيانة لأصل"
+            },
+            {
+              "en": "Set recurrence every N days, weeks, months or years",
+              "ar": "تحديد التكرار كل عدد من الأيام أو الأسابيع أو الأشهر أو السنوات"
+            },
+            {
+              "en": "Set the start date and how many days ahead to generate",
+              "ar": "تحديد تاريخ البدء وعدد أيام التوليد قبل الموعد"
+            },
+            {
+              "en": "Set priority and technician instructions",
+              "ar": "تحديد الأولوية وتعليمات الفني"
+            },
+            {
+              "en": "Attach an existing maintenance checklist template to the plan",
+              "ar": "ربط قالب قائمة تحقق موجود بالخطة"
+            },
+            {
+              "en": "See each plan's next due date and recurrence",
+              "ar": "عرض الموعد القادم والتكرار لكل خطة"
+            },
+            {
+              "en": "See counts of active plans and plans due within 7 days",
+              "ar": "عرض عدد الخطط النشطة والمستحقة خلال 7 أيام"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Generated work",
+            "ar": "الأعمال المولدة"
+          },
+          "items": [
+            {
+              "en": "Generate the work order for a due plan with one button",
+              "ar": "توليد أمر العمل للخطة المستحقة بزر واحد"
+            },
+            {
+              "en": "Only one work order is created per due date",
+              "ar": "إنشاء أمر عمل واحد فقط لكل موعد"
+            },
+            {
+              "en": "A daily job generates due work orders automatically",
+              "ar": "مهمة يومية تولّد أوامر العمل المستحقة تلقائياً"
+            },
+            {
+              "en": "See generated occurrences with work order number and status",
+              "ar": "عرض المواعيد المولدة برقم أمر العمل والحالة"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "Facility manager",
+          "ar": "مدير المرافق"
+        },
+        {
+          "en": "Field technician",
+          "ar": "فني ميداني"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "Asset Management: every plan is linked to an asset",
+          "ar": "إدارة الأصول: كل خطة مرتبطة بأصل"
+        },
+        {
+          "en": "Facility Management: generated work orders are run from the Work Orders screen",
+          "ar": "إدارة المرافق: تُنفّذ أوامر العمل المولدة من شاشة أوامر العمل"
+        },
+        {
+          "en": "Workspace: due or overdue maintenance appears in the attention list",
+          "ar": "بوابة الشركة: الصيانة المستحقة أو المتأخرة تظهر في قائمة التنبيهات"
+        }
+      ],
+      "limits": [
+        {
+          "en": "There is no screen to complete a maintenance occurrence or tick its checklist.",
+          "ar": "لا توجد شاشة لإكمال موعد الصيانة أو تنفيذ قائمة التحقق."
+        },
+        {
+          "en": "There is no screen to create or edit maintenance checklist templates.",
+          "ar": "لا توجد شاشة لإنشاء قوالب قوائم التحقق للصيانة أو تعديلها."
+        },
+        {
+          "en": "Plans cannot be edited, paused or deleted from the screen.",
+          "ar": "لا يمكن تعديل الخطط أو إيقافها أو حذفها من الشاشة."
+        },
+        {
+          "en": "Automatic daily generation needs the scheduler running in the hosting environment.",
+          "ar": "التوليد اليومي التلقائي يتطلب تشغيل المجدول في بيئة الاستضافة."
+        },
+        {
+          "en": "Plans need assets, so Asset Management is required.",
+          "ar": "الخطط تحتاج أصولاً، لذلك يلزم حل إدارة الأصول."
+        },
+        {
+          "en": "Working on generated work orders needs the Work Orders screen of Facility Management.",
+          "ar": "تنفيذ أوامر العمل المولدة يحتاج شاشة أوامر العمل في حل إدارة المرافق."
+        },
+        {
+          "en": "Sensor or IoT integration is not built; the plan list has no export button.",
+          "ar": "تكامل الحساسات أو IoT غير منفذ؛ ولا يوجد زر تصدير لقائمة الخطط."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "routes/console.php",
+        "resources/views/pages/⚡maintenance.blade.php",
+        "app/Actions/Maintenance/CreateMaintenancePlan.php",
+        "app/Actions/Maintenance/GenerateDueMaintenance.php",
+        "app/Actions/Maintenance/CompleteMaintenance.php",
+        "app/Console/Commands/GenerateMaintenanceWork.php",
+        "app/Services/Maintenance/RecurrenceCalculator.php",
+        "resources/views/pages/⚡portal.blade.php",
+        "database/migrations/2026_08_14_220600_activate_phase_two_catalog.php"
+      ]
+    },
+    {
+      "slug": "procurement",
+      "name": {
+        "en": "Procurement",
+        "ar": "المشتريات"
+      },
+      "summary": {
+        "en": "Suppliers, purchase requests, supplier quotations, purchase orders and goods receipt, with approval on requests and orders.",
+        "ar": "الموردون وطلبات الشراء وعروض الموردين وأوامر الشراء والاستلام، مع الموافقة على الطلبات والأوامر."
+      },
+      "highlights": [
+        {
+          "en": "Supplier register",
+          "ar": "سجل الموردين"
+        },
+        {
+          "en": "Purchase requests",
+          "ar": "طلبات الشراء"
+        },
+        {
+          "en": "Supplier quotations",
+          "ar": "عروض الموردين"
+        },
+        {
+          "en": "Purchase orders",
+          "ar": "أوامر الشراء"
+        },
+        {
+          "en": "Partial and full receipt",
+          "ar": "استلام جزئي وكامل"
+        },
+        {
+          "en": "Approval workflow",
+          "ar": "مسار الموافقات"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Suppliers",
+            "ar": "الموردون"
+          },
+          "items": [
+            {
+              "en": "Add a supplier with legal name, code, TRN, email and phone",
+              "ar": "إضافة مورد باسمه القانوني ورمزه ورقمه الضريبي وبريده وهاتفه"
+            },
+            {
+              "en": "See the number of suppliers in the register",
+              "ar": "عرض عدد الموردين في السجل"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Purchase requests",
+            "ar": "طلبات الشراء"
+          },
+          "items": [
+            {
+              "en": "Create a purchase request with purpose and required date",
+              "ar": "إنشاء طلب شراء بغرضه وتاريخ الحاجة"
+            },
+            {
+              "en": "Enter the item or service, quantity and estimated price",
+              "ar": "إدخال الصنف أو الخدمة والكمية والسعر التقديري"
+            },
+            {
+              "en": "The request is sent for approval when saved",
+              "ar": "إرسال الطلب للموافقة عند الحفظ"
+            },
+            {
+              "en": "See each request's estimated total and status",
+              "ar": "عرض الإجمالي التقديري والحالة لكل طلب"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Supplier quotations",
+            "ar": "عروض الموردين"
+          },
+          "items": [
+            {
+              "en": "Record a supplier quotation against an approved request",
+              "ar": "تسجيل عرض مورد على طلب معتمد"
+            },
+            {
+              "en": "Enter reference, validity date, quantity and unit price",
+              "ar": "إدخال مرجع العرض وتاريخ الصلاحية والكمية وسعر الوحدة"
+            },
+            {
+              "en": "Record several quotations for the same request",
+              "ar": "تسجيل عدة عروض للطلب نفسه"
+            },
+            {
+              "en": "Select the winning quotation",
+              "ar": "اختيار العرض المناسب"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Purchase orders",
+            "ar": "أوامر الشراء"
+          },
+          "items": [
+            {
+              "en": "Create a purchase order from the selected quotation",
+              "ar": "إنشاء أمر شراء من العرض المختار"
+            },
+            {
+              "en": "The purchase order is sent for approval",
+              "ar": "إرسال أمر الشراء للموافقة"
+            },
+            {
+              "en": "Issue an approved purchase order",
+              "ar": "إصدار أمر الشراء المعتمد"
+            },
+            {
+              "en": "See open orders and their receipt status",
+              "ar": "عرض الأوامر المفتوحة وحالة استلامها"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Receiving",
+            "ar": "الاستلام"
+          },
+          "items": [
+            {
+              "en": "Receive a purchase order in part or in full",
+              "ar": "استلام أمر الشراء جزئياً أو كاملاً"
+            },
+            {
+              "en": "Record accepted and rejected quantities",
+              "ar": "تسجيل الكميات المقبولة والمرفوضة"
+            },
+            {
+              "en": "Record the delivery note reference",
+              "ar": "تسجيل مرجع سند التسليم"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Customer quotations for work orders",
+            "ar": "عروض الأسعار لأوامر العمل"
+          },
+          "items": [
+            {
+              "en": "Create a quotation for a work order with quantity and unit price",
+              "ar": "إنشاء عرض سعر لأمر عمل بالكمية وسعر الوحدة"
+            },
+            {
+              "en": "5% VAT is added and the quotation is sent for approval",
+              "ar": "إضافة ضريبة 5% وإرسال العرض للاعتماد"
+            },
+            {
+              "en": "Preview and print the quotation",
+              "ar": "معاينة عرض السعر وطباعته"
+            },
+            {
+              "en": "Export quotations to Excel",
+              "ar": "تصدير عروض الأسعار إلى Excel"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "Facility manager",
+          "ar": "مدير المرافق"
+        },
+        {
+          "en": "Finance manager",
+          "ar": "المدير المالي"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "Approvals: purchase requests and purchase orders go through the approvals inbox",
+          "ar": "الموافقات: طلبات الشراء وأوامر الشراء تمر عبر صندوق الموافقات"
+        },
+        {
+          "en": "Asset Management and Inventory: both use the same supplier register",
+          "ar": "إدارة الأصول والمخزون: يستخدمان سجل الموردين نفسه"
+        },
+        {
+          "en": "Finance & Expenses: the work-order quotation form is on the Finance screen",
+          "ar": "المالية والمصروفات: نموذج عرض سعر أمر العمل موجود في شاشة المالية"
+        },
+        {
+          "en": "Works without Inventory for services and non-stock items",
+          "ar": "يعمل دون المخزون للخدمات والبنود غير المخزنية"
+        }
+      ],
+      "limits": [
+        {
+          "en": "A request and a quotation hold one line each on the screen.",
+          "ar": "الطلب والعرض يحملان بنداً واحداً فقط في الشاشة."
+        },
+        {
+          "en": "The request form cannot pick an inventory item, so receipts from this screen do not post stock.",
+          "ar": "نموذج الطلب لا يتيح اختيار صنف مخزني، لذلك لا يرحّل الاستلام من هذه الشاشة إلى المخزون."
+        },
+        {
+          "en": "Suppliers cannot be edited or deactivated from the screen.",
+          "ar": "لا يمكن تعديل الموردين أو تعطيلهم من الشاشة."
+        },
+        {
+          "en": "Sending requests for quotation by email is not built.",
+          "ar": "إرسال طلبات عروض الأسعار بالبريد غير منفذ."
+        },
+        {
+          "en": "Supplier invoices, three-way matching and supplier payments are not built.",
+          "ar": "فواتير الموردين والمطابقة الثلاثية ومدفوعات الموردين غير منفذة."
+        },
+        {
+          "en": "Purchase orders have no print or PDF document.",
+          "ar": "لا يوجد مستند طباعة أو PDF لأمر الشراء."
+        },
+        {
+          "en": "Supplier and purchase order lists have export routes but no export buttons.",
+          "ar": "تصدير الموردين وأوامر الشراء موجود كمسار دون أزرار."
+        },
+        {
+          "en": "The work-order quotation form needs the Finance & Expenses module as well.",
+          "ar": "نموذج عرض سعر أمر العمل يحتاج أيضاً وحدة المالية والمصروفات."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "resources/views/pages/⚡procurement.blade.php",
+        "resources/views/pages/⚡finance.blade.php",
+        "app/Actions/Procurement/CreatePurchaseRequest.php",
+        "app/Actions/Procurement/RecordSupplierQuotation.php",
+        "app/Actions/Procurement/SelectSupplierQuotation.php",
+        "app/Actions/Procurement/CreatePurchaseOrder.php",
+        "app/Actions/Procurement/IssuePurchaseOrder.php",
+        "app/Actions/Procurement/ReceivePurchaseOrder.php",
+        "app/Http/Controllers/BusinessDocumentController.php",
+        "docs/PRODUCT_STATUS.md"
+      ]
+    },
+    {
+      "slug": "inventory",
+      "name": {
+        "en": "Inventory & Spare Parts",
+        "ar": "المخزون وقطع الغيار"
+      },
+      "summary": {
+        "en": "Items, warehouses and a stock movement ledger; balances per item and warehouse come from posted movements.",
+        "ar": "أصناف ومستودعات ودفتر حركات مخزون؛ والأرصدة لكل صنف ومستودع تُشتق من الحركات المرحّلة."
+      },
+      "highlights": [
+        {
+          "en": "Items and warehouses",
+          "ar": "الأصناف والمستودعات"
+        },
+        {
+          "en": "Stock movement ledger",
+          "ar": "دفتر حركات المخزون"
+        },
+        {
+          "en": "Balances per warehouse",
+          "ar": "أرصدة لكل مستودع"
+        },
+        {
+          "en": "Receipt, issue, transfer",
+          "ar": "استلام وصرف وتحويل"
+        },
+        {
+          "en": "Stock adjustments",
+          "ar": "تسويات المخزون"
+        },
+        {
+          "en": "Reorder level",
+          "ar": "حد إعادة الطلب"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Items",
+            "ar": "الأصناف"
+          },
+          "items": [
+            {
+              "en": "Add an item with name, code and SKU",
+              "ar": "إضافة صنف باسمه ورمزه وSKU"
+            },
+            {
+              "en": "Set unit of measure, unit cost and reorder level",
+              "ar": "تحديد وحدة القياس وتكلفة الوحدة وحد إعادة الطلب"
+            },
+            {
+              "en": "An item code is generated when left empty",
+              "ar": "توليد رمز الصنف تلقائياً عند تركه فارغاً"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Warehouses",
+            "ar": "المستودعات"
+          },
+          "items": [
+            {
+              "en": "Add a warehouse with name, code and address",
+              "ar": "إضافة مستودع باسمه ورمزه وعنوانه"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Stock movements",
+            "ar": "حركات المخزون"
+          },
+          "items": [
+            {
+              "en": "Post a receipt into a warehouse",
+              "ar": "ترحيل استلام إلى مستودع"
+            },
+            {
+              "en": "Post an issue out of a warehouse",
+              "ar": "ترحيل صرف من مستودع"
+            },
+            {
+              "en": "Transfer stock between two warehouses",
+              "ar": "تحويل المخزون بين مستودعين"
+            },
+            {
+              "en": "Post a return",
+              "ar": "ترحيل إرجاع"
+            },
+            {
+              "en": "Post a positive or negative adjustment",
+              "ar": "ترحيل تسوية زيادة أو نقص"
+            },
+            {
+              "en": "Record quantity, unit cost and reason for each movement",
+              "ar": "تسجيل الكمية وتكلفة الوحدة والسبب لكل حركة"
+            },
+            {
+              "en": "Posted movements cannot be edited or deleted",
+              "ar": "الحركات المرحّلة لا تُعدّل ولا تُحذف"
+            },
+            {
+              "en": "See the latest movements with source and destination",
+              "ar": "عرض آخر الحركات مع المصدر والوجهة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Balances",
+            "ar": "الأرصدة"
+          },
+          "items": [
+            {
+              "en": "See the current balance per item and warehouse",
+              "ar": "عرض الرصيد الحالي لكل صنف ومستودع"
+            },
+            {
+              "en": "See each item's reorder level beside its balances",
+              "ar": "عرض حد إعادة الطلب بجانب أرصدة الصنف"
+            },
+            {
+              "en": "See counts of items, warehouses and movements",
+              "ar": "عرض أعداد الأصناف والمستودعات والحركات"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "Facility manager",
+          "ar": "مدير المرافق"
+        },
+        {
+          "en": "Field technician",
+          "ar": "فني ميداني"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "Procurement: uses the same supplier register",
+          "ar": "المشتريات: يستخدم سجل الموردين نفسه"
+        }
+      ],
+      "limits": [
+        {
+          "en": "Reversing a movement exists in the code but has no button; corrections are made with an adjustment movement.",
+          "ar": "عكس الحركة موجود في الكود دون زر؛ ويتم التصحيح بحركة تسوية."
+        },
+        {
+          "en": "There is no screen to issue stock against a work order.",
+          "ar": "لا توجد شاشة لصرف المخزون على أمر عمل."
+        },
+        {
+          "en": "Stock is not posted from purchase order receipts made on the procurement screen.",
+          "ar": "لا يُرحّل المخزون من استلام أوامر الشراء في شاشة المشتريات."
+        },
+        {
+          "en": "There is no alert when a balance falls below the reorder level.",
+          "ar": "لا يوجد تنبيه عند نزول الرصيد عن حد إعادة الطلب."
+        },
+        {
+          "en": "Items and warehouses cannot be edited or deactivated from the screen.",
+          "ar": "لا يمكن تعديل الأصناف والمستودعات أو تعطيلها من الشاشة."
+        },
+        {
+          "en": "Stock valuation, barcode scanning and stock counts are not built.",
+          "ar": "تقييم المخزون وقراءة الباركود والجرد الدوري غير منفذة."
+        },
+        {
+          "en": "The item list has an export route but no export button.",
+          "ar": "تصدير الأصناف موجود كمسار دون زر في الشاشة."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "resources/views/pages/⚡inventory.blade.php",
+        "app/Actions/Inventory/PostStockMovement.php",
+        "app/Actions/Inventory/ReverseStockMovement.php",
+        "app/Actions/Procurement/ReceivePurchaseOrder.php",
+        "app/Models/StockMovement.php",
+        "app/Models/InventoryItem.php",
+        "app/Models/Warehouse.php",
+        "docs/PRODUCT_STATUS.md"
+      ]
+    },
+    {
+      "slug": "finance",
+      "name": {
+        "en": "Finance & Expenses",
+        "ar": "المالية والمصروفات"
+      },
+      "summary": {
+        "en": "Itemized VAT invoices, credit notes and expense claims with approval, plus payments, allocations, receipts and reversals.",
+        "ar": "فواتير ضريبية ببنود وإشعارات دائنة ومطالبات مصروفات مع الاعتماد، إضافة إلى المدفوعات والتخصيصات والإيصالات والعكس."
+      },
+      "highlights": [
+        {
+          "en": "Itemized VAT invoices",
+          "ar": "فواتير ضريبية ببنود"
+        },
+        {
+          "en": "Credit notes",
+          "ar": "إشعارات دائنة"
+        },
+        {
+          "en": "Expense claims",
+          "ar": "مطالبات المصروفات"
+        },
+        {
+          "en": "Payments and receipts",
+          "ar": "المدفوعات والإيصالات"
+        },
+        {
+          "en": "Approval before issue",
+          "ar": "اعتماد قبل الإصدار"
+        },
+        {
+          "en": "Print and Excel documents",
+          "ar": "مستندات للطباعة وExcel"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Invoices",
+            "ar": "الفواتير"
+          },
+          "items": [
+            {
+              "en": "Create a tax invoice or a commercial invoice for a client",
+              "ar": "إنشاء فاتورة ضريبية أو تجارية لعميل"
+            },
+            {
+              "en": "Add several lines with quantity, unit code and unit price",
+              "ar": "إضافة عدة بنود بالكمية ورمز الوحدة وسعر الوحدة"
+            },
+            {
+              "en": "Set line tax category: standard, zero rated, exempt or out of scope",
+              "ar": "تحديد فئة الضريبة لكل بند: قياسية أو صفرية أو معفاة أو خارج النطاق"
+            },
+            {
+              "en": "Enter a reason code and explanation for non-standard tax",
+              "ar": "إدخال رمز السبب وشرحه للمعاملة الضريبية غير القياسية"
+            },
+            {
+              "en": "Tax and totals are calculated by the system",
+              "ar": "احتساب الضريبة والإجماليات آلياً"
+            },
+            {
+              "en": "Link the invoice to a work order and a selling branch",
+              "ar": "ربط الفاتورة بأمر عمل وبالفرع البائع"
+            },
+            {
+              "en": "Set due date, purchase order reference and payment method",
+              "ar": "تحديد تاريخ الاستحقاق ومرجع أمر الشراء ووسيلة الدفع"
+            },
+            {
+              "en": "The invoice number is generated automatically",
+              "ar": "توليد رقم الفاتورة تلقائياً"
+            },
+            {
+              "en": "The invoice is sent for approval and issued when approved",
+              "ar": "إرسال الفاتورة للاعتماد وإصدارها عند الموافقة"
+            },
+            {
+              "en": "Preview and print an invoice",
+              "ar": "معاينة الفاتورة وطباعتها"
+            },
+            {
+              "en": "Download an invoice as Excel",
+              "ar": "تنزيل الفاتورة بصيغة Excel"
+            },
+            {
+              "en": "Export the invoice list to Excel",
+              "ar": "تصدير قائمة الفواتير إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Credit notes",
+            "ar": "الإشعارات الدائنة"
+          },
+          "items": [
+            {
+              "en": "Create a credit note from an issued invoice",
+              "ar": "إنشاء إشعار دائن من فاتورة صادرة"
+            },
+            {
+              "en": "Choose the adjustment reason and explain it",
+              "ar": "اختيار سبب التعديل وشرحه"
+            },
+            {
+              "en": "The credit note copies the original lines and keeps its reference",
+              "ar": "نسخ بنود الفاتورة الأصلية مع حفظ مرجعها"
+            },
+            {
+              "en": "The credit note is sent for approval",
+              "ar": "إرسال الإشعار الدائن لمسار الاعتماد"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Expense claims",
+            "ar": "مطالبات المصروفات"
+          },
+          "items": [
+            {
+              "en": "Submit an expense claim with category, date, amount and VAT",
+              "ar": "تقديم مطالبة مصروف بالتصنيف والتاريخ والمبلغ والضريبة"
+            },
+            {
+              "en": "Link the expense to a work order",
+              "ar": "ربط المصروف بأمر عمل"
+            },
+            {
+              "en": "Record the payment method, including personal payment",
+              "ar": "تسجيل طريقة الدفع ومنها الدفع الشخصي"
+            },
+            {
+              "en": "The claim is sent for approval",
+              "ar": "إرسال المطالبة للاعتماد"
+            },
+            {
+              "en": "Preview and print an expense claim",
+              "ar": "معاينة مطالبة المصروف وطباعتها"
+            },
+            {
+              "en": "Export expenses to Excel",
+              "ar": "تصدير المصروفات إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Payments and receipts",
+            "ar": "المدفوعات والإيصالات"
+          },
+          "items": [
+            {
+              "en": "Record an incoming payment from a client",
+              "ar": "تسجيل دفعة واردة من عميل"
+            },
+            {
+              "en": "Allocate the payment to an invoice with an outstanding balance",
+              "ar": "تخصيص الدفعة على فاتورة عليها رصيد متبقٍ"
+            },
+            {
+              "en": "Record an unallocated payment for a client",
+              "ar": "تسجيل دفعة غير مخصصة للعميل"
+            },
+            {
+              "en": "Choose method: bank transfer, cash, card, cheque or other",
+              "ar": "اختيار الطريقة: تحويل بنكي أو نقدي أو بطاقة أو شيك أو أخرى"
+            },
+            {
+              "en": "A final receipt with its own number is issued",
+              "ar": "إصدار إيصال نهائي برقم خاص"
+            },
+            {
+              "en": "Reverse a payment with a reason; allocations and receipt are cancelled",
+              "ar": "عكس الدفعة مع سبب وإلغاء التخصيصات والإيصال"
+            },
+            {
+              "en": "See confirmed collections, final receipts and reversed payments",
+              "ar": "عرض التحصيلات المؤكدة والإيصالات النهائية والدفعات المعكوسة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Finance overview",
+            "ar": "نظرة عامة"
+          },
+          "items": [
+            {
+              "en": "See issued invoice total and approved expense total",
+              "ar": "عرض إجمالي الفواتير الصادرة والمصروفات المعتمدة"
+            },
+            {
+              "en": "See how many transactions are awaiting approval",
+              "ar": "عرض عدد المعاملات التي تنتظر الاعتماد"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Legal profile",
+            "ar": "الملف القانوني"
+          },
+          "items": [
+            {
+              "en": "Record legal names, licence details, TRN and address",
+              "ar": "تسجيل الأسماء القانونية وبيانات الرخصة والرقم الضريبي والعنوان"
+            },
+            {
+              "en": "Set invoice and credit-note number prefixes",
+              "ar": "تحديد بادئة أرقام الفواتير والإشعارات الدائنة"
+            },
+            {
+              "en": "Set the main branch code and name",
+              "ar": "تحديد رمز الفرع الرئيسي واسمه"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "Finance manager",
+          "ar": "المدير المالي"
+        },
+        {
+          "en": "Facility manager",
+          "ar": "مدير المرافق"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "Approvals: invoices, credit notes and expenses go through the approvals inbox",
+          "ar": "الموافقات: الفواتير والإشعارات الدائنة والمصروفات تمر عبر صندوق الموافقات"
+        },
+        {
+          "en": "Facility Management: invoices and expenses reference clients and work orders",
+          "ar": "إدارة المرافق: الفواتير والمصروفات ترتبط بالعملاء وأوامر العمل"
+        },
+        {
+          "en": "Procurement: work-order quotations are created from the Finance screen",
+          "ar": "المشتريات: عروض أسعار أوامر العمل تُنشأ من شاشة المالية"
+        },
+        {
+          "en": "UAE eInvoicing: issued invoices can be sent to the configured connector",
+          "ar": "الفوترة الإلكترونية الإماراتية: إرسال الفواتير الصادرة إلى الموصل المهيأ"
+        },
+        {
+          "en": "Owner portal: clients see their own invoices",
+          "ar": "بوابة المالك: يرى العميل فواتيره"
+        }
+      ],
+      "limits": [
+        {
+          "en": "UAE eInvoicing is a separate Solution with status Setup Required; only a sandbox connector exists and no accredited provider is connected.",
+          "ar": "الفوترة الإلكترونية الإماراتية حل مستقل بحالة «يحتاج إعداداً»؛ يوجد موصل Sandbox فقط ولا يوجد مزود معتمد مرتبط."
+        },
+        {
+          "en": "The legal profile screen and Send to ASP button need the eInvoicing module.",
+          "ar": "شاشة الملف القانوني وزر الإرسال إلى ASP يحتاجان وحدة الفوترة الإلكترونية."
+        },
+        {
+          "en": "General ledger, accounts payable and bank reconciliation are not built.",
+          "ar": "دفتر الأستاذ العام والحسابات الدائنة والتسوية البنكية غير منفذة."
+        },
+        {
+          "en": "No online payment gateway; payments are recorded manually.",
+          "ar": "لا توجد بوابة دفع إلكتروني؛ تُسجل المدفوعات يدوياً."
+        },
+        {
+          "en": "Supplier (outgoing) payments have no screen.",
+          "ar": "لا توجد شاشة لمدفوعات الموردين الصادرة."
+        },
+        {
+          "en": "Invoices are in AED only on the screen.",
+          "ar": "الفواتير بالدرهم الإماراتي فقط في الشاشة."
+        },
+        {
+          "en": "Expense claims have no receipt upload on the screen.",
+          "ar": "لا يوجد رفع لإيصال المصروف في الشاشة."
+        },
+        {
+          "en": "Documents open as a printable page and Excel; there is no direct PDF file download.",
+          "ar": "تُفتح المستندات كصفحة قابلة للطباعة وExcel؛ ولا يوجد تنزيل مباشر لملف PDF."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "resources/views/pages/⚡finance.blade.php",
+        "resources/views/pages/⚡payments.blade.php",
+        "resources/views/pages/⚡company-compliance.blade.php",
+        "app/Actions/Finance/CreateInvoice.php",
+        "app/Actions/Finance/IssueInvoice.php",
+        "app/Actions/Finance/CreateCreditNote.php",
+        "app/Actions/Finance/RecordPayment.php",
+        "app/Actions/Finance/ReversePayment.php",
+        "app/Actions/EInvoicing/SubmitInvoiceToAsp.php",
+        "app/Services/EInvoicing/SandboxAspConnector.php",
+        "app/Http/Controllers/BusinessDocumentController.php",
+        "docs/INTEGRATIONS.md",
+        "docs/PRODUCT_STATUS.md"
+      ]
+    },
+    {
+      "slug": "platform",
+      "name": {
+        "en": "Shared Platform",
+        "ar": "المنصة الأساسية"
+      },
+      "summary": {
+        "en": "Company workspace, users and roles, approvals, notifications, reports, guides and support, subscription screens, Arabic and English.",
+        "ar": "بوابة الشركة والمستخدمون والأدوار والموافقات والإشعارات والتقارير والأدلة والدعم وشاشات الاشتراك بالعربية والإنجليزية."
+      },
+      "highlights": [
+        {
+          "en": "Company workspace and launcher",
+          "ar": "بوابة الشركة ومبدّل الحلول"
+        },
+        {
+          "en": "Users, roles and permissions",
+          "ar": "المستخدمون والأدوار والصلاحيات"
+        },
+        {
+          "en": "Approvals inbox",
+          "ar": "صندوق الموافقات"
+        },
+        {
+          "en": "Arabic and English, RTL",
+          "ar": "العربية والإنجليزية مع RTL"
+        },
+        {
+          "en": "Two-factor and passkeys",
+          "ar": "المصادقة الثنائية ومفاتيح المرور"
+        },
+        {
+          "en": "Subscription and billing",
+          "ar": "الاشتراك والفوترة"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Company workspace",
+            "ar": "بوابة الشركة"
+          },
+          "items": [
+            {
+              "en": "Open the Solutions available to your account from one launcher",
+              "ar": "فتح الحلول المتاحة لحسابك من مبدّل واحد"
+            },
+            {
+              "en": "See items that need attention with direct links",
+              "ar": "عرض ما يحتاج انتباهك مع روابط مباشرة"
+            },
+            {
+              "en": "Switch Solution from the top bar",
+              "ar": "التبديل بين الحلول من الشريط العلوي"
+            },
+            {
+              "en": "Each user sees only permitted Solutions and data",
+              "ar": "يرى كل مستخدم الحلول والبيانات المسموح بها فقط"
+            },
+            {
+              "en": "Company logo and colors appear in the workspace",
+              "ar": "ظهور شعار الشركة وألوانها في البوابة"
+            },
+            {
+              "en": "Bottom navigation bar on mobile screens",
+              "ar": "شريط تنقل سفلي على شاشات الجوال"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Users & access",
+            "ar": "المستخدمون والصلاحيات"
+          },
+          "items": [
+            {
+              "en": "Create a user account linked to an employee",
+              "ar": "إنشاء حساب مستخدم مرتبط بموظف"
+            },
+            {
+              "en": "Create a client account linked to a client",
+              "ar": "إنشاء حساب عميل مرتبط بعميل"
+            },
+            {
+              "en": "Assign a role to each user",
+              "ar": "تعيين دور لكل مستخدم"
+            },
+            {
+              "en": "Enable or disable a user account",
+              "ar": "تفعيل حساب المستخدم أو تعطيله"
+            },
+            {
+              "en": "Edit the permissions of each role",
+              "ar": "تعديل صلاحيات كل دور"
+            },
+            {
+              "en": "Eight ready roles are created for every company",
+              "ar": "إنشاء ثمانية أدوار جاهزة لكل شركة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Approvals",
+            "ar": "الموافقات"
+          },
+          "items": [
+            {
+              "en": "See requests awaiting your decision, oldest first",
+              "ar": "عرض الطلبات التي تنتظر قرارك من الأقدم"
+            },
+            {
+              "en": "Approve or reject with an optional note",
+              "ar": "الموافقة أو الرفض مع ملاحظة اختيارية"
+            },
+            {
+              "en": "See the workflow steps and the current step",
+              "ar": "عرض مراحل المسار والمرحلة الحالية"
+            },
+            {
+              "en": "See recent decisions",
+              "ar": "عرض آخر القرارات"
+            },
+            {
+              "en": "Covers leave, loans, employee requests, expenses, invoices and quotations",
+              "ar": "تشمل الإجازات والقروض وطلبات الموظفين والمصروفات والفواتير وعروض الأسعار"
+            },
+            {
+              "en": "Covers purchase requests, purchase orders and final settlements",
+              "ar": "تشمل طلبات الشراء وأوامر الشراء والتسويات النهائية"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Notifications",
+            "ar": "الإشعارات"
+          },
+          "items": [
+            {
+              "en": "Receive an in-app notification when an approval needs action",
+              "ar": "استلام إشعار داخل النظام عند وجود موافقة مطلوبة"
+            },
+            {
+              "en": "Receive a notification when your request is decided",
+              "ar": "استلام إشعار عند البت في طلبك"
+            },
+            {
+              "en": "Open the related record from the notification",
+              "ar": "فتح السجل المرتبط من الإشعار"
+            },
+            {
+              "en": "Mark one or all notifications as read",
+              "ar": "تحديد إشعار واحد أو الكل كمقروء"
+            },
+            {
+              "en": "Unread count shown in the top bar",
+              "ar": "عرض عدد غير المقروء في الشريط العلوي"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Reports",
+            "ar": "التقارير"
+          },
+          "items": [
+            {
+              "en": "Choose a date range for all indicators",
+              "ar": "اختيار فترة زمنية لجميع المؤشرات"
+            },
+            {
+              "en": "See new and completed work orders and work hours",
+              "ar": "عرض أوامر العمل الجديدة والمكتملة وساعات العمل"
+            },
+            {
+              "en": "See approved invoice and expense totals",
+              "ar": "عرض إجمالي الفواتير والمصروفات المعتمدة"
+            },
+            {
+              "en": "See work orders by status and workforce by department",
+              "ar": "عرض أوامر العمل حسب الحالة والقوة العاملة حسب القسم"
+            },
+            {
+              "en": "See leave by type and by status",
+              "ar": "عرض الإجازات حسب النوع والحالة"
+            },
+            {
+              "en": "See passports, visas and documents expiring within 60 days",
+              "ar": "عرض الجوازات والإقامات والوثائق التي تنتهي خلال 60 يوماً"
+            },
+            {
+              "en": "Export work orders to CSV and leave requests to Excel",
+              "ar": "تصدير أوامر العمل إلى CSV وطلبات الإجازة إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Guides & support",
+            "ar": "الأدلة والدعم"
+          },
+          "items": [
+            {
+              "en": "Read step-by-step procedure guides by category",
+              "ar": "قراءة أدلة العمليات خطوة بخطوة حسب التصنيف"
+            },
+            {
+              "en": "Search the guides",
+              "ar": "البحث في الأدلة"
+            },
+            {
+              "en": "Open a contextual guide panel on each screen",
+              "ar": "فتح لوحة إرشاد مرتبطة بكل شاشة"
+            },
+            {
+              "en": "Follow a company setup checklist and hide it when done",
+              "ar": "متابعة قائمة إعداد الشركة وإخفاؤها عند الانتهاء"
+            },
+            {
+              "en": "Open a support ticket with category, priority and attachment",
+              "ar": "فتح تذكرة دعم بتصنيف وأولوية ومرفق"
+            },
+            {
+              "en": "Reply to a ticket and attach files",
+              "ar": "الرد على التذكرة وإرفاق ملفات"
+            },
+            {
+              "en": "Follow ticket status",
+              "ar": "متابعة حالة التذكرة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Subscription & billing",
+            "ar": "الاشتراك والفوترة"
+          },
+          "items": [
+            {
+              "en": "See subscription status, main renewal date and outstanding balance",
+              "ar": "عرض حالة الاشتراك وتاريخ التجديد الرئيسي والرصيد المستحق"
+            },
+            {
+              "en": "See current Solutions with contract price and renewal date",
+              "ar": "عرض الحلول الحالية بالسعر التعاقدي وتاريخ التجديد"
+            },
+            {
+              "en": "Preview the expected renewal total with tax",
+              "ar": "معاينة إجمالي التجديد المتوقع مع الضريبة"
+            },
+            {
+              "en": "Browse the Solution catalog with prices",
+              "ar": "تصفح كتالوج الحلول مع الأسعار"
+            },
+            {
+              "en": "Preview price, tax and prorated amount before requesting a Solution",
+              "ar": "معاينة السعر والضريبة والمبلغ النسبي قبل طلب الحل"
+            },
+            {
+              "en": "Request a Solution with monthly or annual billing",
+              "ar": "طلب حل بفوترة شهرية أو سنوية"
+            },
+            {
+              "en": "Accept a modified offer",
+              "ar": "قبول العرض المعدّل"
+            },
+            {
+              "en": "Schedule cancellation of a Solution at renewal; data is kept",
+              "ar": "جدولة إلغاء الحل عند التجديد مع بقاء البيانات"
+            },
+            {
+              "en": "See subscription invoices, payments and payment proofs",
+              "ar": "عرض فواتير الاشتراك والمدفوعات وإثباتات الدفع"
+            },
+            {
+              "en": "Suggest a custom Solution for review",
+              "ar": "اقتراح حل مخصص للمراجعة"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Account & security",
+            "ar": "الحساب والأمان"
+          },
+          "items": [
+            {
+              "en": "Sign in with email and password",
+              "ar": "تسجيل الدخول بالبريد وكلمة المرور"
+            },
+            {
+              "en": "Sign in with a passkey",
+              "ar": "الدخول باستخدام مفتاح المرور"
+            },
+            {
+              "en": "Enable two-factor authentication with recovery codes",
+              "ar": "تفعيل المصادقة الثنائية مع رموز الاسترداد"
+            },
+            {
+              "en": "Add and remove passkeys",
+              "ar": "إضافة مفاتيح المرور وحذفها"
+            },
+            {
+              "en": "Reset a forgotten password by email",
+              "ar": "إعادة تعيين كلمة المرور المنسية بالبريد"
+            },
+            {
+              "en": "Update name, email and password",
+              "ar": "تحديث الاسم والبريد وكلمة المرور"
+            },
+            {
+              "en": "Choose light, dark or system appearance",
+              "ar": "اختيار المظهر الفاتح أو الداكن أو حسب النظام"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Language",
+            "ar": "اللغة"
+          },
+          "items": [
+            {
+              "en": "Switch between Arabic and English from the top bar",
+              "ar": "التبديل بين العربية والإنجليزية من الشريط العلوي"
+            },
+            {
+              "en": "Arabic screens are laid out right to left",
+              "ar": "عرض الشاشات العربية من اليمين إلى اليسار"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Data separation",
+            "ar": "فصل البيانات"
+          },
+          "items": [
+            {
+              "en": "Each company's records are separated from other companies",
+              "ar": "سجلات كل شركة مفصولة عن الشركات الأخرى"
+            },
+            {
+              "en": "Screens open only when the module and permission are active",
+              "ar": "تُفتح الشاشات فقط عند تفعيل الوحدة والصلاحية"
+            },
+            {
+              "en": "Private files are downloaded only by authorized users",
+              "ar": "تنزيل الملفات الخاصة للمستخدمين المخولين فقط"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Integrations",
+            "ar": "التكاملات"
+          },
+          "items": [
+            {
+              "en": "See the status of each integration",
+              "ar": "عرض حالة كل تكامل"
+            },
+            {
+              "en": "Open the eInvoicing setup from the integrations page",
+              "ar": "فتح إعداد الفوترة الإلكترونية من صفحة التكاملات"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "eInvoicing connector",
+            "ar": "موصل الفوترة الإلكترونية"
+          },
+          "items": [
+            {
+              "en": "See a readiness checklist for eInvoicing",
+              "ar": "عرض قائمة جاهزية الفوترة الإلكترونية"
+            },
+            {
+              "en": "Save provider, environment, participant ID and API token",
+              "ar": "حفظ المزود والبيئة ومعرف المنشأة ومفتاح API"
+            },
+            {
+              "en": "Test the connection; it is activated only when the test passes",
+              "ar": "اختبار الاتصال وتفعيله عند نجاح الاختبار فقط"
+            },
+            {
+              "en": "Send an issued invoice to the configured connector",
+              "ar": "إرسال فاتورة صادرة إلى الموصل المهيأ"
+            },
+            {
+              "en": "See counts of sent, failed and received documents",
+              "ar": "عرض أعداد المستندات الصادرة والفاشلة والواردة"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "System administrator",
+          "ar": "مدير النظام"
+        },
+        {
+          "en": "HR manager",
+          "ar": "مدير الموارد البشرية"
+        },
+        {
+          "en": "Facility manager",
+          "ar": "مدير المرافق"
+        },
+        {
+          "en": "Finance manager",
+          "ar": "المدير المالي"
+        },
+        {
+          "en": "Team manager",
+          "ar": "مدير فريق"
+        },
+        {
+          "en": "Employee",
+          "ar": "موظف"
+        },
+        {
+          "en": "Field technician",
+          "ar": "فني ميداني"
+        },
+        {
+          "en": "Property owner (client)",
+          "ar": "مالك عقار (عميل)"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "Every Solution uses the same users, roles and permissions",
+          "ar": "جميع الحلول تستخدم المستخدمين والأدوار والصلاحيات نفسها"
+        },
+        {
+          "en": "Every Solution uses the same approvals inbox and notifications",
+          "ar": "جميع الحلول تستخدم صندوق الموافقات والإشعارات نفسيهما"
+        },
+        {
+          "en": "Employee, client and supplier records are shared across Solutions",
+          "ar": "سجلات الموظف والعميل والمورد مشتركة بين الحلول"
+        }
+      ],
+      "limits": [
+        {
+          "en": "UAE eInvoicing is Setup Required: only a sandbox connector exists; no accredited provider, live exchange or tax reporting is connected.",
+          "ar": "الفوترة الإلكترونية الإماراتية «تحتاج إعداداً»: يوجد موصل Sandbox فقط، ولا يوجد مزود معتمد أو تبادل حي أو إبلاغ ضريبي."
+        },
+        {
+          "en": "Payment gateway, SMS, WhatsApp, external storage and accounting integrations are shown as Coming soon and are not built.",
+          "ar": "بوابة الدفع والرسائل النصية وواتساب والتخزين الخارجي والتكامل المحاسبي تظهر «قريباً» وغير منفذة."
+        },
+        {
+          "en": "Email delivery uses the hosting environment settings; approval emails are off unless enabled there.",
+          "ar": "البريد يعتمد إعدادات بيئة الاستضافة؛ وبريد الموافقات متوقف ما لم يُفعّل فيها."
+        },
+        {
+          "en": "Subscription billing is manual: no online checkout; invoices and payments are recorded by the platform team.",
+          "ar": "فوترة الاشتراك يدوية: لا يوجد دفع إلكتروني؛ ويسجل فريق المنصة الفواتير والمدفوعات."
+        },
+        {
+          "en": "Requesting a Solution does not activate it automatically.",
+          "ar": "طلب الحل لا يفعّله تلقائياً."
+        },
+        {
+          "en": "There is no screen to edit approval workflows or their steps.",
+          "ar": "لا توجد شاشة لتعديل مسارات الموافقات أو مراحلها."
+        },
+        {
+          "en": "Company logo and colors are set by the platform team, not by the company.",
+          "ar": "شعار الشركة وألوانها يضبطهما فريق المنصة لا الشركة."
+        },
+        {
+          "en": "There is no self sign-up; companies and their first administrator are created by the platform team.",
+          "ar": "لا يوجد تسجيل ذاتي؛ ينشئ فريق المنصة الشركات ومسؤولها الأول."
+        },
+        {
+          "en": "New roles cannot be created from the screen; only permissions of existing roles are edited.",
+          "ar": "لا يمكن إنشاء أدوار جديدة من الشاشة؛ تُعدّل صلاحيات الأدوار القائمة فقط."
+        },
+        {
+          "en": "There is no audit-log viewer and no general document library for company users.",
+          "ar": "لا يوجد عارض لسجل التدقيق ولا مكتبة مستندات عامة لمستخدمي الشركة."
+        },
+        {
+          "en": "Reports are fixed indicators; a report builder and advanced analytics are Coming soon.",
+          "ar": "التقارير مؤشرات ثابتة؛ ومنشئ التقارير والتحليلات المتقدمة «قريباً»."
+        },
+        {
+          "en": "File attachments exist only on leave requests, support tickets and employee documents.",
+          "ar": "المرفقات متاحة فقط لطلبات الإجازة وتذاكر الدعم ووثائق الموظفين."
+        }
+      ],
+      "evidence": [
+        "routes/web.php",
+        "routes/settings.php",
+        "resources/views/pages/⚡portal.blade.php",
+        "resources/views/pages/⚡access-control.blade.php",
+        "resources/views/pages/⚡approvals.blade.php",
+        "resources/views/pages/⚡notifications.blade.php",
+        "resources/views/pages/⚡reports.blade.php",
+        "resources/views/pages/⚡support-center.blade.php",
+        "resources/views/pages/⚡plan-services.blade.php",
+        "resources/views/pages/⚡company-integrations.blade.php",
+        "resources/views/pages/⚡company-compliance.blade.php",
+        "resources/views/pages/settings/⚡security.blade.php",
+        "resources/views/layouts/app/sidebar.blade.php",
+        "app/Actions/Platform/ProvisionOrganization.php",
+        "config/fortify.php"
+      ]
+    }
+  ]
+}

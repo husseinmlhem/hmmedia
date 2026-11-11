@@ -69,15 +69,16 @@ H.M One is our business operations platform for companies in the UAE and the reg
 
 Solutions available today:
 
-- **HR Management**: Employee records, interactive organization chart, contracts, documents, requests, loans, onboarding and offboarding, and end-of-service estimates.
-- **Attendance & Leave**: Attendance records and schedules, leave requests with approvals, spreadsheet import and reports.
-- **Payroll**: Payroll cycles, payslips, allowances, deductions and loans, with approvals.
-- **Facility Management**: Clients, properties and units, work orders, technician assignment, time and cost logs, with basic invoicing and collection.
-- **Asset Management**: Asset register with tags, locations, employee custody, assignment and return, documents, linked to work orders.
-- **Preventive Maintenance**: Recurring maintenance plans with due dates, automatic work orders and checklists.
-- **Procurement**: Suppliers, purchase requests with approvals, supplier quotes, purchase orders and partial or full receiving.
-- **Inventory & Spare Parts**: Items and warehouses with an auditable movement ledger: receive, issue, transfer and adjust.
-- **Finance & Expenses**: VAT invoices, credit notes, expenses and quotes, payments and receipts, with PDF and Excel export.
+- [HR Management](https://h-m.agency/one/hr/): Employee records, organization chart, contracts, documents, leave, requests, onboarding, offboarding and end-of-service estimates.
+- [Attendance & Leave](https://h-m.agency/one/attendance/): Clock in and out, monthly attendance records, fingerprint file import, public holidays and leave requests.
+- [Payroll](https://h-m.agency/one/payroll/): Monthly payroll periods calculated from contracts, allowances and loan installments, with approval, payment marking and payslips.
+- [Facility Management](https://h-m.agency/one/facility/): Clients, properties, units and work orders with team assignment, work logs, cost tracking and payment collection.
+- [Asset Management](https://h-m.agency/one/assets/): A register of equipment and devices with tag, serial number, purchase data and assignment to employees or properties.
+- [Preventive Maintenance](https://h-m.agency/one/maintenance/): Recurring maintenance plans per asset that generate one work order for each due date.
+- [Procurement](https://h-m.agency/one/procurement/): Suppliers, purchase requests, supplier quotations, purchase orders and goods receipt, with approval on requests and orders.
+- [Inventory & Spare Parts](https://h-m.agency/one/inventory/): Items, warehouses and a stock movement ledger; balances per item and warehouse come from posted movements.
+- [Finance & Expenses](https://h-m.agency/one/finance/): Itemized VAT invoices, credit notes and expense claims with approval, plus payments, allocations, receipts and reversals.
+- [Shared Platform](https://h-m.agency/one/platform/): Company workspace, users and roles, approvals, notifications, reports, guides and support, subscription screens, Arabic and English.
 
 Custom Solutions are built on request. Pricing is quoted per company; request it on WhatsApp.
 
