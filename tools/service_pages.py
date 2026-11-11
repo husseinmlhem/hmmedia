@@ -855,38 +855,45 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
     SITE = ctx["SITE"]
     url = f"{SITE}{LANG_PREFIX[lang]}/work/"
     h1_a, h1_b = w["h1"]
-
-    category = {n: key for key, numbers in sc.WORK_CATEGORIES.items() for n in numbers}
+    still_width = round(WALL_ROW_HEIGHT * 16 / 9)
 
     # The cards are a showcase only: they are not links.
-    def design_card(n: int, d: dict, hidden: bool) -> str:
-        width = round(WALL_ROW_HEIGHT * d["w"] / d["h"])
+    def image_card(src: str, width: int, alt: str, hidden: bool) -> str:
         extra = ' aria-hidden="true"' if hidden else ""
-        alt = "" if hidden else qa(w["design_alt"].format(n=n))
-        return (f'<div class="wall-card" data-cat="{category[n]}"{extra}>'
-                f'<img src="{d["thumb"]}" width="{width}" height="{WALL_ROW_HEIGHT}" loading="lazy" alt="{alt}"></div>')
+        return (f'<div class="wall-card"{extra}><img src="{src}" width="{width}" height="{WALL_ROW_HEIGHT}" loading="lazy" '
+                f'alt="{"" if hidden else qa(alt)}"></div>')
 
     def video_card(n: int, vid: str, hidden: bool) -> str:
         extra = ' aria-hidden="true"' if hidden else f' role="img" aria-label="{qa(w["video_label"].format(n=n))}"'
-        return (f'<div class="wall-card wall-video" data-cat="video" data-video="{vid}"{extra}>'
-                f'<img src="https://i.ytimg.com/vi/{vid}/hqdefault.jpg" width="{round(WALL_ROW_HEIGHT * 16 / 9)}" height="{WALL_ROW_HEIGHT}" loading="lazy" alt="">'
+        return (f'<div class="wall-card wall-video" data-video="{vid}"{extra}>'
+                f'<img src="https://i.ytimg.com/vi/{vid}/hqdefault.jpg" width="{still_width}" height="{WALL_ROW_HEIGHT}" loading="lazy" alt="">'
                 f'<span class="wall-live" aria-hidden="true"><svg><use href="#i-play"/></svg></span></div>')
 
-    designs = list(enumerate(ctx["designs"], 1))
-    rows = [designs[i::3] for i in range(3)]
+    # Video stills and designs alternate, so the wall shows many clients and kinds of work.
+    stills = [(f"/assets/home/wall-{n:02d}.webp", still_width, "") for n in range(1, HOME_WALL_STILLS + 1)]
+    designs = [(d["thumb"], round(WALL_ROW_HEIGHT * d["w"] / d["h"]), w["design_alt"].format(n=n)) for n, d in enumerate(ctx["designs"], 1)]
+    designs = designs[13:] + designs[:13]
+    mixed = []
+    for i in range(max(len(stills), len(designs))):
+        mixed += stills[i:i + 1] + designs[i:i + 1]
     rows_html = []
-    for r, items in enumerate(rows):
-        def cards(hidden: bool) -> str:
-            out = [design_card(n, d, hidden) for n, d in items]
-            if r < WALL_VIDEOS and r < len(ctx["videos"]):
-                out.insert(min(2, len(out)), video_card(r + 1, ctx["videos"][r], hidden))
-            return "".join(out)
-        rows_html.append(f'<div class="wall-row{" wall-row--rev" if r % 2 else ""}"><div class="wall-track" style="--t:{70 + r * 14}s">{cards(False)}{cards(True)}</div></div>')
+    for r in range(3):
+        items = mixed[r::3]
 
-    chips = "".join(
-        f'<button class="chip{" active" if key == "all" else ""}" type="button" data-filter="{key}" aria-pressed="{"true" if key == "all" else "false"}">{esc(label)}</button>'
-        for key, label in w["filters"]
-    )
+        def cards(hidden: bool) -> str:
+            out = [image_card(src, width, alt, hidden) for src, width, alt in items]
+            if r < WALL_VIDEOS and r < len(ctx["videos"]):
+                out.insert(min(3, len(out)), video_card(r + 1, ctx["videos"][r], hidden))
+            return "".join(out)
+        rows_html.append(f'<div class="wall-row{" wall-row--rev" if r % 2 else ""}"><div class="wall-track" style="--t:{80 + r * 16}s">{cards(False)}{cards(True)}</div></div>')
+
+    index = 0 if lang == "en" else 1
+    fields = [f[index] for f in sc.WORK_FIELDS]
+    rotator = json.dumps(fields, ensure_ascii=False)
+    field_links = "".join(
+        f'<li><a href="{qa(wa_link(ctx, w["wa_field"].format(field=field)))}" target="_blank" rel="noopener">{esc(field)}</a></li>'
+        for field in fields
+    ) + f'<li class="fields-more">{esc(w["more_fields"])}</li>'
     graph = [
         {"@type": ["Organization", "ProfessionalService"], "@id": ctx["ORG_ID"], "name": ctx["BRAND"], "url": SITE + "/"},
         {"@type": "CollectionPage", "@id": f"{url}#webpage", "url": url, "name": w["title"], "description": w["description"], "inLanguage": lang,
@@ -899,7 +906,7 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
   <div class="container folio-copy">
     <h1 class="folio-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
     <p class="svc-intro">{esc(w['intro'])}</p>
-    <div class="chips" id="wall-filters" role="group" aria-label="{qa(w['filters_label'])}" hidden>{chips}</div>
+    <p class="looking">{esc(w['looking'])} <span class="looking-word" id="looking-word" data-words="{qa(rotator)}">{esc(fields[0])}</span>{"؟" if lang == "ar" else "?"}</p>
   </div>
   <div class="wall" role="group" aria-label="{qa(w['wall_label'])}">
     <div class="wall-plane">
@@ -910,6 +917,9 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
       <svg class="ic"><use href="#i-wa"/></svg> <span>{esc(w['cta'])}</span> <span class="arr" aria-hidden="true">→</span>
     </a>
   </div>
+  <nav class="fields" aria-label="{qa(w['fields_label'])}">
+    <ul class="fields-track">{field_links}</ul>
+  </nav>
 </section>
 </main>"""
     return page_shell(ctx, lang, head, "work", main, pages)

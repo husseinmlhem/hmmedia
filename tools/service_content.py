@@ -728,25 +728,34 @@ ONE = {
 }
 
 # --------------------------------------------------------------------------- Work (portfolio)
-# Which filter each design sample belongs to (sample numbers follow tools/work_designs.json order).
-WORK_CATEGORIES = {
-    "product": [1, 2, 3, 4, 5, 6, 8, 9],
-    "campaign": [7, 10, 11, 12, 13, 14, 15],
-    "social": [16, 17, 18, 19, 20, 21, 22, 23],
-}
+# Fields we have delivered work in. The portfolio page shows a sample; each field opens a WhatsApp request.
+WORK_FIELDS = [
+    ("Real estate", "العقارات"),
+    ("Retail", "التجزئة"),
+    ("Healthcare", "الرعاية الصحية"),
+    ("Beauty & perfume", "التجميل والعطور"),
+    ("Food & beverage", "الأغذية والمشروبات"),
+    ("Technology", "التقنية"),
+    ("Events", "الفعاليات"),
+    ("Sports", "الرياضة"),
+    ("Mobile apps", "تطبيقات الجوال"),
+    ("Gaming", "الألعاب"),
+]
 
 WORK = {
     "en": {
         "nav": "Portfolio",
         "title": "Our Portfolio | H.M Media",
-        "description": "The H.M Media portfolio: brand and campaign designs, product visuals, video and motion graphics. Tell us your field and we send the work that fits.",
+        "description": "The H.M Media portfolio: a sample from 500+ projects in design, product visuals, video and motion graphics. Tell us your field and we send the work that fits.",
         "label": "Portfolio",
         "h1": ("Our", "Portfolio."),
-        "intro": "Too big for one page. Tell us your field and we send the work that fits.",
-        "cta": "Request our portfolio",
-        "filters_label": "Filter the work",
-        "filters": [("all", "All"), ("product", "Product visuals"), ("campaign", "Campaigns"), ("social", "Social media"), ("video", "Video")],
+        "intro": "500+ projects. This is a small sample.",
+        "looking": "Looking for",
+        "cta": "Request work in your field",
+        "fields_label": "Fields we work in",
+        "more_fields": "and more",
         "wa_all": "Hi Hussein, I'd like to see your portfolio.\nSelected from: Portfolio page.\nMy field:",
+        "wa_field": "Hi Hussein, please send me your work in: {field}.\nSelected from: Portfolio page.",
         "wall_label": "Samples of our work",
         "design_alt": "H.M Media design work, sample {n}",
         "video_label": "Video sample {n}",
@@ -755,14 +764,16 @@ WORK = {
     "ar": {
         "nav": "أعمالنا",
         "title": "أعمالنا | H.M Media",
-        "description": "أعمال H.M Media: تصاميم العلامات والحملات، صور المنتجات، الفيديو والموشن جرافيك. أخبرنا بمجالك ونرسل لك الأعمال المناسبة.",
+        "description": "أعمال H.M Media: عيّنة من أكثر من 500 مشروع في التصميم وصور المنتجات والفيديو والموشن جرافيك. أخبرنا بمجالك ونرسل لك الأعمال المناسبة.",
         "label": "أعمالنا",
         "h1": ("معرض", "أعمالنا."),
-        "intro": "أكبر من أن تسعه صفحة واحدة. أخبرنا بمجالك ونرسل لك الأعمال المناسبة.",
-        "cta": "اطلب معرض أعمالنا",
-        "filters_label": "تصفية الأعمال",
-        "filters": [("all", "الكل"), ("product", "صور المنتجات"), ("campaign", "الحملات"), ("social", "سوشال ميديا"), ("video", "فيديو")],
+        "intro": "أكثر من 500 مشروع. وهذه عيّنة صغيرة.",
+        "looking": "تبحث عن",
+        "cta": "اطلب أعمالاً في مجالك",
+        "fields_label": "مجالات نعمل فيها",
+        "more_fields": "وغيرها",
         "wa_all": "مرحباً حسين، أريد الاطلاع على معرض أعمالكم.\nالاختيار: صفحة أعمالنا.\nمجالي:",
+        "wa_field": "مرحباً حسين، أرجو إرسال أعمالكم في مجال: {field}.\nالاختيار: صفحة أعمالنا.",
         "wall_label": "نماذج من أعمالنا",
         "design_alt": "من أعمال التصميم لدى H.M Media، نموذج {n}",
         "video_label": "نموذج فيديو {n}",

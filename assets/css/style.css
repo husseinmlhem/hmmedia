@@ -897,3 +897,16 @@ html[lang="ar"] .tile-title { letter-spacing: 0; }
 @media (max-width: 1024px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .tiles { gap: 10px; } .tile { border-radius: 18px; } .tile-body { padding: 14px; } .tile-art .orb { scale: 0.7; } }
 @media (prefers-reduced-motion: reduce) { .hero-slides img { transition: none; transform: none; } .hero-cue span { animation: none; } }
+
+
+/* ---------- Portfolio: rotating field and the strip of fields ---------- */
+.looking { margin-top: 18px; font-size: clamp(20px, 2.6vw, 32px); font-weight: 600; letter-spacing: -0.02em; color: var(--text-2); }
+html[lang="ar"] .looking { letter-spacing: 0; }
+.looking-word { display: inline-block; color: var(--accent-hi); transition: opacity 0.3s, transform 0.3s; }
+.looking-word.swap { opacity: 0; transform: translateY(10px); }
+.fields { direction: ltr; overflow: hidden; padding-block: 22px 34px; border-top: 1px solid var(--line); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.fields-track { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 12px; padding-inline: var(--gutter); }
+.fields-track a, .fields-more { display: inline-flex; align-items: center; height: 40px; padding-inline: 18px; border-radius: 999px; font-size: 14.5px; white-space: nowrap; color: var(--text-2); border: 1px solid var(--line-2); background: rgba(255, 255, 255, 0.03); transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s; }
+.fields-track a:hover { color: var(--on-accent); background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+.fields-more { border-style: dashed; color: var(--text-3); }
+[dir="rtl"] .fields-track { direction: rtl; }
