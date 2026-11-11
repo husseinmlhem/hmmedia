@@ -604,7 +604,7 @@ ABOUT = {
 # --------------------------------------------------------------------------- H.M One (business software)
 # The platform's sign-in address. Leave as None until the platform is live: the "Log in" button and the
 # login link in the structured data are only published when this is set.
-ONE_APP_URL = None
+ONE_APP_URL = "https://one.h-m.agency/login"
 
 # Solutions that are available in the platform today. Descriptions state what exists and nothing more.
 ONE_SOLUTIONS = [
