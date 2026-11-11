@@ -2413,6 +2413,367 @@
       ]
     },
     {
+      "slug": "retail",
+      "name": {
+        "en": "Retail POS",
+        "ar": "نقطة البيع والمتجر"
+      },
+      "summary": {
+        "en": "Sell by barcode on phone or laptop, with stock, customer debts, suppliers, expenses and live profit in two currencies.",
+        "ar": "بيع بالباركود من الموبايل أو اللابتوب، مع المخزون وديون الزبائن والموردين والمصاريف والربح المباشر بعملتين."
+      },
+      "highlights": [
+        {
+          "en": "Barcode selling on any device",
+          "ar": "بيع بالباركود من أي جهاز"
+        },
+        {
+          "en": "Two currencies with your rate",
+          "ar": "عملتان بسعر الصرف الذي تحدده"
+        },
+        {
+          "en": "Customer debt book",
+          "ar": "دفتر ديون الزبائن"
+        },
+        {
+          "en": "Stock drops with every sale",
+          "ar": "المخزون ينقص مع كل بيعة"
+        },
+        {
+          "en": "Live sales and profit",
+          "ar": "مبيعات وربح مباشرة"
+        },
+        {
+          "en": "Cashier roles without cost or profit",
+          "ar": "أدوار كاشير بلا كلفة أو ربح"
+        }
+      ],
+      "groups": [
+        {
+          "title": {
+            "en": "Selling",
+            "ar": "البيع"
+          },
+          "items": [
+            {
+              "en": "Scan a barcode with a USB scanner or the phone camera",
+              "ar": "مسح الباركود بقارئ USB أو كاميرا الموبايل"
+            },
+            {
+              "en": "Search products by name and tap large tiles by category",
+              "ar": "البحث بالاسم والضغط على بلاطات كبيرة حسب الفئة"
+            },
+            {
+              "en": "Sell by weight with decimal quantities",
+              "ar": "البيع بالوزن بكميات عشرية"
+            },
+            {
+              "en": "Discount per line or on the whole sale, amount or percent",
+              "ar": "خصم على السطر أو على الفاتورة، مبلغاً أو نسبة"
+            },
+            {
+              "en": "Discount limit per role, higher limit by permission",
+              "ar": "حد للخصم حسب الدور، وحد أعلى بصلاحية"
+            },
+            {
+              "en": "Pay by cash, card, transfer or wallet, in either currency or mixed",
+              "ar": "الدفع نقداً أو بطاقة أو تحويلاً أو محفظة، بأي عملة أو مختلطاً"
+            },
+            {
+              "en": "Change due shown live in the chosen currency",
+              "ar": "عرض الباقي للزبون مباشرة بالعملة المختارة"
+            },
+            {
+              "en": "Sell on account for all or part of the sale",
+              "ar": "البيع على الحساب كلياً أو جزئياً"
+            },
+            {
+              "en": "Add an unknown barcode as a new product from the counter",
+              "ar": "إضافة باركود جديد كصنف من شاشة البيع"
+            },
+            {
+              "en": "Hold a cart and resume it later",
+              "ar": "تعليق السلة والرجوع إليها لاحقاً"
+            },
+            {
+              "en": "Block selling below zero stock, or allow it by setting",
+              "ar": "منع البيع تحت الصفر، أو السماح به من الإعدادات"
+            },
+            {
+              "en": "Keyboard shortcuts on laptop",
+              "ar": "اختصارات لوحة المفاتيح على اللابتوب"
+            },
+            {
+              "en": "Print a receipt for 80mm or 58mm printers",
+              "ar": "طباعة إيصال لطابعات 80 أو 58 ملم"
+            },
+            {
+              "en": "Share the receipt on WhatsApp",
+              "ar": "إرسال الإيصال على واتساب"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Sales log",
+            "ar": "سجل المبيعات"
+          },
+          "items": [
+            {
+              "en": "Filter by day, cashier, customer, payment type and status",
+              "ar": "تصفية حسب اليوم والكاشير والزبون وطريقة الدفع والحالة"
+            },
+            {
+              "en": "Void a sale with a reason; stock and money return",
+              "ar": "إلغاء بيعة بسبب؛ يرجع المخزون والمال"
+            },
+            {
+              "en": "Partial return with refund or debt reduction",
+              "ar": "مرتجع جزئي مع استرداد أو تخفيض الدين"
+            },
+            {
+              "en": "Export sales and sale lines to Excel",
+              "ar": "تصدير المبيعات وسطورها إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Products and stock",
+            "ar": "المنتجات والمخزون"
+          },
+          "items": [
+            {
+              "en": "Products with barcode, extra barcodes, category, unit and prices",
+              "ar": "أصناف بباركود وباركودات إضافية وفئة ووحدة وأسعار"
+            },
+            {
+              "en": "Stock decreases automatically with every sale",
+              "ar": "المخزون ينقص تلقائياً مع كل بيعة"
+            },
+            {
+              "en": "Low-stock alerts by reorder level",
+              "ar": "تنبيه عند اقتراب الصنف من النفاد"
+            },
+            {
+              "en": "Stock count adjustment with a reason",
+              "ar": "تسوية جرد بسبب"
+            },
+            {
+              "en": "Import products from Excel with a ready template",
+              "ar": "استيراد الأصناف من Excel بقالب جاهز"
+            },
+            {
+              "en": "Last cost and moving average cost per product",
+              "ar": "آخر كلفة ومتوسط كلفة لكل صنف"
+            },
+            {
+              "en": "Export products with stock and prices",
+              "ar": "تصدير الأصناف مع المخزون والأسعار"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Customers and debts",
+            "ar": "الزبائن والديون"
+          },
+          "items": [
+            {
+              "en": "Customer with phone and optional credit limit",
+              "ar": "زبون برقم هاتف وحد دين اختياري"
+            },
+            {
+              "en": "Debt book with each customer's balance",
+              "ar": "دفتر ديون برصيد كل زبون"
+            },
+            {
+              "en": "Record a payment, allocated oldest-first or to a chosen sale",
+              "ar": "تسجيل دفعة توزَّع على الأقدم أو على بيعة محددة"
+            },
+            {
+              "en": "Statement per customer with running balance",
+              "ar": "كشف حساب لكل زبون برصيد متحرك"
+            },
+            {
+              "en": "WhatsApp reminder with the balance",
+              "ar": "تذكير واتساب بالرصيد"
+            },
+            {
+              "en": "Export debts and statements to Excel",
+              "ar": "تصدير الديون وكشوف الحساب إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Suppliers and purchases",
+            "ar": "الموردون والمشتريات"
+          },
+          "items": [
+            {
+              "en": "Receive goods from a supplier in one step",
+              "ar": "استلام البضاعة من المورد بخطوة واحدة"
+            },
+            {
+              "en": "Paid now, partly, or on account",
+              "ar": "مدفوع الآن أو جزئياً أو على الحساب"
+            },
+            {
+              "en": "Supplier balances and payments",
+              "ar": "أرصدة الموردين ودفعاتهم"
+            },
+            {
+              "en": "Update the sale price while receiving",
+              "ar": "تحديث سعر البيع أثناء الاستلام"
+            },
+            {
+              "en": "Export purchases to Excel",
+              "ar": "تصدير المشتريات إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Expenses",
+            "ar": "المصاريف"
+          },
+          "items": [
+            {
+              "en": "Quick entry with categories: rent, electricity, generator, salaries, transport",
+              "ar": "إدخال سريع بفئات: إيجار، كهرباء، مولّد، رواتب، نقل"
+            },
+            {
+              "en": "Paid from the drawer or not",
+              "ar": "مدفوع من الصندوق أو لا"
+            },
+            {
+              "en": "Void with a reason, export to Excel",
+              "ar": "إلغاء بسبب، وتصدير إلى Excel"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Dashboard",
+            "ar": "لوحة المتجر"
+          },
+          "items": [
+            {
+              "en": "Sales, number of sales and average basket",
+              "ar": "المبيعات وعددها ومتوسط السلة"
+            },
+            {
+              "en": "Gross profit, margin, expenses and net",
+              "ar": "الربح الإجمالي والهامش والمصاريف والصافي"
+            },
+            {
+              "en": "Cash, card and credit split",
+              "ar": "توزيع النقد والبطاقة والدين"
+            },
+            {
+              "en": "Top-selling items and low-stock items",
+              "ar": "الأصناف الأكثر مبيعاً والأقرب إلى النفاد"
+            },
+            {
+              "en": "Total customer debt and top debtors",
+              "ar": "مجموع ديون الزبائن وأكبر المدينين"
+            },
+            {
+              "en": "Sales by day, by hour and by cashier",
+              "ar": "المبيعات حسب اليوم والساعة والكاشير"
+            },
+            {
+              "en": "Numbers refresh on their own on your phone",
+              "ar": "الأرقام تتحدث تلقائياً على هاتفك"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Cash drawer",
+            "ar": "الصندوق"
+          },
+          "items": [
+            {
+              "en": "Open a shift with a float per currency",
+              "ar": "فتح وردية بمبلغ افتتاحي لكل عملة"
+            },
+            {
+              "en": "Close with counted cash; expected versus counted difference",
+              "ar": "إغلاق بعد العدّ؛ الفرق بين المتوقع والمعدود"
+            },
+            {
+              "en": "Shift history and export",
+              "ar": "سجل الورديات وتصديره"
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Settings",
+            "ar": "الإعدادات"
+          },
+          "items": [
+            {
+              "en": "Base currency plus a second currency with a manual exchange rate and history",
+              "ar": "عملة أساسية وعملة ثانية بسعر صرف يدوي مع سجله"
+            },
+            {
+              "en": "Rounding rule for the second currency",
+              "ar": "قاعدة تقريب للعملة الثانية"
+            },
+            {
+              "en": "Payment methods you name yourself",
+              "ar": "طرق دفع تسميها بنفسك"
+            },
+            {
+              "en": "Expense categories",
+              "ar": "فئات المصاريف"
+            },
+            {
+              "en": "Install on the phone like an app",
+              "ar": "تثبيتها على الهاتف كتطبيق"
+            }
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "en": "Shop manager",
+          "ar": "مدير المتجر"
+        },
+        {
+          "en": "Cashier",
+          "ar": "كاشير"
+        },
+        {
+          "en": "Stock keeper",
+          "ar": "أمين المخزن"
+        }
+      ],
+      "works_with": [
+        {
+          "en": "Shared Platform: users, roles, Arabic and English, one workspace per shop",
+          "ar": "المنصة الأساسية: المستخدمون والأدوار والعربية والإنجليزية ومساحة عمل لكل متجر"
+        }
+      ],
+      "limits": [
+        {
+          "en": "Needs an internet connection; no offline mode",
+          "ar": "يحتاج اتصالاً بالإنترنت؛ لا يعمل دون اتصال"
+        },
+        {
+          "en": "Camera scanning is not available on iPhone Safari; USB scanners work everywhere",
+          "ar": "المسح بالكاميرا غير متاح على سفاري آيفون؛ قارئ USB يعمل في كل مكان"
+        }
+      ],
+      "evidence": [
+        "app/Actions/Retail",
+        "resources/views/pages/⚡retail-sell.blade.php"
+      ]
+    },
+    {
       "slug": "platform",
       "name": {
         "en": "Shared Platform",

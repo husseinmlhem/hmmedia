@@ -812,6 +812,10 @@ ONE_VISUALS = {
         "flow": [("Create invoice", "إنشاء فاتورة"), ("Approve", "الاعتماد"), ("Issue", "الإصدار"), ("Record payment", "تسجيل الدفعة"), ("Receipt", "الإيصال"), ("Excel & print", "Excel والطباعة")],
         "screens": [("finance", "Finance and billing", "المالية والفوترة"), ("payments", "Payments and receipts", "الدفعات والإيصالات")],
     },
+    "retail": {
+        "flow": [("Scan", "مسح"), ("Cart", "السلة"), ("Discount", "الخصم"), ("Pay in any currency", "الدفع بأي عملة"), ("Receipt", "الإيصال"), ("Stock & profit update", "تحديث المخزون والربح")],
+        "screens": [("retail-sell", "Counter", "شاشة البيع"), ("retail-sell-phone", "Counter on the phone", "البيع على الموبايل"), ("retail-dashboard", "Shop dashboard", "لوحة المتجر"), ("retail-debts", "Debt book", "دفتر الديون"), ("retail-products", "Products", "المنتجات")],
+    },
     "platform": {
         "flow": [("Company workspace", "مساحة عمل الشركة"), ("Users & roles", "المستخدمون والأدوار"), ("Activate Solutions", "تفعيل الحلول"), ("Approvals", "الموافقات"), ("Reports", "التقارير")],
         "screens": [("workspace", "Company workspace", "مساحة عمل الشركة"), ("approvals", "Approvals inbox", "صندوق الموافقات"), ("reports", "Executive reports", "التقارير التنفيذية"), ("access-control", "Users and access", "المستخدمون والصلاحيات")],
