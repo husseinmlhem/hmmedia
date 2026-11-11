@@ -159,7 +159,7 @@ def header_html(ctx: dict, lang: str, slug: str, alt_paths: dict | None = None) 
     ui = sc.UI[lang]
     paths = alt_paths or {"en": path("en", slug), "ar": path("ar", slug)}
     links = "\n".join(
-        f'        <li class="nav-one"><a href="{home_path(lang, anchor)}" aria-label="H.M One"><img src="/assets/img/hm-one-logo.png" width="348" height="369" alt="H.M One"></a></li>'
+        f'        <li class="nav-one"><a href="{home_path(lang, anchor)}" aria-label="H.M One"><img src="/assets/img/hm-one-logo.svg" width="1014" height="614" alt="H.M One"></a></li>'
         if anchor == "one/" else f'        <li><a href="{home_path(lang, anchor)}">{esc(label)}</a></li>'
         for anchor, label in ui["nav"]
     )
@@ -167,8 +167,6 @@ def header_html(ctx: dict, lang: str, slug: str, alt_paths: dict | None = None) 
     en_current = ' class="lang-btn active" aria-current="true"' if lang == "en" else ' class="lang-btn"'
     ar_current = ' class="lang-btn active" aria-current="true"' if lang == "ar" else ' class="lang-btn"'
     cta = f'<a class="btn btn-accent btn-sm nav-cta" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener"><span>{esc(ui["start"])}</span> <span class="arr" aria-hidden="true">→</span></a>'
-    if slug.split("/")[0] == "one" and sc.ONE_APP_URL:
-        cta = f'<a class="btn btn-accent btn-sm nav-cta nav-cta--keep" href="{sc.ONE_APP_URL}">{LOGIN_ICON} <span>{esc(sc.ONE[lang]["cta_login"])}</span></a>'
     return f"""<header class="nav" id="nav">
   <div class="container nav-inner">
     <a href="{home_path(lang)}" class="brand" aria-label="H.M Media">
@@ -196,6 +194,7 @@ def footer_html(ctx: dict, lang: str, pages: list[dict]) -> str:
     ui = sc.UI[lang]
     links = "\n".join(f'      <li><a href="{path(lang, p["slug"])}">{esc(link_label(p, lang))}</a></li>' for p in pages)
     tag_a, tag_b = ui["footer_tag"]
+    login_link = f'\n          <li><a href="{sc.ONE_APP_URL}">{esc(sc.ONE[lang]["footer_login"])}</a></li>' if sc.ONE_APP_URL else ""
     social = "\n".join(f'          <li><a href="{u}" target="_blank" rel="noopener">{esc(n)}</a></li>' for n, u in ctx["SOCIAL_LINKS"])
     return f"""<footer class="footer">
   <div class="container">
@@ -224,7 +223,7 @@ def footer_html(ctx: dict, lang: str, pages: list[dict]) -> str:
         <h3 class="footer-h">{esc(ui['footer_contact'])}</h3>
         <ul>
           <li><a href="{qa(wa_link(ctx, ui['wa_talk'].format(source='Footer' if lang == 'en' else 'أسفل الموقع')))}" target="_blank" rel="noopener">{esc(ui['whatsapp'])}</a></li>
-          <li><a href="mailto:{ctx['EMAIL']}">{esc(ui['email'])}</a></li>
+          <li><a href="mailto:{ctx['EMAIL']}">{esc(ui['email'])}</a></li>{login_link}
         </ul>
       </div>
     </div>
@@ -755,7 +754,29 @@ ONE_SCREENS = [
     ("operations-work-orders", "Work orders", "أوامر العمل"),
 ]
 
-ONE_LOGO = '<img src="/assets/img/hm-one-logo.png" width="348" height="369" alt="H.M One">'
+ONE_LOGO = '<img src="/assets/img/hm-one-logo.svg" width="1014" height="614" alt="H.M One">'
+
+
+def portal_html(lang: str) -> str:
+    """The customer entrance to the platform: shown only on the H.M One page, once the platform has an address."""
+    if not sc.ONE_APP_URL:
+        return ""
+    o = sc.ONE[lang]
+    a, b = o["portal_h"]
+    return f"""<section class="section section--tight" id="login">
+  <div class="container">
+    <div class="portal rv">
+      <div class="portal-in">
+        <div class="portal-gate" aria-hidden="true"><i></i><i></i><i></i><span>{LOGIN_ICON}</span></div>
+        <div class="portal-copy">
+          <span class="eyebrow">{esc(o['portal_eyebrow'])}</span>
+          <h2 class="svc-h2">{esc(a)} <span class="grad">{esc(b)}</span></h2>
+        </div>
+        <a class="btn btn-accent btn-lg portal-btn" href="{sc.ONE_APP_URL}">{LOGIN_ICON} <span>{esc(o['cta_login'])}</span> <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>"""
 
 
 def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
@@ -769,16 +790,11 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
     faq_a, faq_b = ui["faq_h"]
     wa_ready = qa(wa_link(ctx, o["wa_ready"]))
     wa_custom = qa(wa_link(ctx, o["wa_custom"]))
-    if sc.ONE_APP_URL:
-        buttons = f"""<div class="svc-hero-cta">
-      <a class="btn btn-accent btn-lg" href="{sc.ONE_APP_URL}">{LOGIN_ICON} <span>{esc(o['cta_login'])}</span></a>
-      <a class="btn btn-ghost btn-lg" href="{wa_ready}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(o['cta_ready'])}</span></a>
-    </div>"""
-    else:
-        buttons = f"""<div class="svc-hero-cta">
+    buttons = f"""<div class="svc-hero-cta">
       <a class="btn btn-accent btn-lg" href="{wa_ready}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(o['cta_ready'])}</span></a>
       <a class="btn btn-ghost btn-lg" href="{wa_custom}" target="_blank" rel="noopener">{esc(o['cta_custom'])}</a>
     </div>"""
+    portal = portal_html(lang)
     name_at = 1 if lang == "en" else 2
     screens = "".join(
         f'<figure class="screen"><img src="/assets/one/{shot[0]}.webp" width="1600" height="1000" loading="lazy" alt="{qa(o["screen_alt"].format(name=shot[name_at]))}">'
@@ -866,6 +882,8 @@ def render_one(ctx: dict, lang: str, pages: list[dict]) -> str:
   </div>
 </section>
 
+{portal}
+
 <section class="section section--tight" id="faq">
   <div class="container">
     <h2 class="svc-h2">{esc(faq_a)} <span class="grad">{esc(faq_b)}</span></h2>
@@ -897,10 +915,9 @@ def render_one_solution(ctx: dict, lang: str, sol: dict, pages: list[dict]) -> s
     fn_a, fn_b = o["functions_h"]
     oth_a, oth_b = o["others_h"]
     wa = qa(wa_link(ctx, o["wa_solution_page"].format(name=name)))
-    login = f'<a class="btn btn-ghost btn-lg" href="{sc.ONE_APP_URL}">{LOGIN_ICON} <span>{esc(o["cta_login"])}</span></a>' if sc.ONE_APP_URL else ""
     buttons = f"""<div class="svc-hero-cta">
       <a class="btn btn-accent btn-lg" href="{wa}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(o['sol_request'])}</span></a>
-      {login}
+      <a class="btn btn-ghost btn-lg" href="{LANG_PREFIX[lang]}/one/">{esc(o['all_solutions'])}</a>
     </div>"""
     highlights = "".join(f'<li class="pill">{esc(h[lang])}</li>' for h in sol["highlights"])
     jump = "".join(f'<li><a href="#g{i}">{esc(g["title"][lang])} <small>{len(g["items"])}</small></a></li>' for i, g in enumerate(sol["groups"], 1))
