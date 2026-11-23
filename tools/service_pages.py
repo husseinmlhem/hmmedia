@@ -308,6 +308,8 @@ def head_common(ctx: dict, lang: str, *, title: str, description: str, en_path: 
         data,
         "</script>",
         f'<script src="/{asset_version("assets/js/service.js")}" defer></script>',
+        # Cloudflare Web Analytics: cookie-free page-view counter (same tag as index.html).
+        '<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{"token": "1f3ffe543cd34177ad6e41f13e91916a"}\'></script>',
     ]
     return "\n".join(lines)
 
