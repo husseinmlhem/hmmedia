@@ -177,6 +177,22 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://h-m.agency/services/exhibition-stand-artwork/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/exhibition-stand-artwork/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/exhibition-stand-artwork/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/exhibition-stand-artwork/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://h-m.agency/ar/services/exhibition-stand-artwork/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/services/exhibition-stand-artwork/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/services/exhibition-stand-artwork/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://h-m.agency/services/exhibition-stand-artwork/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://h-m.agency/one/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://h-m.agency/one/"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://h-m.agency/ar/one/"/>

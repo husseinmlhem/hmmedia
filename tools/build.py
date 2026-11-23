@@ -432,7 +432,8 @@ def llms_txt(page: PageParser, pages: list[dict]) -> str:
             lines += [f"## {heading}", ""] if current is None else ["", f"## {heading}", ""]
             current = heading
         desc = f": {service['desc']['en']}" if service["desc"] else ""
-        lines.append(f"- **{service['title']['en']}** (from {service['price']['en']}){desc}")
+        price = f"from {service['price']['en']}" if parse_price(service["price"]["en"])[0] is not None else "price on request"
+        lines.append(f"- **{service['title']['en']}** ({price}){desc}")
     lines += ["", "## Service pages (English; the same pages exist in Arabic under /ar/)", ""]
     for p in pages:
         lines.append(f"- [{p['title']['en']}]({SITE}/services/{p['slug']}/): {p['description']['en']}")

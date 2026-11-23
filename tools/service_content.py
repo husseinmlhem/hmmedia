@@ -384,16 +384,16 @@ GROUP_PAGES = [
         "label": {"en": "Design", "ar": "تصميم"},
         "title": {"en": "Design Services: Social, Logo, Presentation & Print", "ar": "خدمات التصميم: سوشيال وشعارات وعروض ومطبوعات"},
         "description": {
-            "en": "Social media designs, logo and brand look, presentations and company profiles, print and event designs, from AED 199. H.M Media serves brands across the UAE, GCC and the Middle East.",
-            "ar": "تصاميم سوشيال ميديا وشعار ومظهر للعلامة وعروض تقديمية وبروفايل شركة وتصاميم مطبوعات وفعاليات، تبدأ من 199 درهم. تخدم H.M Media العلامات التجارية في الإمارات والخليج والشرق الأوسط.",
+            "en": "Social media designs, logo and brand look, presentations and company profiles, print and event designs, and exhibition stand artwork, from AED 199. H.M Media serves brands across the UAE, GCC and the Middle East.",
+            "ar": "تصاميم سوشيال ميديا وشعار ومظهر للعلامة وعروض تقديمية وبروفايل شركة وتصاميم مطبوعات وفعاليات وارت ورك ستاندات المعارض، تبدأ من 199 درهم. تخدم H.M Media العلامات التجارية في الإمارات والخليج والشرق الأوسط.",
         },
         "h1": {"en": ("Design services", "for brands in the UAE and GCC."), "ar": ("خدمات التصميم", "للعلامات التجارية في الإمارات والخليج.")},
         "intro": {
-            "en": "Social media designs, logo and brand look, presentations and company profiles, and print and event designs. Each service below has a clear starting price, and you get an exact quote before work starts.",
-            "ar": "تصاميم سوشيال ميديا وشعار ومظهر للعلامة وعروض تقديمية وبروفايل شركة وتصاميم مطبوعات وفعاليات. لكل خدمة أدناه سعر بداية واضح، وتحصل على عرض سعر دقيق قبل بدء العمل.",
+            "en": "Social media designs, logo and brand look, presentations and company profiles, print and event designs, and exhibition stand artwork. Each service below has a clear starting price or a quote on request, and you get an exact quote before work starts.",
+            "ar": "تصاميم سوشيال ميديا وشعار ومظهر للعلامة وعروض تقديمية وبروفايل شركة وتصاميم مطبوعات وفعاليات وارت ورك ستاندات المعارض. لكل خدمة أدناه سعر بداية واضح أو سعر حسب الطلب، وتحصل على عرض سعر دقيق قبل بدء العمل.",
         },
         "faq_extra": ["Can I request a one-time project instead of a monthly package?"],
-        "related": ["video-and-motion", "marketing-and-growth", "ai-product-visuals"],
+        "related": ["exhibition-stand-artwork", "video-and-motion", "marketing-and-growth", "ai-product-visuals"],
     },
     {
         "slug": "video-and-motion",
@@ -448,6 +448,114 @@ GROUP_PAGES = [
     },
 ]
 
+# --------------------------------------------------------------------------- single agency service pages
+# One agency service (a row inside an agency group on the home page) that gets its own landing page.
+# `match` is the English service title on the home page (data-request-title). The scope below was
+# confirmed by the owner: artwork only (no stand building), print-ready files to the stand builder's
+# specs, a stand mockup, matching event designs and file updates; price on request.
+AGENCY_PAGES = [
+    {
+        "slug": "exhibition-stand-artwork",
+        "match": "Exhibition Stand Artwork",
+        "title": {
+            "en": "Exhibition Stand Artwork & Booth Graphics Design",
+            "ar": "تصميم ارت ورك ستاندات المعارض وجرافيك البوث",
+        },
+        "description": {
+            "en": "Exhibition stand artwork and booth graphics for trade shows and events in Dubai and the UAE: print-ready files for your stand builder, plus a stand mockup.",
+            "ar": "تصميم ارت ورك ستاندات المعارض وجرافيك البوث للمعارض والفعاليات في دبي والإمارات: ملفات جاهزة للطباعة لمنفّذ الستاند، مع موك أب لشكل الستاند.",
+        },
+        "card": {
+            "en": "Artwork and print-ready files for exhibition and event stands.",
+            "ar": "ارت ورك وملفات جاهزة للطباعة لستاندات المعارض والفعاليات.",
+        },
+        "h1": {
+            "en": ("Exhibition stand artwork,", "ready for your stand builder."),
+            "ar": ("تصميم ارت ورك ستاندات المعارض،", "جاهز لمنفّذ الستاند."),
+        },
+        "intro": {
+            "en": "We design the artwork for your exhibition or event stand: the wall graphics, counter, backdrop, banners and screen visuals your visitors see. We do not build the stand. Your stand builder builds it, and we hand them print-ready files at their exact sizes, with a mockup so you see the stand with your artwork before anything is printed.",
+            "ar": "نصمّم الارت ورك لستاند معرضك أو فعاليتك: جرافيك الجدران والكاونتر والخلفية والبنرات ومحتوى الشاشات التي يراها الزوار. لا نبني الستاند نفسه؛ يبنيه منفّذ الستاند، ونسلّمه ملفات جاهزة للطباعة على مقاساته بالضبط، مع موك أب تشاهد فيه الستاند بتصميمك قبل أي طباعة.",
+        },
+        "gets": {
+            "en": [
+                "Artwork for stand walls, counters, backdrops and banners",
+                "Print-ready files at your stand builder's sizes and specs",
+                "A mockup of the stand with your artwork before printing",
+                "Matching event designs: roll-ups, brochures, cards and screen visuals",
+                "File updates when the stand builder asks for changes",
+                "An exact quote based on your stand and what you need",
+            ],
+            "ar": [
+                "ارت ورك لجدران الستاند والكاونتر والخلفيات والبنرات",
+                "ملفات جاهزة للطباعة على مقاسات ومواصفات منفّذ الستاند",
+                "موك أب للستاند بتصميمك قبل الطباعة",
+                "تصاميم مرافقة للفعالية: رول أب وبروشور وبطاقات ومحتوى للشاشات",
+                "تعديل الملفات عندما يطلب منفّذ الستاند تغييرات",
+                "عرض سعر دقيق حسب الستاند وما تحتاجه",
+            ],
+        },
+        "good_for": {
+            "en": [
+                "Exhibitors at trade shows in Dubai, Abu Dhabi and across the GCC",
+                "Shows like GITEX, Gulfood, Arab Health and Cityscape",
+                "Event stands, conferences, product launches and pop-ups",
+                "Companies whose stand builder needs the artwork files",
+            ],
+            "ar": [
+                "العارضون في معارض دبي وأبوظبي ودول الخليج",
+                "معارض مثل جيتكس وجلفود ومعرض الصحة العربي وسيتي سكيب",
+                "ستاندات الفعاليات والمؤتمرات وإطلاق المنتجات والأكشاك المؤقتة",
+                "الشركات التي يحتاج منفّذ الستاند لديها ملفات الارت ورك",
+            ],
+        },
+        # The home page shows "On request" instead of a starting price, so the cost answer is written here.
+        "cost_answer": {
+            "en": "The price depends on the stand size, the number of panels and the extra designs you need. Send us the stand drawings or dimensions and you get an exact quote before any work starts.",
+            "ar": "يعتمد السعر على مقاس الستاند وعدد اللوحات والتصاميم الإضافية التي تحتاجها. أرسل لنا رسومات الستاند أو مقاساته وتحصل على عرض سعر دقيق قبل بدء أي عمل.",
+        },
+        "faq": [
+            {
+                "q": {"en": "Do you build the exhibition stand?", "ar": "هل تقومون ببناء ستاند المعرض؟"},
+                "a": {
+                    "en": "No. We design the artwork only: the graphics printed on the stand walls, counter, backdrop and banners. Your stand builder or exhibition contractor builds and installs the stand, and we deliver the print-ready files to them.",
+                    "ar": "لا. نصمّم الارت ورك فقط: الجرافيك الذي يُطبع على جدران الستاند والكاونتر والخلفية والبنرات. يبني الستاند ويركّبه منفّذ الستاندات أو مقاول المعرض، ونسلّمه ملفات جاهزة للطباعة.",
+                },
+            },
+            {
+                "q": {"en": "What do you need to design the stand artwork?", "ar": "ماذا تحتاجون لتصميم ارت ورك الستاند؟"},
+                "a": {
+                    "en": "The stand drawings or the size of each panel from your stand builder, your logo and brand guidelines, and the messages, products or images you want visitors to see.",
+                    "ar": "رسومات الستاند أو مقاس كل لوحة من منفّذ الستاند، وشعارك ودليل هويتك، والرسائل أو المنتجات أو الصور التي تريد أن يراها الزوار.",
+                },
+            },
+            {
+                "q": {"en": "Will I see the stand before it is printed?", "ar": "هل أرى شكل الستاند قبل الطباعة؟"},
+                "a": {
+                    "en": "Yes. We prepare a mockup of the stand with your artwork so you can check and approve the look before the files go to print.",
+                    "ar": "نعم. نجهّز موك أب للستاند بتصميمك لتراجعه وتعتمده قبل إرسال الملفات للطباعة.",
+                },
+            },
+            {
+                "q": {"en": "Are the files ready for printing?", "ar": "هل الملفات جاهزة للطباعة؟"},
+                "a": {
+                    "en": "Yes. You get print-ready files at your stand builder's sizes and specifications, including bleed, resolution and print colours (CMYK), usually as PDF. If the builder asks for a different size or format, we update the files.",
+                    "ar": "نعم. تحصل على ملفات جاهزة للطباعة على مقاسات منفّذ الستاند ومواصفاته، مع هوامش القص (bleed) والدقة وألوان الطباعة (CMYK)، وغالباً بصيغة PDF. وإذا طلب المنفّذ مقاساً أو صيغة مختلفة، نعدّل الملفات.",
+                },
+            },
+            {
+                "q": {"en": "Can you design the other materials for the event?", "ar": "هل تصممون باقي مواد الفعالية؟"},
+                "a": {
+                    "en": "Yes. Roll-up banners, brochures, cards and screen visuals for the stand, in the same look as the stand artwork.",
+                    "ar": "نعم. رول أب وبروشورات وبطاقات ومحتوى للشاشات في الستاند، بنفس هوية ارت ورك الستاند.",
+                },
+            },
+        ],
+        "faq_extra": ["How fast can you deliver a project?"],
+        "related": ["design", "video-and-motion", "ai-product-visuals"],
+    },
+]
+
 # FAQ questions from the home page that every service page repeats (answers are read from index.html).
 SHARED_FAQ = ["Are your prices fixed?", "What do you need from me before starting?", "Do you work with clients outside the UAE?"]
 
@@ -467,6 +575,7 @@ UI = {
         "eyebrow_ai": "AI services",
         "eyebrow_agency": "Agency services",
         "starting_from": "Starting from",
+        "price_label": "Price",
         "request": "Request on WhatsApp",
         "gets": "What you get",
         "good_for": "Good for",
@@ -516,6 +625,7 @@ UI = {
         "eyebrow_ai": "خدمات الذكاء الاصطناعي",
         "eyebrow_agency": "خدمات الوكالة",
         "starting_from": "يبدأ من",
+        "price_label": "السعر",
         "request": "اطلب عبر واتساب",
         "gets": "ما تحصل عليه",
         "good_for": "لمن تناسب؟",
