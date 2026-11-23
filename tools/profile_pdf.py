@@ -47,27 +47,28 @@ CHROME_CANDIDATES = [
 # Portfolio selection. Designs are positions in tools/work_designs.json (1 = first entry);
 # videos are YouTube ids from portfolio-videos.txt. One page of each: 9 designs, 18 videos.
 # Beauty and perfume first (16 Khas Oud & Perfumes, 18 Purity Perfumes, 19 Omega Clinic), then
-# 17 Origins, 8 the one Ma Hawa piece, 14 real estate, 15 retail sale, 20 SuperFuture, 23 ZBX.
-DESIGNS = [16, 18, 19, 17, 8, 14, 15, 20, 23]
+# 24 HomeCenter billboard, 29 exhibition stand graphics, 25 Brinto Lac (Baladna), 26 real estate,
+# 31 Deyaar keys handover and 8, the one Ma Hawa piece.
+DESIGNS = [16, 18, 19, 24, 29, 25, 26, 31, 8]
 VIDEOS = [
-    "E3ms8T00kNE",  # Video portfolio reel
+    "NP6oORSlLFg",  # Perfume video
+    "nAynLSSCwfI",  # Beauty clinic video (Omega)
+    "HlrsLkU04sc",  # Beauty clinic motion ad (hair transplant)
+    "IW9m_7ctxYk",  # Fashion promo
+    "Jg2HHnRgvPQ",  # Medical motion (dental)
     "S8aDIat3kkw",  # Deyaar advertisement
     "et9KdAG5oN8",  # HomeCenter banner animation (Landmark Group)
     "Y_oFNMsaskw",  # Reels for Al Aan TV
+    "fxMAQiTsvPA",  # UAE event promo
+    "Nw3NoZPn30g",  # Business event promo (expo)
+    "rZVxh7GURKo",  # Company profile: Revoland Game
+    "OKliNWmgvjw",  # Company profile: Villabygg Stockholm
     "l9X_BniLV7E",  # SHEEL platform promo
-    "qwTjrFI4NSE",  # Imdaat event promo
-    "1UoZUdNysD4",  # Mobile shoot and edit (event)
-    "yWAyfPUTgqw",  # Farm in Al Ain: shoot and edit
-    "VHPPo8D7c5k",  # Guinness record video
-    "KfLCOY4AwGs",  # Commercial ad
-    "9j2eYryyDPQ",  # Ma Hawa brand intro (the one Ma Hawa video)
-    "Zai3_AkXUIk",  # Deyaar logo animation
-    "icBho8tUjfw",  # Logo animation (Dr Bob Lorinser)
-    "D9Z8jOfIav0",  # Logo animation (Arabic)
-    "OaxgKerMWr4",  # Logo animations
+    "aWRLzWB2xoo",  # Ajman smart parking video
+    "iuqC0H9D0Io",  # 3D drink ad
     "nPY4qOfaNkQ",  # Puffy mattress concept ad (AI)
-    "69zX4V_b4LE",  # Cinematic video "Balance from the inside" (AI)
-    "TZePv-D88Ls",  # Cinematic video, penguin (AI)
+    "E3ms8T00kNE",  # Video portfolio reel
+    "9j2eYryyDPQ",  # Ma Hawa brand intro (the one Ma Hawa video)
 ]
 COVER_STILLS = [1, 3, 4, 5, 6, 7]  # assets/home/wall-NN.webp; wall-02 is Ma Hawa, so it is left out
 

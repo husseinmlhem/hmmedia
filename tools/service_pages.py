@@ -133,6 +133,7 @@ def link_label(p: dict, lang: str) -> str:
 
 
 HOME_WALL_STILLS = 10  # assets/home/wall-01.webp ... : stills from video and motion work for other clients
+HOME_WALL_DESIGNS = 24  # the home wall stays light; the full set of designs is on /work/
 
 
 def home_wall_block(ctx: dict) -> str:
@@ -141,7 +142,7 @@ def home_wall_block(ctx: dict) -> str:
     still_width = round(WALL_ROW_HEIGHT * 16 / 9)
     stills = [(f"/assets/home/wall-{n:02d}.webp", still_width) for n in range(1, HOME_WALL_STILLS + 1)]
     designs = [(d["thumb"], round(WALL_ROW_HEIGHT * d["w"] / d["h"])) for d in ctx["designs"]]
-    designs = designs[13:] + designs[:13]  # start with the property, retail and social work
+    designs = (designs[13:] + designs[:13])[:HOME_WALL_DESIGNS]  # start with the property, retail and social work
     mixed = []
     for i in range(max(len(stills), len(designs))):
         mixed += stills[i:i + 1] + designs[i:i + 1]
@@ -435,6 +436,24 @@ def card_text(p: dict, lang: str) -> str:
     return intro[: cut + 1].strip() if cut > 0 and lang == "en" else (intro[:cut].strip() if cut > 0 else intro)
 
 
+def samples_html(ctx: dict, lang: str, p: dict) -> str:
+    """Optional gallery of the page's own work (positions in tools/work_designs.json); each image opens full size."""
+    if not p.get("samples"):
+        return ""
+    a, b = p["samples_h"][lang]
+    tiles = []
+    for n, pos in enumerate(p["samples"], 1):
+        d = ctx["designs"][pos - 1]
+        alt = p["samples_alt"][lang].format(n=n)
+        tiles.append(f'<a class="sample" href="{d["full"]}" target="_blank" rel="noopener"><img src="{d["thumb"]}" width="{d["w"]}" height="{d["h"]}" loading="lazy" alt="{qa(alt)}"></a>')
+    return f"""<section class="section section--tight" aria-labelledby="samples-h">
+  <div class="container">
+    <h2 class="svc-h2" id="samples-h">{esc(a)} <span class="grad">{esc(b)}</span></h2>
+    <div class="samples-grid">{''.join(tiles)}</div>
+  </div>
+</section>"""
+
+
 def related_html(ctx: dict, lang: str, p: dict, by_slug: dict) -> str:
     ui = sc.UI[lang]
     cards = []
@@ -525,6 +544,8 @@ def body_html(ctx: dict, lang: str, p: dict, faqs: list[dict], by_slug: dict) ->
 </section>
 
 {details}
+
+{samples_html(ctx, lang, p)}
 
 <section class="section section--tight" id="process">
   <div class="container">

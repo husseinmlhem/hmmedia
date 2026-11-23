@@ -553,6 +553,10 @@ AGENCY_PAGES = [
         ],
         "faq_extra": ["How fast can you deliver a project?"],
         "related": ["design", "video-and-motion", "ai-product-visuals"],
+        # Positions in tools/work_designs.json (1 = first): stand graphics, two stand photos, a display wall and rollups.
+        "samples": [29, 80, 81, 49, 91, 35],
+        "samples_h": {"en": ("Stand and event", "work."), "ar": ("نماذج من أعمال", "الستاندات والفعاليات.")},
+        "samples_alt": {"en": "Exhibition stand and event artwork by H.M Media, sample {n}", "ar": "ارت ورك ستاند معرض وفعالية من H.M Media، نموذج {n}"},
     },
 ]
 
