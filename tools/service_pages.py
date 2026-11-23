@@ -15,6 +15,9 @@ import urllib.parse
 import service_content as sc
 
 LANG_PREFIX = {"en": "", "ar": "/ar"}
+# The company profile built by tools/profile_pdf.py (same path as the buttons in index.html).
+PROFILE_PDF = "/assets/pdf/hm-media-company-profile.pdf"
+PROFILE_PDF_NAME = "H.M-Media-Company-Profile.pdf"
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 
@@ -233,6 +236,7 @@ def footer_html(ctx: dict, lang: str, pages: list[dict]) -> str:
           <li><a href="{LANG_PREFIX[lang]}/one/">H.M One</a></li>
           <li><a href="{LANG_PREFIX[lang]}/about/">{esc(sc.ABOUT[lang]['nav'])}</a></li>
           <li><a href="{home_path(lang, '#faq')}">{esc(ui['footer_faq'])}</a></li>
+          <li><a href="{PROFILE_PDF}" download="{PROFILE_PDF_NAME}">{esc(ui['profile_pdf'])}</a></li>
         </ul>
       </div>
       <div>
@@ -1109,6 +1113,7 @@ WALL_VIDEOS = 3  # one auto-playing video card per row
 
 
 def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
+    ui = sc.UI[lang]
     w = sc.WORK[lang]
     SITE = ctx["SITE"]
     url = f"{SITE}{LANG_PREFIX[lang]}/work/"
@@ -1164,6 +1169,7 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
   <div class="container folio-copy">
     <h1 class="folio-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
     <p class="svc-intro">{esc(w['intro'])}</p>
+    <a class="btn btn-ghost btn-sm folio-pdf" href="{PROFILE_PDF}" download="{PROFILE_PDF_NAME}"><span>{esc(ui['profile_pdf'])}</span> <span class="arr" aria-hidden="true">↓</span></a>
     <p class="looking">{esc(w['looking'])} <span class="looking-word" id="looking-word" data-words="{qa(rotator)}">{esc(fields[0])}</span>{"؟" if lang == "ar" else "?"}</p>
   </div>
   <div class="wall" role="group" aria-label="{qa(w['wall_label'])}">

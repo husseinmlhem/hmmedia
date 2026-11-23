@@ -611,6 +611,7 @@ UI = {
         "back_top": "Back to top ↑",
         "page_word": "page",
         "view_all": "All services",
+        "profile_pdf": "Company profile (PDF)",
     },
     "ar": {
         "dir": "rtl",
@@ -662,6 +663,7 @@ UI = {
         "back_top": "العودة للأعلى ↑",
         "page_word": "صفحة",
         "view_all": "كل الخدمات",
+        "profile_pdf": "الملف التعريفي (PDF)",
     },
 }
 

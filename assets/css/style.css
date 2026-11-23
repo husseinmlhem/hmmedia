@@ -868,6 +868,11 @@ html[lang="ar"] .hero--show .hero-sub { letter-spacing: 0; font-size: clamp(16px
 
 /* ---------- Home: work wall and service tiles ---------- */
 .home-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: clamp(20px, 3vw, 36px); }
+.home-head-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+/* Company profile download link under the WhatsApp button in the contact band. */
+.profile-dl { font-size: 14px; font-weight: 600; color: var(--text-2); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--line-2); }
+.profile-dl:hover { color: var(--accent-hi); }
+.folio-pdf { margin-top: 18px; }
 .home-work { padding-bottom: 0; overflow: hidden; }
 .wall--home { min-height: 0; margin-top: 0; -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent); mask-image: linear-gradient(180deg, #000 70%, transparent); }
 .wall--home::after { display: none; }
