@@ -1,14 +1,16 @@
-"""Builds the short company profile PDF: cover, services, designs and videos, English and Arabic on every page.
+"""Builds the company profile PDF: cover, services, then the whole portfolio, English and Arabic on every page.
 
     python3 tools/profile_pdf.py
 
 Run it after changing services, prices or the portfolio, and commit the new PDF. It writes
 assets/pdf/hm-media-company-profile.pdf, the file behind the "Company profile (PDF)" buttons.
 
-The profile is deliberately short: it does not repeat the website. Service names and starting
-prices come from index.html and every row links to its page on the site for the details. The
-portfolio is a selection (DESIGNS, VIDEOS below) chosen by the owner's brief: a mix of clients,
-with only one piece from Ma Hawa, and creative work first with AI as one of the tools.
+The text is deliberately short: it does not repeat the website. Service names and starting prices
+come from index.html and every row links to its page on the site. The portfolio is complete: every
+design in tools/work_designs.json and every video in portfolio-videos.txt. Designs are laid out in
+justified rows (each image keeps its own shape, rows fill the page width and the pages fill their
+height), beauty and perfume work first and Ma Hawa last so no single client leads. Every design
+opens full size on the site and every video opens on YouTube.
 
 It needs Google Chrome (set CHROME to its path if it is not in a usual place) and an internet
 connection for the web fonts and the YouTube thumbnails. build.py --check does not cover the PDF.
@@ -26,6 +28,7 @@ import subprocess
 import sys
 import tempfile
 import urllib.parse
+import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
@@ -44,33 +47,21 @@ CHROME_CANDIDATES = [
     "chromium",
 ]
 
-# Portfolio selection. Designs are positions in tools/work_designs.json (1 = first entry);
-# videos are YouTube ids from portfolio-videos.txt. One page of each: 9 designs, 18 videos.
-# Beauty and perfume first (16 Khas Oud & Perfumes, 18 Purity Perfumes, 19 Omega Clinic), then
-# 24 HomeCenter billboard, 29 exhibition stand graphics, 25 Brinto Lac (Baladna), 26 real estate,
-# 31 Deyaar keys handover and 8, the one Ma Hawa piece.
-DESIGNS = [16, 18, 19, 24, 29, 25, 26, 31, 8]
-VIDEOS = [
-    "NP6oORSlLFg",  # Perfume video
-    "nAynLSSCwfI",  # Beauty clinic video (Omega)
-    "HlrsLkU04sc",  # Beauty clinic motion ad (hair transplant)
-    "IW9m_7ctxYk",  # Fashion promo
-    "Jg2HHnRgvPQ",  # Medical motion (dental)
-    "S8aDIat3kkw",  # Deyaar advertisement
-    "et9KdAG5oN8",  # HomeCenter banner animation (Landmark Group)
-    "Y_oFNMsaskw",  # Reels for Al Aan TV
-    "fxMAQiTsvPA",  # UAE event promo
-    "Nw3NoZPn30g",  # Business event promo (expo)
-    "rZVxh7GURKo",  # Company profile: Revoland Game
-    "OKliNWmgvjw",  # Company profile: Villabygg Stockholm
-    "l9X_BniLV7E",  # SHEEL platform promo
-    "aWRLzWB2xoo",  # Ajman smart parking video
-    "iuqC0H9D0Io",  # 3D drink ad
-    "nPY4qOfaNkQ",  # Puffy mattress concept ad (AI)
-    "E3ms8T00kNE",  # Video portfolio reel
-    "9j2eYryyDPQ",  # Ma Hawa brand intro (the one Ma Hawa video)
-]
+# Order of the designs (positions in tools/work_designs.json, 1 = first). Beauty and perfume lead
+# (16 Khas Oud & Perfumes, 18 Purity Perfumes, 19 Omega Clinic); the rest follow the site's order,
+# which already puts the Ma Hawa pieces (1-13) last.
+DESIGNS_FIRST = [16, 18, 19]
+MA_HAWA_DESIGNS = range(1, 14)
 COVER_STILLS = [1, 3, 4, 5, 6, 7]  # assets/home/wall-NN.webp; wall-02 is Ma Hawa, so it is left out
+
+# Page geometry in millimetres (A4 portrait).
+CONTENT_W = 180.0      # 210 mm minus 15 mm margins
+BODY_H = 247.0         # usable height below the page header
+GAP = 2.2              # gap between tiles and rows
+ROW_TARGETS = [t / 2 for t in range(64, 125)]  # 32 - 62 mm: target row heights tried for each page
+TITLE_H = 21.0         # page title + note
+SUB_H = 9.0            # "Designs" / "Videos" sub-heading
+CLOSING_H = 30.0
 
 TEXT = {
     "profile": ("Company Profile", "الملف التعريفي"),
@@ -90,11 +81,14 @@ TEXT = {
         "Every project gets an exact quote before work starts. Tap a service for its details on h-m.agency.",
         "تحصل على عرض سعر دقيق لكل مشروع قبل البدء. اضغط على أي خدمة لتفاصيلها على الموقع.",
     ),
-    "designs": ("Selected designs", "مختارات من التصاميم"),
-    "videos": ("Selected videos & motion", "مختارات من الفيديو والموشن"),
-    "tap_designs": ("Tap a design to open it full size.", "اضغط على أي تصميم لفتحه بالحجم الكامل."),
-    "tap_videos": ("Tap a video to watch it.", "اضغط على أي فيديو لمشاهدته."),
-    "more": ("More work on h-m.agency", "المزيد من الأعمال على الموقع"),
+    "work": ("Our work", "أعمالنا"),
+    "work_note": (
+        "Tap a design to open it full size, or a video to watch it.",
+        "اضغط على أي تصميم لفتحه بالحجم الكامل، أو على أي فيديو لمشاهدته.",
+    ),
+    "designs": ("Designs", "تصاميم"),
+    "videos": ("Videos & motion", "فيديو وموشن"),
+    "more": ("More on h-m.agency", "المزيد على الموقع"),
     "portfolio": ("Portfolio", "أعمالنا"),
     "whatsapp": ("WhatsApp", "واتساب"),
     "source": ("Company profile PDF", "الملف التعريفي PDF"),
@@ -103,6 +97,23 @@ TEXT = {
 
 def e(text: str) -> str:
     return html.escape(text, quote=True)
+
+
+# Chrome stores WebP images in a PDF losslessly, which makes the file huge, but passes JPEG through
+# as is. So every site image goes in as a JPEG copy made with ffmpeg in a temporary folder.
+JPEG_DIR: pathlib.Path | None = None
+
+
+def image_uri(site_path: str) -> str:
+    """file:// URI of a JPEG copy of a site image (site_path like /assets/work/design-01.webp)."""
+    source = ROOT / urllib.parse.unquote(site_path).lstrip("/")
+    if JPEG_DIR is None or source.suffix.lower() in (".jpg", ".jpeg") or not shutil.which("ffmpeg"):
+        return source.as_uri()
+    target = JPEG_DIR / (source.stem + ".jpg")
+    if not target.exists():
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(source), "-vf", "format=yuvj420p",
+                        "-q:v", "4", "-frames:v", "1", str(target)], check=True, stdin=subprocess.DEVNULL)
+    return target.as_uri()
 
 
 def bi(key: str, tag: str = "span", cls: str = "") -> str:
@@ -128,16 +139,17 @@ def load() -> dict:
         if s["group"]:
             groups.setdefault(s["group"]["en"], {"name": s["group"], "items": []})["items"].append(s)
     designs = json.loads((ROOT / "tools" / "work_designs.json").read_text(encoding="utf-8"))
-    known = {line.split("v=")[1].strip() for line in (ROOT / "portfolio-videos.txt").read_text(encoding="utf-8").splitlines() if "v=" in line}
-    missing = [v for v in VIDEOS if v not in known]
-    if missing or max(DESIGNS) > len(designs):
-        raise SystemExit(f"profile_pdf: selection points at work that is not on the site: {missing or max(DESIGNS)}")
+    positions = list(range(1, len(designs) + 1))
+    rest = [p for p in positions if p not in DESIGNS_FIRST and p not in MA_HAWA_DESIGNS]
+    order = DESIGNS_FIRST + rest + [p for p in MA_HAWA_DESIGNS if p not in DESIGNS_FIRST]
+    videos = [line.split("v=")[1].strip() for line in (ROOT / "portfolio-videos.txt").read_text(encoding="utf-8").splitlines() if "v=" in line]
     return {
         "sprite": re.search(r'<svg width="0" height="0" style="position:absolute".*?</svg>', source, re.S).group(0),
         "fonts": re.search(r'<link href="(https://fonts\.googleapis\.com/css2[^"]+)"', source).group(1),
         "ai": [s for s in services if not s["group"]],
         "groups": list(groups.values()),
-        "designs": [designs[i - 1] for i in DESIGNS],
+        "designs": [designs[p - 1] for p in order],
+        "videos": videos,
     }
 
 
@@ -178,14 +190,14 @@ def footer() -> str:
             f'<a href="mailto:{build.EMAIL}">{build.EMAIL}</a><a href="{build.SITE}/">h-m.agency</a></footer>')
 
 
-def page(inner: str, number: int, anchor: str = "") -> str:
+def page(inner: str, number: int, anchor: str = "", body_class: str = "body") -> str:
     attrs = f' id="{anchor}"' if anchor else ""
-    return f'<section class="page"{attrs}>{header(number)}<div class="body">{inner}</div>{footer()}</section>'
+    return f'<section class="page"{attrs}>{header(number)}<div class="{body_class}">{inner}</div>{footer()}</section>'
 
 
-# --------------------------------------------------------------------------- pages
+# --------------------------------------------------------------------------- cover and services
 def cover() -> str:
-    stills = "".join(f'<img src="{(ROOT / "assets" / "home" / f"wall-{i:02d}.webp").as_uri()}" alt="">' for i in COVER_STILLS)
+    stills = "".join(f'<img src="{image_uri(f"/assets/home/wall-{i:02d}.webp")}" alt="">' for i in COVER_STILLS)
     return f"""<section class="page cover" id="cover">
   <div class="collage">{stills}</div>
   <div class="cover-in">
@@ -223,33 +235,132 @@ def services_page(data: dict, number: int) -> str:
     return page(inner, number, anchor="services")
 
 
-def designs_page(data: dict, number: int) -> str:
-    tiles = []
-    for d in data["designs"]:
-        local = (ROOT / urllib.parse.unquote(d["full"]).lstrip("/")).as_uri()
-        tiles.append(f'<a class="tile" href="{build.SITE}{d["full"]}"><img src="{local}" alt=""></a>')
-    inner = f"""{bi('designs', 'h2', 't')}
-{bi('tap_designs', 'p', 'note top')}
-<div class="dgrid">{''.join(tiles)}</div>"""
-    return page(inner, number, anchor="work")
+# --------------------------------------------------------------------------- portfolio layout
+def next_row(aspects: list[float], start: int, target: float) -> tuple[int, float]:
+    """Greedy justified row from `start`: returns (end index, row height in mm) for a full-width row.
+    A short tail that would make an over-tall last row is pulled into this row instead."""
+    total, end = 0.0, start
+    while end < len(aspects):
+        total += aspects[end]
+        end += 1
+        height = (CONTENT_W - GAP * (end - start - 1)) / total
+        if height <= target:
+            break
+    rest = sum(aspects[end:])
+    if 0 < rest and (CONTENT_W - GAP * (len(aspects) - end - 1)) / rest > target * 1.45:
+        total += rest
+        end = len(aspects)
+    return end, (CONTENT_W - GAP * (end - start - 1)) / total
 
 
-def videos_page(number: int) -> str:
-    tiles = "".join(
-        f'<a class="vt" href="https://www.youtube.com/watch?v={v}"><img src="https://i.ytimg.com/vi/{v}/hqdefault.jpg" alt=""><span class="play"></span></a>'
-        for v in VIDEOS
-    )
-    inner = f"""{bi('videos', 'h2', 't')}
-{bi('tap_videos', 'p', 'note top')}
-<div class="vgrid">{tiles}</div>
-<div class="closing">
+def plan_rows(aspects: list[float], start: int, avail: float) -> tuple[list[tuple[int, int, float]], float]:
+    """Rows that fill `avail` mm best from `start`, trying every target height. Returns (rows, leftover)."""
+    best = None
+    for target in ROW_TARGETS:
+        rows, used, pos = [], 0.0, start
+        while pos < len(aspects):
+            end, height = next_row(aspects, pos, target)
+            need = height + (GAP if rows else 0.0)
+            if used + need > avail:
+                break
+            rows.append((pos, end, height))
+            used, pos = used + need, end
+        if not rows:
+            continue
+        leftover = 0.0 if pos == len(aspects) else avail - used
+        score = (leftover, abs(target - 46))
+        if best is None or score < best[0]:
+            best = (score, rows, avail - used)
+    return (best[1], best[2]) if best else ([], avail)
+
+
+def video_thumb(vid: str) -> tuple[str, float]:
+    """A JPEG of the video's YouTube thumbnail with any black bars cut off, and its aspect ratio, so a
+    vertical reel keeps its tall shape instead of showing side bars."""
+    fallback = (f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg", 16 / 9)
+    if JPEG_DIR is None or not shutil.which("ffmpeg"):
+        return fallback
+    raw = JPEG_DIR / f"yt-{vid}-raw.jpg"
+    out = JPEG_DIR / f"yt-{vid}.jpg"
+    try:
+        request = urllib.request.Request(f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg", headers={"User-Agent": "Mozilla/5.0"})
+        raw.write_bytes(urllib.request.urlopen(request, timeout=30).read())
+        probe = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(raw), "-vf", "cropdetect=limit=24:round=2:reset=0", "-f", "null", "-"],
+                               capture_output=True, text=True, stdin=subprocess.DEVNULL)
+        found = re.findall(r"crop=(\d+):(\d+):(\d+):(\d+)", probe.stderr)
+        w, h, x, y = map(int, found[-1]) if found else (480, 270, 0, 45)
+        if w < 120 or h < 120 or w * h < 0.15 * 480 * 360:  # a dark frame fooled the detector: use the 16:9 centre
+            w, h, x, y = 480, 270, 0, 45
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(raw), "-vf", f"crop={w}:{h}:{x}:{y},format=yuvj420p",
+                        "-q:v", "4", "-frames:v", "1", str(out)], check=True, stdin=subprocess.DEVNULL)
+        return out.as_uri(), w / h
+    except (OSError, ValueError, subprocess.CalledProcessError):
+        return fallback
+
+
+def row_html(tiles: list[dict], start: int, end: int, height: float) -> str:
+    """One justified row: every tile is as wide as its image's shape needs at this height."""
+    out = []
+    for t in tiles[start:end]:
+        play = '<span class="play"></span>' if t["video"] else ""
+        out.append(f'<a class="jt" style="flex:{t["aspect"]:.4f} 1 0" href="{t["href"]}"><img src="{t["uri"]}" alt="">{play}</a>')
+    return f'<div class="jrow" style="height:{height:.2f}mm">{"".join(out)}</div>'
+
+
+def portfolio_pages(data: dict, first_number: int) -> list[str]:
+    design_tiles = [{"uri": image_uri(d["thumb"]), "aspect": d["w"] / d["h"], "href": f"{build.SITE}{d['full']}", "video": False}
+                    for d in data["designs"]]
+    video_tiles = []
+    for v in data["videos"]:
+        uri, aspect = video_thumb(v)
+        video_tiles.append({"uri": uri, "aspect": aspect, "href": f"https://www.youtube.com/watch?v={v}", "video": True})
+    sections = [("designs", design_tiles), ("videos", video_tiles)]
+    sub = lambda key, anchor: f'<div class="sub-h" id="{anchor}">{bi(key, "h3", "sh")}</div>'  # noqa: E731
+    title = f'{bi("work", "h2", "t")}{bi("work_note", "p", "note top")}'
+    closing = f"""<div class="closing">
   {bi('slogan', 'p', 'slogan sm')}
   <div class="cover-btns">
     <a class="btn" href="{e(wa('ar'))}"><svg><use href="#i-wa"/></svg>{e(TEXT['whatsapp'][0])} · <span lang="ar">{e(TEXT['whatsapp'][1])}</span></a>
     <a class="btn ghost" href="{build.SITE}/work/">{e(TEXT['more'][0])} · <span lang="ar">{e(TEXT['more'][1])}</span></a>
   </div>
 </div>"""
-    return page(inner, number, anchor="videos")
+
+    pages, number, si, pos = [], first_number, 0, 0
+    first = True
+    while si < len(sections):
+        parts, avail, anchor = [], BODY_H, ""
+        if first:
+            parts.append(title)
+            avail -= TITLE_H
+            anchor = "work"
+        while si < len(sections):
+            key, tiles = sections[si]
+            if pos == 0:
+                if avail < SUB_H + 32:  # no room to start this section on this page
+                    break
+                parts.append(sub(key, key))
+                avail -= SUB_H
+            rows, leftover = plan_rows([t["aspect"] for t in tiles], pos, avail)
+            if not rows:
+                break
+            parts += [row_html(tiles, s, e_, h) for s, e_, h in rows]
+            pos, avail = rows[-1][1], leftover - GAP
+            if pos < len(tiles):
+                break  # page full
+            si, pos = si + 1, 0  # section done: the next one may start on this page
+        last = si >= len(sections)
+        if last and avail >= CLOSING_H:
+            parts.append(closing)
+            last_done = True
+        else:
+            last_done = False
+        pages.append(page("".join(parts), number, anchor=anchor, body_class="body fill" if not last else "body"))
+        number += 1
+        first = False
+        if last and not last_done:
+            pages.append(page(closing, number, body_class="body center"))
+            number += 1
+    return pages
 
 
 CSS = """
@@ -265,6 +376,8 @@ svg { fill: currentColor; }
 .page { width: 210mm; height: 297mm; padding: 12mm 15mm 16mm; position: relative; overflow: hidden; break-after: page; display: flex; flex-direction: column; }
 .page:last-child { break-after: auto; }
 .body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.body.fill { justify-content: space-between; }
+.body.center { justify-content: center; }
 .ph { display: flex; justify-content: space-between; align-items: center; padding-bottom: 4mm; margin-bottom: 7mm; border-bottom: 1px solid var(--line); font-size: 8pt; color: var(--text-3); }
 .brand { display: inline-flex; align-items: center; gap: 2mm; color: var(--text); font-weight: 700; font-size: 9pt; }
 .brand svg { width: 5.5mm; height: 5.5mm; color: var(--accent); }
@@ -276,7 +389,7 @@ svg { fill: currentColor; }
 .t { font-size: 21pt; line-height: 1.15; font-weight: 800; letter-spacing: -0.01em; color: var(--text); }
 .bi:has(.t) { margin-bottom: 2mm; }
 .note { color: var(--text-2); font-size: 8.5pt; margin-top: 5mm; }
-.note.top { margin: 0 0 5mm; }
+.note.top { margin: 0 0 4mm; }
 .bi .note, .bi .intro, .bi .slogan { flex: 1; }
 .btn { display: inline-flex; align-items: center; gap: 2mm; height: 10mm; padding: 0 5mm; border-radius: 5mm; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 9.5pt; white-space: nowrap; }
 .btn svg { width: 4.2mm; height: 4.2mm; }
@@ -308,28 +421,29 @@ svg { fill: currentColor; }
 .srow [lang=ar] { text-align: right; }
 .pr { color: var(--accent-hi); font-weight: 700; font-size: 8.8pt; white-space: nowrap; text-align: center; min-width: 30mm; }
 .pr.req { color: var(--text-2); font-weight: 600; }
-.dgrid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 3.5mm; margin-bottom: 4mm; }
-.tile { background: var(--card); border: 1px solid var(--line); border-radius: 3mm; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.tile img { width: 100%; height: 100%; object-fit: contain; display: block; }
-.vgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
-.vt { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 2.5mm; overflow: hidden; background: var(--card); border: 1px solid var(--line); }
-.vt img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.play { position: absolute; left: 50%; top: 50%; width: 8mm; height: 8mm; margin: -4mm 0 0 -4mm; border-radius: 50%; background: var(--accent); }
-.play::after { content: ""; position: absolute; left: 3.2mm; top: 2.3mm; border-style: solid; border-width: 1.7mm 0 1.7mm 2.8mm; border-color: transparent transparent transparent var(--on-accent); }
-.closing { margin-top: auto; padding-top: 5mm; border-top: 1px solid var(--line); margin-bottom: 3mm; }
+/* Portfolio: justified rows. Each tile's width follows its image's shape, so nothing is cropped or left empty. */
+.sub-h { height: 9mm; display: flex; align-items: center; }
+.sub-h .bi { flex: 1; }
+.sh { font-size: 11pt; color: var(--accent-hi); font-weight: 800; }
+.jrow { display: flex; gap: 2.2mm; flex: none; }
+.jt { position: relative; display: block; height: 100%; border-radius: 1.6mm; overflow: hidden; background: var(--card); min-width: 0; }
+.jt img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.play { position: absolute; left: 50%; top: 50%; width: 6.5mm; height: 6.5mm; margin: -3.25mm 0 0 -3.25mm; border-radius: 50%; background: var(--accent); }
+.play::after { content: ""; position: absolute; left: 2.6mm; top: 1.85mm; border-style: solid; border-width: 1.4mm 0 1.4mm 2.3mm; border-color: transparent transparent transparent var(--on-accent); }
+.closing { padding-top: 5mm; border-top: 1px solid var(--line); flex: none; }
 .closing .cover-btns { margin-top: 4mm; }
 """
 
 
 def render(data: dict) -> str:
-    pages = [cover(), services_page(data, 2), designs_page(data, 3), videos_page(4)]
+    pages = [cover(), services_page(data, 2)] + portfolio_pages(data, 3)
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>H.M Media — Company Profile | الملف التعريفي</title>
 <meta name="author" content="H.M Media">
-<meta name="description" content="H.M Media company profile: creative agency services with starting prices and selected work. Details at h-m.agency.">
+<meta name="description" content="H.M Media company profile: creative agency services with starting prices and the full portfolio of designs and videos. Details at h-m.agency.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{data['fonts']}" rel="stylesheet">
@@ -344,24 +458,29 @@ def render(data: dict) -> str:
 
 
 def main() -> int:
+    global JPEG_DIR
     data = load()
-    document = render(data)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
+        JPEG_DIR = pathlib.Path(tmp) / "jpeg"
+        JPEG_DIR.mkdir()
+        document = render(data)
         page_path = pathlib.Path(tmp) / "profile.html"
         page_path.write_text(document, encoding="utf-8")
         command = [
             chrome_path(), "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
             "--generate-pdf-document-outline", "--run-all-compositor-stages-before-draw",
-            "--virtual-time-budget=45000", "--allow-file-access-from-files",
+            "--virtual-time-budget=60000", "--allow-file-access-from-files",
             f"--user-data-dir={pathlib.Path(tmp) / 'chrome'}",
             f"--print-to-pdf={OUT}", page_path.as_uri(),
         ]
-        result = subprocess.run(command, capture_output=True, text=True, timeout=240)
+        result = subprocess.run(command, capture_output=True, text=True, timeout=300)
         if result.returncode != 0 or not OUT.exists():
             print(result.stderr[-2000:], file=sys.stderr)
             return 1
-    print(f"profile_pdf: wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size / 1_048_576:.1f} MB)")
+    pages = document.count('<section class="page')
+    print(f"profile_pdf: wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size / 1_048_576:.1f} MB, {pages} pages, "
+          f"{len(data['designs'])} designs, {len(data['videos'])} videos)")
     return 0
 
 
