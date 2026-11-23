@@ -465,6 +465,7 @@ html[lang="ar"] .agency-h { letter-spacing: 0; font-size: 15px; }
 .svc-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-block: 12px; border-top: 1px solid var(--line); font-size: 14px; color: var(--text); transition: color 0.2s; }
 .svc-list li:first-child .svc-row { border-top: 0; }
 .svc-row-price { flex: 0 0 auto; font-size: 13px; font-weight: 600; color: var(--text-3); white-space: nowrap; transition: color 0.2s; }
+.svc-row-price small { font-size: 11px; font-weight: 500; opacity: 0.75; }
 .svc-row:hover { color: var(--accent-hi); }
 .svc-row:hover .svc-row-price { color: var(--accent-hi); }
 .agency-help { margin-top: 14px; padding-top: 16px; border-top: 1px solid var(--line); }
@@ -694,6 +695,11 @@ html[lang="ar"] .svc-h1, html[lang="ar"] .svc-h2 { letter-spacing: 0; line-heigh
 .tick-list li::before { content: ''; position: absolute; inset-inline-start: 0; top: 0.45em; width: 14px; height: 8px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
 .svc-faq { max-width: 860px; }
 .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+/* Work samples on a service page: same height, whole image visible */
+.samples-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.sample { display: flex; align-items: center; justify-content: center; height: 240px; border-radius: 16px; overflow: hidden; background: var(--bg-soft); border: 1px solid var(--line); }
+.sample img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s var(--ease); }
+.sample:hover img { transform: scale(1.03); }
 .rel-card { display: block; padding: 22px; }
 .rel-card h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
 .rel-card p { margin-top: 8px; font-size: 14px; color: var(--text-2); }
@@ -867,6 +873,11 @@ html[lang="ar"] .hero--show .hero-sub { letter-spacing: 0; font-size: clamp(16px
 
 /* ---------- Home: work wall and service tiles ---------- */
 .home-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: clamp(20px, 3vw, 36px); }
+.home-head-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+/* Company profile download link under the WhatsApp button in the contact band. */
+.profile-dl { font-size: 14px; font-weight: 600; color: var(--text-2); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--line-2); }
+.profile-dl:hover { color: var(--accent-hi); }
+.folio-pdf { margin-top: 18px; }
 .home-work { padding-bottom: 0; overflow: hidden; }
 .wall--home { min-height: 0; margin-top: 0; -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent); mask-image: linear-gradient(180deg, #000 70%, transparent); }
 .wall--home::after { display: none; }

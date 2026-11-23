@@ -25,6 +25,19 @@ python3 tools/build.py --check    # exits 1 if the generated files are out of da
 
 Commit the regenerated files together with your change. The script needs only Python 3.
 
+## Company profile PDF
+
+`assets/pdf/hm-media-company-profile.pdf` is the file behind the "Company profile (PDF)" buttons
+(home page, contact band, footer and portfolio page). It is built from the same data as the site:
+about text, services and prices, FAQs, designs and videos. After changing any of those, rebuild it
+and commit the new PDF:
+
+```sh
+python3 tools/profile_pdf.py      # needs Google Chrome (or CHROME=/path/to/chrome) and internet
+```
+
+`build.py --check` does not cover the PDF, so remember this step when prices or the portfolio change.
+
 ## Where SEO settings live
 
 Everything is at the top of `tools/build.py`: page titles and descriptions for both

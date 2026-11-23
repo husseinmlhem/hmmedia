@@ -15,6 +15,9 @@ import urllib.parse
 import service_content as sc
 
 LANG_PREFIX = {"en": "", "ar": "/ar"}
+# The company profile built by tools/profile_pdf.py (same path as the buttons in index.html).
+PROFILE_PDF = "/assets/pdf/hm-media-company-profile.pdf"
+PROFILE_PDF_NAME = "H.M-Media-Company-Profile.pdf"
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 
@@ -60,7 +63,26 @@ def resolve_pages(ctx: dict) -> list[dict]:
         if not items:
             raise SystemExit(f"service_content: no agency group titled {definition['match']!r} on the home page")
         resolved.append({**definition, "kind": "group", "items": items})
+    for definition in sc.AGENCY_PAGES:
+        service = next((s for s in page.services if s["group"] and s["title"] and s["price"] and s["title"]["en"] == definition["match"]), None)
+        if not service:
+            raise SystemExit(f"service_content: no agency service titled {definition['match']!r} on the home page")
+        resolved.append({**definition, "kind": "service", "service": service, "label": service["title"]})
     return resolved
+
+
+# Pages about one service (an AI service or a single agency service) rather than a group of services.
+SINGLE_KINDS = ("ai", "service")
+
+
+def has_price(label: str) -> bool:
+    """False for a price label without a number, such as "On request"."""
+    return _PRICE_PARSER(label)[0] is not None
+
+
+def from_label(service: dict, lang: str) -> str:
+    """The small "From" before a starting price in a service row (same wording as the home page rows)."""
+    return f'<small>{esc(sc.UI[lang]["from_short"])}</small> ' if has_price(service["price"]["en"]) else ""
 
 
 def find_faq(ctx: dict, english_question: str):
@@ -68,7 +90,7 @@ def find_faq(ctx: dict, english_question: str):
 
 
 def price_of(p: dict, lang: str) -> str:
-    if p["kind"] == "ai":
+    if p["kind"] in SINGLE_KINDS:
         return p["service"]["price"][lang]
     cheapest = min(p["items"], key=lambda s: ctx_price_value(s))
     return cheapest["price"][lang]
@@ -85,14 +107,17 @@ def ctx_price_value(service: dict) -> int:
 def faq_list(ctx: dict, p: dict, lang: str) -> list[dict]:
     """Page-specific questions first, then the shared answers from the home page."""
     start = price_of(p, lang)
-    if p["kind"] == "ai":
+    if p["kind"] in SINGLE_KINDS:
         cost_q = {"en": f"How much does {p['label']['en']} cost?", "ar": f"كم تبلغ تكلفة {p['label']['ar']}؟"}
     else:
         cost_q = {"en": f"How much do {p['label']['en']} services cost?", "ar": f"كم تبلغ تكلفة خدمات {p['label']['ar']}؟"}
-    cost_a = {
-        "en": f"Prices start from {start}. They are approximate starting points: tell us your budget and goal, and you get an exact quote before any work starts.",
-        "ar": f"تبدأ الأسعار من {start}. هي أسعار بداية تقريبية: أخبرنا بميزانيتك وهدفك وتحصل على عرض سعر دقيق قبل بدء أي عمل.",
-    }
+    if "cost_answer" in p:
+        cost_a = p["cost_answer"]
+    else:
+        cost_a = {
+            "en": f"Prices start from {start}. They are approximate starting points: tell us your budget and goal, and you get an exact quote before any work starts.",
+            "ar": f"تبدأ الأسعار من {start}. هي أسعار بداية تقريبية: أخبرنا بميزانيتك وهدفك وتحصل على عرض سعر دقيق قبل بدء أي عمل.",
+        }
     items = [{"q": cost_q, "a": cost_a}]
     items += p.get("faq", [])
     for question in p.get("faq_extra", []) + sc.SHARED_FAQ:
@@ -108,6 +133,7 @@ def link_label(p: dict, lang: str) -> str:
 
 
 HOME_WALL_STILLS = 10  # assets/home/wall-01.webp ... : stills from video and motion work for other clients
+HOME_WALL_DESIGNS = 24  # the home wall stays light; the full set of designs is on /work/
 
 
 def home_wall_block(ctx: dict) -> str:
@@ -116,7 +142,7 @@ def home_wall_block(ctx: dict) -> str:
     still_width = round(WALL_ROW_HEIGHT * 16 / 9)
     stills = [(f"/assets/home/wall-{n:02d}.webp", still_width) for n in range(1, HOME_WALL_STILLS + 1)]
     designs = [(d["thumb"], round(WALL_ROW_HEIGHT * d["w"] / d["h"])) for d in ctx["designs"]]
-    designs = designs[13:] + designs[:13]  # start with the property, retail and social work
+    designs = (designs[13:] + designs[:13])[:HOME_WALL_DESIGNS]  # start with the property, retail and social work
     mixed = []
     for i in range(max(len(stills), len(designs))):
         mixed += stills[i:i + 1] + designs[i:i + 1]
@@ -211,6 +237,7 @@ def footer_html(ctx: dict, lang: str, pages: list[dict]) -> str:
           <li><a href="{LANG_PREFIX[lang]}/one/">H.M One</a></li>
           <li><a href="{LANG_PREFIX[lang]}/about/">{esc(sc.ABOUT[lang]['nav'])}</a></li>
           <li><a href="{home_path(lang, '#faq')}">{esc(ui['footer_faq'])}</a></li>
+          <li><a href="{PROFILE_PDF}" download="{PROFILE_PDF_NAME}">{esc(ui['profile_pdf'])}</a></li>
         </ul>
       </div>
       <div>
@@ -326,7 +353,7 @@ def head_html(ctx: dict, lang: str, p: dict, faqs: list[dict]) -> str:
     crumb_group = ui["crumb_ai"] if p["kind"] == "ai" else ui["crumb_agency"]
     crumb_anchor = "#ai" if p["kind"] == "ai" else "#agency"
 
-    if p["kind"] == "ai":
+    if p["kind"] in SINGLE_KINDS:
         amount, unit = _PRICE_PARSER(p["service"]["price"]["en"])
         offers = [{"@type": "Offer", "url": url, "priceCurrency": "AED", **({"priceSpecification": {"@type": "UnitPriceSpecification", "priceCurrency": "AED", "minPrice": amount, **({"unitCode": unit} if unit else {})}} if amount is not None else {})}]
         service_node = {
@@ -334,7 +361,7 @@ def head_html(ctx: dict, lang: str, p: dict, faqs: list[dict]) -> str:
             "@id": f"{url}#service",
             "name": p["label"][lang],
             "description": p["intro"][lang],
-            "serviceType": ui["crumb_ai"],
+            "serviceType": crumb_group,
             "provider": org_ref,
             "areaServed": ctx["AREA_SERVED"],
             "url": url,
@@ -399,12 +426,32 @@ def tick_list(items: list[str]) -> str:
 
 
 def card_text(p: dict, lang: str) -> str:
-    """One short line for a service card: the home-page blurb, or the first sentence of a category intro."""
+    """One short line for a service card: the page's own card line, the home-page blurb, or the first sentence of a category intro."""
+    if p.get("card"):
+        return p["card"][lang]
     if p["kind"] == "ai" and p["service"]["desc"]:
         return p["service"]["desc"][lang]
     intro = p["intro"][lang]
     cut = intro.find(". ") if lang == "en" else intro.find(" لكل خدمة")
     return intro[: cut + 1].strip() if cut > 0 and lang == "en" else (intro[:cut].strip() if cut > 0 else intro)
+
+
+def samples_html(ctx: dict, lang: str, p: dict) -> str:
+    """Optional gallery of the page's own work (positions in tools/work_designs.json); each image opens full size."""
+    if not p.get("samples"):
+        return ""
+    a, b = p["samples_h"][lang]
+    tiles = []
+    for n, pos in enumerate(p["samples"], 1):
+        d = ctx["designs"][pos - 1]
+        alt = p["samples_alt"][lang].format(n=n)
+        tiles.append(f'<a class="sample" href="{d["full"]}" target="_blank" rel="noopener"><img src="{d["thumb"]}" width="{d["w"]}" height="{d["h"]}" loading="lazy" alt="{qa(alt)}"></a>')
+    return f"""<section class="section section--tight" aria-labelledby="samples-h">
+  <div class="container">
+    <h2 class="svc-h2" id="samples-h">{esc(a)} <span class="grad">{esc(b)}</span></h2>
+    <div class="samples-grid">{''.join(tiles)}</div>
+  </div>
+</section>"""
 
 
 def related_html(ctx: dict, lang: str, p: dict, by_slug: dict) -> str:
@@ -437,10 +484,11 @@ def body_html(ctx: dict, lang: str, p: dict, faqs: list[dict], by_slug: dict) ->
     source = f"{p['label'][lang]} {ui['page_word']}"
     start = price_of(p, lang)
 
-    if p["kind"] == "ai":
+    if p["kind"] in SINGLE_KINDS:
         message = ui["wa_msg"].format(title=p["label"][lang], price=f" ({start})", source=source)
+        chip_label = ui["starting_from"] if has_price(p["service"]["price"]["en"]) else ui["price_label"]
         hero_cta = f"""<div class="svc-hero-cta">
-      <div class="price-chip"><small>{esc(ui['starting_from'])}</small><strong>{esc(start)}</strong></div>
+      <div class="price-chip"><small>{esc(chip_label)}</small><strong>{esc(start)}</strong></div>
       <a class="btn btn-accent" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> <span>{esc(ui['request'])}</span></a>
     </div>"""
         details = f"""<section class="section section--tight">
@@ -455,7 +503,7 @@ def body_html(ctx: dict, lang: str, p: dict, faqs: list[dict], by_slug: dict) ->
             message = ui["wa_msg"].format(title=s["title"][lang], price=f" ({s['price'][lang]})", source=source)
             rows.append(
                 f'<li><a class="svc-row" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener">'
-                f'<span>{esc(s["title"][lang])}</span><span class="svc-row-price">{esc(s["price"][lang])}</span></a></li>'
+                f'<span>{esc(s["title"][lang])}</span><span class="svc-row-price">{from_label(s, lang)}{esc(s["price"][lang])}</span></a></li>'
             )
         message = ui["wa_msg_group"].format(title=p["label"][lang], source=source)
         hero_cta = f"""<div class="svc-hero-cta">
@@ -496,6 +544,8 @@ def body_html(ctx: dict, lang: str, p: dict, faqs: list[dict], by_slug: dict) ->
 </section>
 
 {details}
+
+{samples_html(ctx, lang, p)}
 
 <section class="section section--tight" id="process">
   <div class="container">
@@ -555,8 +605,8 @@ def render_about(ctx: dict, lang: str, pages: list[dict]) -> str:
     h1_a, h1_b = a["h1"]
     how_a, how_b = ui["how_h"]
 
-    def link_list(kind: str) -> str:
-        items = "".join(f'<li><a href="{path(lang, p["slug"])}">{esc(p["label"][lang])}</a></li>' for p in pages if p["kind"] == kind)
+    def link_list(*kinds: str) -> str:
+        items = "".join(f'<li><a href="{path(lang, p["slug"])}">{esc(p["label"][lang])}</a></li>' for p in pages if p["kind"] in kinds)
         return f'<ul class="link-list">{items}</ul>'
 
     steps = "".join(
@@ -626,7 +676,7 @@ def render_about(ctx: dict, lang: str, pages: list[dict]) -> str:
 <section class="section section--tight">
   <div class="container svc-cols">
     <div class="card svc-col"><h2>{esc(a['ai_h'])}</h2>{link_list('ai')}</div>
-    <div class="card svc-col"><h2>{esc(a['agency_h'])}</h2>{link_list('group')}</div>
+    <div class="card svc-col"><h2>{esc(a['agency_h'])}</h2>{link_list('group', 'service')}</div>
   </div>
 </section>
 
@@ -1084,6 +1134,7 @@ WALL_VIDEOS = 3  # one auto-playing video card per row
 
 
 def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
+    ui = sc.UI[lang]
     w = sc.WORK[lang]
     SITE = ctx["SITE"]
     url = f"{SITE}{LANG_PREFIX[lang]}/work/"
@@ -1139,6 +1190,7 @@ def render_work(ctx: dict, lang: str, pages: list[dict]) -> str:
   <div class="container folio-copy">
     <h1 class="folio-h1">{esc(h1_a)} <span class="grad">{esc(h1_b)}</span></h1>
     <p class="svc-intro">{esc(w['intro'])}</p>
+    <a class="btn btn-ghost btn-sm folio-pdf" href="{PROFILE_PDF}" download="{PROFILE_PDF_NAME}"><span>{esc(ui['profile_pdf'])}</span> <span class="arr" aria-hidden="true">↓</span></a>
     <p class="looking">{esc(w['looking'])} <span class="looking-word" id="looking-word" data-words="{qa(rotator)}">{esc(fields[0])}</span>{"؟" if lang == "ar" else "?"}</p>
   </div>
   <div class="wall" role="group" aria-label="{qa(w['wall_label'])}">
