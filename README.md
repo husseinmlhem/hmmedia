@@ -29,11 +29,12 @@ Commit the regenerated files together with your change. The script needs only Py
 
 `assets/pdf/hm-media-company-profile.pdf` is the file behind the "Company profile (PDF)" buttons
 (home page, contact band, footer and portfolio page). It is built from the same data as the site:
-about text, services and prices, FAQs, designs and videos. After changing any of those, rebuild it
-and commit the new PDF:
+services and prices, then every design in `tools/work_designs.json` and every video in
+`portfolio-videos.txt`, laid out in justified rows that keep each piece's own shape. After changing
+any of those, rebuild it and commit the new PDF:
 
 ```sh
-python3 tools/profile_pdf.py      # needs Google Chrome (or CHROME=/path/to/chrome) and internet
+python3 tools/profile_pdf.py      # needs Google Chrome (or CHROME=/path/to/chrome), ffmpeg and internet
 ```
 
 `build.py --check` does not cover the PDF, so remember this step when prices or the portfolio change.
