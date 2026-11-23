@@ -77,6 +77,11 @@ def has_price(label: str) -> bool:
     return _PRICE_PARSER(label)[0] is not None
 
 
+def from_label(service: dict, lang: str) -> str:
+    """The small "From" before a starting price in a service row (same wording as the home page rows)."""
+    return f'<small>{esc(sc.UI[lang]["from_short"])}</small> ' if has_price(service["price"]["en"]) else ""
+
+
 def find_faq(ctx: dict, english_question: str):
     return next((f for f in ctx["page"].faqs if f["q"] and f["a"] and f["q"]["en"] == english_question), None)
 
@@ -475,7 +480,7 @@ def body_html(ctx: dict, lang: str, p: dict, faqs: list[dict], by_slug: dict) ->
             message = ui["wa_msg"].format(title=s["title"][lang], price=f" ({s['price'][lang]})", source=source)
             rows.append(
                 f'<li><a class="svc-row" href="{qa(wa_link(ctx, message))}" target="_blank" rel="noopener">'
-                f'<span>{esc(s["title"][lang])}</span><span class="svc-row-price">{esc(s["price"][lang])}</span></a></li>'
+                f'<span>{esc(s["title"][lang])}</span><span class="svc-row-price">{from_label(s, lang)}{esc(s["price"][lang])}</span></a></li>'
             )
         message = ui["wa_msg_group"].format(title=p["label"][lang], source=source)
         hero_cta = f"""<div class="svc-hero-cta">
